@@ -17,17 +17,17 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+        $filterable = ['is_plural', 'begins_with_article_a', 'begins_with_article_an', 'begins_with_article_the', 'is_people', 'is_animal', 'is_place', 'is_thing'];
+
+        $subjects = Subject::query();
+
+        foreach ($filterable as $field) {
+            $subjects->when($request->$field, fn ($query, $value) => $query->where($field, $value));
+        }
+
         Inertia::render('Dashboard', [
-            'subjects' => Subject::query()
-            ->when($request->is_plural, fn ($query) => $query->where('is_plural', $request->is_plural))
-            ->when($request->begins_with_article_a, fn ($query) => $query->where('begins_with_article_a', $request->begins_with_article_a))
-            ->when($request->begins_with_article_an, fn ($query) => $query->where('begins_with_article_an', $request->begins_with_article_an))
-            ->when($request->begins_with_article_the, fn ($query) => $query->where('begins_with_article_the', $request->begins_with_article_the))
-            ->when($request->is_people, fn ($query) => $query->where('is_people', $request->is_people))
-            ->when($request->is_animal, fn ($query) => $query->where('is_animal', $request->is_animal))
-            ->when($request->is_place, fn ($query) => $query->where('is_place', $request->is_place))
-            ->when($request->is_thing, fn ($query) => $query->where('is_thing', $request->is_thing)),
-            'filters' => $request->all(['is_plural', 'begins_with_article_a', 'begins_with_article_an', 'begins_with_article_the', 'is_people', 'is_animal', 'is_place', 'is_thing'])
+            'subjects' => $subjects,
+            'filters' => $request->all($filterable)
         ]);
     }
 

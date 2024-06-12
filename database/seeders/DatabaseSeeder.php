@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\SubjectSeeder;
+use Database\Seeders\PredicateSeeder;
+use Database\Seeders\TimePhraseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,5 +24,11 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'password' => 'secret1234',
         ]);
+
+        $this->call(SubjectSeeder::class);
+        $this->call(PredicateSeeder::class);
+        $this->call(TimePhraseSeeder::class);
     }
+
+
 }

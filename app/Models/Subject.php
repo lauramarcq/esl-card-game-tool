@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Level;
 
 class Subject extends Model
 {
@@ -35,6 +36,11 @@ class Subject extends Model
             'begins_with_article_an' => 'boolean',
             'begins_with_article_the' => 'boolean',
         ];
+    }
+
+    public function levels()
+    {
+        return $this->belongsToMany(Level::class);
     }
 
     /**

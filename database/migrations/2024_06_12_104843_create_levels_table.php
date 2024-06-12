@@ -11,10 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('predicates', function (Blueprint $table) {
-            $table->id();
-            $table->string('predicate');
-            $table->boolean('is_phrase')->default(false);
+        Schema::create('levels', function (Blueprint $table) {
+            $table->string('code')->primary();
+            $table->string('level');
             $table->timestamps();
         });
     }
@@ -24,7 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('predicate_level');
-        Schema::dropIfExists('predicates');
+        Schema::dropIfExists('levels');
     }
 };

@@ -22,6 +22,10 @@ class SubjectFactory extends Factory
             'begins_with_article_a' => $this->faker->boolean(),
             'begins_with_article_an' => $this->faker->boolean(),
             'begins_with_article_the' => $this->faker->boolean(),
+            'is_people' => $this->faker->boolean(),
+            'is_animal' => $this->faker->boolean(),
+            'is_place' => $this->faker->boolean(),
+            'is_thing' => $this->faker->boolean(),
         ];
     }
 }

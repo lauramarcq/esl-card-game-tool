@@ -19,6 +19,10 @@ class SubjectSeeder extends Seeder
             'begins_with_article_a' => false,
             'begins_with_article_an' => true,
             'begins_with_article_the' => false,
+            'is_people' => false,
+            'is_animal' => false,
+            'is_place' => false,
+            'is_thing' => true,
         ]);
         Subject::factory()->create([
             'subject' => 'the apples',
@@ -26,6 +30,10 @@ class SubjectSeeder extends Seeder
             'begins_with_article_a' => false,
             'begins_with_article_an' => false,
             'begins_with_article_the' => true,
+            'is_people' => false,
+            'is_animal' => false,
+            'is_place' => false,
+            'is_thing' => true,
         ]);
     }
 }

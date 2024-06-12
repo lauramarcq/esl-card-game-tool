@@ -21,6 +21,10 @@ class Subject extends Model
         'begins_with_article_a',
         'begins_with_article_an',
         'begins_with_article_the',
+        'is_people',
+        'is_animal',
+        'is_place',
+        'is_thing',
     ];
 
     /**
@@ -35,6 +39,10 @@ class Subject extends Model
             'begins_with_article_a' => 'boolean',
             'begins_with_article_an' => 'boolean',
             'begins_with_article_the' => 'boolean',
+            'is_people' => 'boolean',
+            'is_animal' => 'boolean',
+            'is_place' => 'boolean',
+            'is_thing' => 'boolean',
         ];
     }
 

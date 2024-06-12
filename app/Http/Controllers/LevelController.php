@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLevelRequest;
 use App\Http\Requests\UpdateLevelRequest;
 use App\Models\Level;
+use Inertia\Inertia;
+use Inertia\Response;
+use Illuminate\Http\Request;
+
 
 class LevelController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request): Response
     {
-        //
+        return Inertia::render('Dashboard', [
+            'levels' => Level::all(),
+        ]);
     }
 
     /**

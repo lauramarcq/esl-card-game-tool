@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\SubjectController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -17,6 +18,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
+    Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');
+    Route::patch('/subject/{subjectId}', [SubjectController::class, 'update'])->name('subject.update');
+    Route::delete('/subject/{subjectId}', [SubjectController::class, 'destroy'])->name('subject.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

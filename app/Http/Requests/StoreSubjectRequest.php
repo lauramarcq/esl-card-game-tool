@@ -22,7 +22,15 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'subject' => 'required|string',
+            'is_plural' => 'required|boolean',
+            'begins_with_article_a' => 'required|boolean',
+            'begins_with_article_an' => 'required|boolean',
+            'begins_with_article_the' => 'required|boolean',
+            'is_people' => 'required|boolean',
+            'is_animal' => 'required|boolean',
+            'is_place' => 'required|boolean',
+            'is_thing' => 'required|boolean',
         ];
     }
 }

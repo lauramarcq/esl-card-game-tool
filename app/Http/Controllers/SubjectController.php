@@ -17,18 +17,26 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
-        $filterable = ['is_plural', 'begins_with_article_a', 'begins_with_article_an', 'begins_with_article_the', 'is_people', 'is_animal', 'is_place', 'is_thing'];
+        try{
+            // $filterable = ['is_plural', 'begins_with_article_a', 'begins_with_article_an', 'begins_with_article_the', 'is_people', 'is_animal', 'is_place', 'is_thing'];
 
-        $subjects = Subject::query();
+            // $subjects = Subject::query();
 
-        foreach ($filterable as $field) {
-            $subjects->when($request->$field, fn ($query, $value) => $query->where($field, $value));
+            // foreach ($filterable as $field) {
+            //     $subjects->when($request->$field, fn ($query, $value) => $query->where($field, $value));
+            // }
+
+           return Inertia::render('Subject/EditList', [
+                'subjects' => Subject::get(),
+
+                // 'subjects' => $subjects,
+                // 'filters' => $request->all($filterable)
+            ]);
+
+        } catch (\Exception $e) {
+            Log::error('Error in SubjectController@index: ' . $e->getMessage());
+            throw $e;
         }
-
-        Inertia::render('Dashboard', [
-            'subjects' => $subjects,
-            'filters' => $request->all($filterable)
-        ]);
     }
 
     /**

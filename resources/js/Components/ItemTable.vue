@@ -1,11 +1,28 @@
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const selectedItems = ref([]);
 
-defineProps({
+const props = defineProps({
     tableHeaders: Array,
     items: Array,
+});
+
+const formatItemDate = () => {
+    const items = props.items.map((item) => {
+        return {
+            id: item.id,
+            name: item.subject,
+            created_at: new Date(item.created_at).toLocaleString(),
+            updated_at: new Date(item.updated_at).toLocaleString(),
+        };
+    });
+    console.log(items);
+    return items;
+};
+
+const formattedItems = computed(() => {
+    return formatItemDate(props.items);
 });
 </script>
 
@@ -19,6 +36,7 @@ defineProps({
                     v-for="(header, i) in tableHeaders"
                     :key="i"
                     class="p-4 text-left"
+                    :class="header === 'ID' ? 'w-1/12' : 'w-1/4'"
                 >
                     {{ header }}
                 </th>
@@ -26,7 +44,7 @@ defineProps({
         </thead>
         <tbody>
             <tr
-                v-for="item in items"
+                v-for="item in formattedItems"
                 :key="item.id"
                 :class="{
                     'bg-green-100 border-b border-green-200 hover:bg-green-200 min-w-10 text-green-800':
@@ -41,14 +59,21 @@ defineProps({
 
                 <td class="p-4 flex space-x-2 justify-center">
                     <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
                         @click="$emit('selectedItem', item.id)"
                     >
                         {{
                             selectedItems.includes(item.id)
                                 ? "Deselect"
-                                : "Select for game"
+                                : "Select"
                         }}
+                    </button>
+                    <button
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        id="delete-button"
+                        @click="$emit('editItem', item.id)"
+                    >
+                        Edit
                     </button>
                     <button
                         class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"

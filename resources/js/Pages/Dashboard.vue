@@ -2,6 +2,7 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Dropdown from "@/Components/Dropdown.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
+import MultiSelect from "@/Components/MultiSelect.vue";
 import { Head, router } from "@inertiajs/vue3";
 import ListTable from "@/Components/ListTable.vue";
 import { ref, computed } from "vue";
@@ -32,10 +33,17 @@ const handleListEdit = (list) => {
     }
 };
 
-const levels = ref(["A1", "A2", "B1", "B2", "C1", "C2"]);
+const levels = ref([
+    { name: "A1", value: "A1" },
+    { name: "A2", value: "A2" },
+    { name: "B1", value: "B1" },
+    { name: "B2", value: "B2" },
+    { name: "C1", value: "C1" },
+    { name: "C2", value: "C2" },
+]);
 
 const subjectOptions = ref([
-    { name: "Select All", value: "" },
+    { name: "Select All", value: "all" },
     { name: "Plurals", value: "is_plural" },
     { name: 'Beginning with article "a"', value: "begins_with_article_a" },
     { name: 'Beginning with article "an"', value: "begins_with_article_an" },
@@ -61,6 +69,10 @@ const predicatesOptions = ref([
     { name: "Single word", value: "is_phrase" },
     { name: "Phrase", value: "is_phrase" },
 ]);
+
+const handleSelectedItem = (value) => {
+    console.log(value);
+};
 </script>
 
 <template>
@@ -87,38 +99,12 @@ const predicatesOptions = ref([
                         <form action="post">
                             <div class="form-inputs mt-4">
                                 <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <label
-                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                        for="grid-state"
-                                    >
-                                        Level
-                                    </label>
-                                    <div class="relative">
-                                        <select
-                                            class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                            id="grid-state"
-                                        >
-                                            <option
-                                                v-for="(level, index) in levels"
-                                                :key="index"
-                                            >
-                                                {{ level }}
-                                            </option>
-                                        </select>
-                                        <div
-                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                                        >
-                                            <!-- <svg
-                                                class="fill-current h-4 w-4"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                            >
-                                                <path
-                                                    d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                                                />
-                                            </svg> -->
-                                        </div>
-                                    </div>
+                                    <div>* Select one or more</div>
+                                    <MultiSelect
+                                        buttonTitle="Student Language Level"
+                                        :inputs="levels"
+                                        @selectedItem="handleSelectedItem"
+                                    ></MultiSelect>
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-6"
                                     >
@@ -157,30 +143,11 @@ const predicatesOptions = ref([
                                         Lists to use
                                     </div>
                                     <div class="subjects-dropdown mt-4">
-                                        <label
-                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                            for="grid-state"
-                                        >
-                                            Subjects
-                                        </label>
-                                        <div class="relative">
-                                            <select
-                                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="grid-state"
-                                            >
-                                                <option
-                                                    v-for="(
-                                                        options, key
-                                                    ) in subjectOptions"
-                                                    :key="key"
-                                                >
-                                                    {{ options.name }}
-                                                </option>
-                                            </select>
-                                            <div
-                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                                            ></div>
-                                        </div>
+                                        <MultiSelect
+                                            buttonTitle="List of Subjects"
+                                            :inputs="subjectOptions"
+                                            @selectedItem="handleSelectedItem"
+                                        ></MultiSelect>
                                     </div>
 
                                     <div class="time-phrases-dropdown mt-4">
@@ -194,7 +161,7 @@ const predicatesOptions = ref([
                                             <select
                                                 multitple
                                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="grid-state"
+                                                id="time-phrase-select"
                                             >
                                                 <option
                                                     v-for="(
@@ -221,7 +188,7 @@ const predicatesOptions = ref([
                                         <div class="relative">
                                             <select
                                                 class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="grid-state"
+                                                id="predicate-select"
                                             >
                                                 <option
                                                     v-for="(

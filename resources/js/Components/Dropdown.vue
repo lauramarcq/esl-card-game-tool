@@ -42,7 +42,6 @@ const alignmentClasses = computed(() => {
 });
 
 const open = ref(false);
-console.log(open);
 </script>
 
 <template>

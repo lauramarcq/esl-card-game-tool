@@ -1,11 +1,14 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import Dropdown from "@/Components/Dropdown.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
-import MultiSelect from "@/Components/MultiSelect.vue";
-import { Head, router } from "@inertiajs/vue3";
+import VueMultiselect from "vue-multiselect";
+import { Head, router, useForm } from "@inertiajs/vue3";
 import ListTable from "@/Components/ListTable.vue";
-import { ref, computed } from "vue";
+import { ref } from "vue";
+
+defineProps({
+    subjects: Object,
+});
 
 const availableLists = ref([
     { name: "Subjects" },
@@ -13,8 +16,16 @@ const availableLists = ref([
     { name: "Time Phrases" },
 ]);
 
-defineProps({
-    subjects: Object,
+const formData = useForm({
+    levels: [],
+    selectedNumberOfDecks: null,
+    subjectOptions: [],
+    predicatesOptions: [],
+    timePhrasesOptions: [],
+    errors: {
+        name: null,
+        price: null,
+    },
 });
 
 const handleListEdit = (list) => {
@@ -55,23 +66,23 @@ const subjectOptions = ref([
 ]);
 
 const timePhrasesOptions = ref([
-    { name: "Select All", value: "" },
-    { name: "Past", value: "is_past" },
-    { name: "Present", value: "is_present" },
-    { name: "Future", value: "is_future" },
-    { name: "Perfect", value: "is_perfect" },
-    { name: "Continuous", value: "is_continous" },
-    { name: "Perfect Continous", value: "is_perfect_continous" },
+    { name: "Select All", value: "all" },
+    { name: "Past", value: "past" },
+    { name: "Present", value: "present" },
+    { name: "Future", value: "future" },
+    { name: "Perfect", value: "perfect" },
+    { name: "Continuous", value: "continuous" },
+    { name: "Perfect Continous", value: "perfect_continuous" },
 ]);
 
 const predicatesOptions = ref([
-    { name: "Select All", value: "" },
-    { name: "Single word", value: "is_phrase" },
+    { name: "Select All", value: "all" },
+    { name: "Single word", value: "is_single_word" },
     { name: "Phrase", value: "is_phrase" },
 ]);
 
-const handleSelectedItem = (value) => {
-    console.log(value);
+const handleFormSubmit = () => {
+    console.log(formData);
 };
 </script>
 
@@ -88,31 +99,55 @@ const handleSelectedItem = (value) => {
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
-                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2"
+                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2 min-h-96"
                 >
                     <div class="p-6 text-gray-900">
                         <h3
-                            class="font-semibold text-lg text-gray-800 leading-tight"
+                            class="font-semibold text-lg text-gray-800 leading-tight ml-2 mb-6"
                         >
                             Select to set up card game
                         </h3>
-                        <form action="post">
-                            <div class="form-inputs mt-4">
-                                <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
-                                    <div>* Select one or more</div>
-                                    <MultiSelect
-                                        buttonTitle="Student Language Level"
-                                        :inputs="levels"
-                                        @selectedItem="handleSelectedItem"
-                                    ></MultiSelect>
+                        <form @submit.prevent="handleFormSubmit">
+                            <div class="form-inputs mt-4 flex flex-row">
+                                <div class="w-1/3 px-3 mb-6 md:mb-0">
+                                    <div
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >
+                                        Language Level
+                                    </div>
+                                    <div class="pt-4">
+                                        <label
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >List of levels</label
+                                        >
+                                        <VueMultiselect
+                                            v-model="formData.levels"
+                                            :options="levels"
+                                            :multiple="true"
+                                            placeholder="Select one or more"
+                                            label="name"
+                                            track-by="name"
+                                            :close-on-select="false"
+                                        >
+                                            <template
+                                                #selection="{ values, isOpen }"
+                                            >
+                                                <span
+                                                    class="multiselect__single"
+                                                    v-if="values.length"
+                                                    v-show="!isOpen"
+                                                    >{{ values.length }} options
+                                                    selected</span
+                                                >
+                                            </template>
+                                        </VueMultiselect>
+                                    </div>
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-6"
                                     >
                                         Number of card decks
                                     </div>
-                                    <div
-                                        class="md:flex md:items-center mb-6 mt-2"
-                                    >
+                                    <div class="md:items-center mb-6 mt-2">
                                         <label
                                             class="md:w-2/3 block text-gray-500 font-bold"
                                         >
@@ -121,6 +156,9 @@ const handleSelectedItem = (value) => {
                                                 type="radio"
                                                 name="card-deck"
                                                 value="2"
+                                                v-model="
+                                                    formData.selectedNumberOfDecks
+                                                "
                                             />
                                             <span class="text-sm"> 2 </span>
                                         </label>
@@ -133,77 +171,115 @@ const handleSelectedItem = (value) => {
                                                 type="radio"
                                                 name="card-deck"
                                                 value="3"
+                                                v-model="
+                                                    formData.selectedNumberOfDecks
+                                                "
                                             />
                                             <span class="text-sm"> 3 </span>
                                         </label>
                                     </div>
+                                </div>
+
+                                <div
+                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-col gap-4"
+                                >
                                     <div
-                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-6"
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     >
                                         Lists to use
                                     </div>
-                                    <div class="subjects-dropdown mt-4">
-                                        <MultiSelect
-                                            buttonTitle="List of Subjects"
-                                            :inputs="subjectOptions"
-                                            @selectedItem="handleSelectedItem"
-                                        ></MultiSelect>
+                                    <div>
+                                        <label
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >List of subjects</label
+                                        >
+                                        <VueMultiselect
+                                            v-model="formData.subjectOptions"
+                                            :options="subjectOptions"
+                                            :multiple="true"
+                                            placeholder="Select one or more"
+                                            label="name"
+                                            track-by="name"
+                                            :close-on-select="false"
+                                        >
+                                            <template
+                                                #selection="{ values, isOpen }"
+                                            >
+                                                <span
+                                                    class="multiselect__single"
+                                                    v-if="values.length"
+                                                    v-show="!isOpen"
+                                                    >{{ values.length }} options
+                                                    selected</span
+                                                >
+                                            </template>
+                                        </VueMultiselect>
                                     </div>
 
-                                    <div class="time-phrases-dropdown mt-4">
+                                    <div>
                                         <label
-                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                            for="grid-state"
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >List of predicates</label
                                         >
-                                            Time Phrases
-                                        </label>
-                                        <div class="relative">
-                                            <select
-                                                multitple
-                                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="time-phrase-select"
+                                        <VueMultiselect
+                                            v-model="formData.predicatesOptions"
+                                            :options="predicatesOptions"
+                                            :multiple="true"
+                                            placeholder="Select one or more"
+                                            label="name"
+                                            track-by="name"
+                                            :close-on-select="false"
+                                        >
+                                            <template
+                                                #selection="{ values, isOpen }"
                                             >
-                                                <option
-                                                    v-for="(
-                                                        options, key
-                                                    ) in timePhrasesOptions"
-                                                    :key="key"
+                                                <span
+                                                    class="multiselect__single"
+                                                    v-if="values.length"
+                                                    v-show="!isOpen"
+                                                    >{{ values.length }} options
+                                                    selected</span
                                                 >
-                                                    {{ options.name }}
-                                                </option>
-                                            </select>
-                                            <div
-                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                                            ></div>
-                                        </div>
+                                            </template>
+                                        </VueMultiselect>
                                     </div>
 
-                                    <div class="predicates-dropdown mt-4">
+                                    <div>
                                         <label
-                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                            for="grid-state"
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >List of time phrases</label
                                         >
-                                            Predicates
-                                        </label>
-                                        <div class="relative">
-                                            <select
-                                                class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                                id="predicate-select"
+                                        <VueMultiselect
+                                            v-model="
+                                                formData.timePhrasesOptions
+                                            "
+                                            :options="timePhrasesOptions"
+                                            :multiple="true"
+                                            placeholder="Select one or more"
+                                            label="name"
+                                            track-by="name"
+                                            :close-on-select="false"
+                                        >
+                                            <template
+                                                #selection="{ values, isOpen }"
                                             >
-                                                <option
-                                                    v-for="(
-                                                        options, key
-                                                    ) in predicatesOptions"
-                                                    :key="key"
+                                                <span
+                                                    class="multiselect__single"
+                                                    v-if="values.length"
+                                                    v-show="!isOpen"
+                                                    >{{ values.length }} options
+                                                    selected</span
                                                 >
-                                                    {{ options.name }}
-                                                </option>
-                                            </select>
-                                            <div
-                                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700"
-                                            ></div>
-                                        </div>
+                                            </template>
+                                        </VueMultiselect>
                                     </div>
+                                </div>
+                                <div
+                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-row items-end justify-end"
+                                >
+                                    <PrimaryButton type="submit"
+                                        >Start Game
+                                    </PrimaryButton>
                                 </div>
                             </div>
                         </form>
@@ -229,3 +305,9 @@ const handleSelectedItem = (value) => {
         </div>
     </AuthenticatedLayout>
 </template>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
+<style>
+.multiselect__content-wrapper {
+    position: relative;
+}
+</style>

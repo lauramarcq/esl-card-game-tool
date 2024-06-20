@@ -17,7 +17,6 @@ const formatItemDate = () => {
             updated_at: new Date(item.updated_at).toLocaleString(),
         };
     });
-    console.log(items);
     return items;
 };
 

@@ -19,6 +19,10 @@ Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/game', function () {
+    return Inertia::render('MainStage');
+})->name('game');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
     Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');

@@ -17,6 +17,7 @@ const availableLists = ref([
 ]);
 
 const formData = useForm({
+    gameType: null,
     levels: [],
     selectedNumberOfDecks: null,
     subjectOptions: [],
@@ -43,6 +44,13 @@ const handleListEdit = (list) => {
             break;
     }
 };
+
+const gameTypes = ref([
+    { name: "How do they feel?", value: "1" },
+    { name: "Present tenses", value: "2" },
+    { name: "Make plurals", value: "3" },
+    { name: "Singular and plurals", value: "4" },
+]);
 
 const levels = ref([
     { name: "A1", value: "A1" },
@@ -113,9 +121,30 @@ const handleFormSubmit = () => {
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     >
+                                        Game Type
+                                    </div>
+                                    <div class="pt-2 pb-4">
+                                        <label
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >List of games</label
+                                        >
+                                        <VueMultiselect
+                                            v-model="formData.gameType"
+                                            :options="gameTypes"
+                                            :multiple="false"
+                                            placeholder="Select one"
+                                            label="name"
+                                            track-by="name"
+                                            :close-on-select="true"
+                                        >
+                                        </VueMultiselect>
+                                    </div>
+                                    <div
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2"
+                                    >
                                         Language Level
                                     </div>
-                                    <div class="pt-4">
+                                    <div class="pt-2">
                                         <label
                                             class="typo__label text-sm font-semibold leading-6 text-gray-900"
                                             >List of levels</label
@@ -155,6 +184,20 @@ const handleFormSubmit = () => {
                                                 class="mr-2 leading-tight"
                                                 type="radio"
                                                 name="card-deck"
+                                                value="1"
+                                                v-model="
+                                                    formData.selectedNumberOfDecks
+                                                "
+                                            />
+                                            <span class="text-sm"> 1 </span>
+                                        </label>
+                                        <label
+                                            class="md:w-2/3 block text-gray-500 font-bold"
+                                        >
+                                            <input
+                                                class="mr-2 leading-tight"
+                                                type="radio"
+                                                name="card-deck"
                                                 value="2"
                                                 v-model="
                                                     formData.selectedNumberOfDecks
@@ -181,14 +224,14 @@ const handleFormSubmit = () => {
                                 </div>
 
                                 <div
-                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-col gap-4"
+                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-col gap-2"
                                 >
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     >
                                         Lists to use
                                     </div>
-                                    <div>
+                                    <div class="mb-2">
                                         <label
                                             class="typo__label text-sm font-semibold leading-6 text-gray-900"
                                             >List of subjects</label
@@ -216,7 +259,7 @@ const handleFormSubmit = () => {
                                         </VueMultiselect>
                                     </div>
 
-                                    <div>
+                                    <div class="mb-2">
                                         <label
                                             class="typo__label text-sm font-semibold leading-6 text-gray-900"
                                             >List of predicates</label

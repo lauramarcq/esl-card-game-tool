@@ -33,5 +33,12 @@ class GameSeeder extends Seeder
             'description' => 'Make sentences and questions using the correct form of the verb BE!',
             'example' => 'A woman IS at work',
         ]);
+
+        Game::factory()->create([
+            'title' => 'Make Plurals',
+            'subtitle' => 'Flash Card Race',
+            'description' => 'Put the nouns in their plural form!',
+            'example' => 'A woman --> women',
+        ]);
     }
 }

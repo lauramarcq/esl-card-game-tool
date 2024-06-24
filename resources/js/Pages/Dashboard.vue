@@ -3,8 +3,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
-import ListTable from "@/Components/ListTable.vue";
-import { ref } from "vue";
+// import ListTable from "@/Components/ListTable.vue";
+// import { ref } from "vue";
 
 const props = defineProps({
     categories: Array,
@@ -14,28 +14,20 @@ const props = defineProps({
 });
 
 const filterListsByLevelAndCategory = (levelId, categoryId) => {
-    console.log("Level ID", levelId);
-    console.log("Game Lists", props.gameLists);
-    console.log("Category ID", categoryId);
-    // const filtered = props.gameLists.filter(
-    //     (list) =>
-    //         list.level_id === levelId?.id && list.category_id === categoryId.id
-    // );
     const filtered = props.gameLists.filter(
         (list) =>
-            list.level_id === levelId?.id &&
-            categoryId.some((category) => list.category_id === category.id)
+            list.level_id === levelId?.id && list.category_id === categoryId?.id
     );
-    console.log("Filtered", filtered);
     return filtered;
 };
 
 const formData = useForm({
     gameType: null,
-    levels: null,
     selectedNumberOfDecks: null,
-    categories: [],
-    gameListOptions: [],
+    level: null,
+    cardDeck1: { category: null, list: null },
+    cardDeck2: { category: null, list: null },
+    cardDeck3: { category: null, list: null },
     errors: {
         name: null,
         price: null,
@@ -78,7 +70,7 @@ const handleFormSubmit = () => {
                         </h3>
                         <form @submit.prevent="handleFormSubmit">
                             <div class="form-inputs mt-4 flex flex-row">
-                                <div class="w-1/3 px-3 mb-6 md:mb-0">
+                                <div class="w-1/4 px-3 mb-6 md:mb-0">
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     >
@@ -111,7 +103,7 @@ const handleFormSubmit = () => {
                                             >List of levels</label
                                         >
                                         <VueMultiselect
-                                            v-model="formData.levels"
+                                            v-model="formData.level"
                                             :options="levels"
                                             :multiple="false"
                                             placeholder="Select one or more"
@@ -174,12 +166,12 @@ const handleFormSubmit = () => {
                                 </div>
 
                                 <div
-                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-col gap-2"
+                                    class="w-1/4 px-3 mb-6 md:mb-0 flex flex-col gap-2"
                                 >
                                     <div
                                         class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
                                     >
-                                        Lists to use
+                                        List to use for Card Deck 1
                                     </div>
                                     <div class="mb-2">
                                         <label
@@ -187,25 +179,16 @@ const handleFormSubmit = () => {
                                             >List Category</label
                                         >
                                         <VueMultiselect
-                                            v-model="formData.categories"
+                                            v-model="
+                                                formData.cardDeck1.category
+                                            "
                                             :options="categories"
-                                            :multiple="true"
-                                            placeholder="Select one or more"
+                                            :multiple="false"
+                                            placeholder="Select one"
                                             label="name"
                                             track-by="id"
-                                            :close-on-select="false"
+                                            :close-on-select="true"
                                         >
-                                            <template
-                                                #selection="{ values, isOpen }"
-                                            >
-                                                <span
-                                                    class="multiselect__single"
-                                                    v-if="values.length"
-                                                    v-show="!isOpen"
-                                                    >{{ values.length }} options
-                                                    selected</span
-                                                >
-                                            </template>
                                         </VueMultiselect>
                                     </div>
                                     <div class="mb-2">
@@ -214,35 +197,135 @@ const handleFormSubmit = () => {
                                             >List Name</label
                                         >
                                         <VueMultiselect
-                                            v-model="formData.gameListOptions"
+                                            v-model="formData.cardDeck1.list"
                                             :options="
                                                 filterListsByLevelAndCategory(
-                                                    formData.levels,
-                                                    formData.categories
+                                                    formData.level,
+                                                    formData.cardDeck1.category
                                                 )
                                             "
-                                            :multiple="true"
-                                            placeholder="Select one or more"
+                                            :multiple="false"
+                                            placeholder="Select one"
                                             label="name"
                                             track-by="id"
-                                            :close-on-select="false"
+                                            :close-on-select="true"
                                         >
-                                            <template
-                                                #selection="{ values, isOpen }"
-                                            >
-                                                <span
-                                                    class="multiselect__single"
-                                                    v-if="values.length"
-                                                    v-show="!isOpen"
-                                                    >{{ values.length }} options
-                                                    selected</span
-                                                >
-                                            </template>
                                         </VueMultiselect>
+                                    </div>
+
+                                    <div
+                                        v-if="
+                                            formData.selectedNumberOfDecks > 1
+                                        "
+                                    >
+                                        <div
+                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2"
+                                        >
+                                            List to use for Card Deck 2
+                                        </div>
+                                        <div class="mb-2">
+                                            <label
+                                                class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                                >List Category</label
+                                            >
+                                            <VueMultiselect
+                                                v-model="
+                                                    formData.cardDeck2.category
+                                                "
+                                                :options="categories"
+                                                :multiple="false"
+                                                placeholder="Select one"
+                                                label="name"
+                                                track-by="id"
+                                                :close-on-select="true"
+                                            >
+                                            </VueMultiselect>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label
+                                                class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                                >List Name</label
+                                            >
+                                            <VueMultiselect
+                                                v-model="
+                                                    formData.cardDeck2.list
+                                                "
+                                                :options="
+                                                    filterListsByLevelAndCategory(
+                                                        formData.level,
+                                                        formData.cardDeck2
+                                                            .category
+                                                    )
+                                                "
+                                                :multiple="false"
+                                                placeholder="Select one"
+                                                label="name"
+                                                track-by="id"
+                                                :close-on-select="true"
+                                            >
+                                            </VueMultiselect>
+                                        </div>
                                     </div>
                                 </div>
                                 <div
-                                    class="w-1/3 px-3 mb-6 md:mb-0 flex flex-row items-end justify-end"
+                                    class="w-1/4 px-3 mb-6 md:mb-0 flex flex-col gap-2"
+                                >
+                                    <div
+                                        v-if="
+                                            formData.selectedNumberOfDecks > 2
+                                        "
+                                    >
+                                        <div
+                                            class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 mt-2"
+                                        >
+                                            List to use for Card Deck 3
+                                        </div>
+                                        <div class="mb-2">
+                                            <label
+                                                class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                                >List Category</label
+                                            >
+                                            <VueMultiselect
+                                                v-model="
+                                                    formData.cardDeck3.category
+                                                "
+                                                :options="categories"
+                                                :multiple="false"
+                                                placeholder="Select one"
+                                                label="name"
+                                                track-by="id"
+                                                :close-on-select="true"
+                                            >
+                                            </VueMultiselect>
+                                        </div>
+                                        <div class="mb-2">
+                                            <label
+                                                class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                                >List Name</label
+                                            >
+                                            <VueMultiselect
+                                                v-model="
+                                                    formData.cardDeck3.list
+                                                "
+                                                :options="
+                                                    filterListsByLevelAndCategory(
+                                                        formData.level,
+                                                        formData.cardDeck3
+                                                            .category
+                                                    )
+                                                "
+                                                :multiple="false"
+                                                placeholder="Select one"
+                                                label="name"
+                                                track-by="id"
+                                                :close-on-select="true"
+                                            >
+                                            </VueMultiselect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div
+                                    class="w-1/4 px-3 mb-6 md:mb-0 flex flex-row items-end justify-end"
                                 >
                                     <PrimaryButton type="submit"
                                         >Start Game

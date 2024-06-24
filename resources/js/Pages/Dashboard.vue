@@ -49,7 +49,6 @@ const gameTypes = ref([
     { name: "How do they feel?", value: "1" },
     { name: "Present tenses", value: "2" },
     { name: "Make plurals", value: "3" },
-    { name: "Singular and plurals", value: "4" },
 ]);
 
 const levels = ref([
@@ -91,6 +90,14 @@ const predicatesOptions = ref([
 
 const handleFormSubmit = () => {
     console.log(formData);
+    formData.post(route("game.create"), {
+        onSuccess: () => {
+            router.visit("/game");
+        },
+        onError: (error) => {
+            console.log("Error", error);
+        },
+    });
 };
 </script>
 

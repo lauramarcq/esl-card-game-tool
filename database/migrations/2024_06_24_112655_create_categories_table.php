@@ -11,13 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('verbs', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('infinitive');
-            $table->boolean('is_irregular')->default(false);
-            $table->boolean('is_intransitive')->default(false);
-            $table->boolean('is_modal_verb')->default(false);
-
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('verbs');
+        Schema::dropIfExists('categories');
     }
 };

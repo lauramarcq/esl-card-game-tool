@@ -4,19 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Level;
+use App\Models\GameList;
 
-class Predicate extends Model
+class ListItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'predicate',
-        'is_phrase',
+        'list_id',
+        'item_value',
+        'plural',
     ];
 
-    public function levels()
+    public function wordsList()
     {
-        return $this->belongsToMany(Level::class);
+        return $this->belongsTo(GameList::class);
     }
 }

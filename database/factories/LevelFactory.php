@@ -17,8 +17,8 @@ class LevelFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => $this->faker->word(),
             'level' => $this->faker->word(),
+            'description' => $this->faker->sentence(),
         ];
     }
 }

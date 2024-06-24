@@ -5,9 +5,10 @@ namespace Database\Seeders;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Database\Seeders\SubjectSeeder;
-use Database\Seeders\PredicateSeeder;
-use Database\Seeders\TimePhraseSeeder;
+use Database\Seeders\LevelSeeder;
+use Database\Seeders\CategorySeeder;
+use Database\Seeders\GameListSeeder;
+use Database\Seeders\ListItemSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -25,9 +26,10 @@ class DatabaseSeeder extends Seeder
             'password' => 'secret1234',
         ]);
 
-        $this->call(SubjectSeeder::class);
-        $this->call(PredicateSeeder::class);
-        $this->call(TimePhraseSeeder::class);
+        $this->call(LevelSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(GameListSeeder::class);
+        $this->call(ListItemSeeder::class);
     }
 
 

@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Predicate>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class PredicateFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class PredicateFactory extends Factory
     public function definition(): array
     {
         return [
-            'predicate' => $this->faker->sentence(),
-            'is_phrase' => $this->faker->boolean(),
+            'name' => $this->faker->word(),
         ];
     }
 }

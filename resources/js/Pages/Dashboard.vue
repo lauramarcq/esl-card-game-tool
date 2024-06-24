@@ -6,87 +6,41 @@ import { Head, router, useForm } from "@inertiajs/vue3";
 import ListTable from "@/Components/ListTable.vue";
 import { ref } from "vue";
 
-defineProps({
-    subjects: Object,
+const props = defineProps({
+    categories: Array,
+    gameLists: Array,
+    games: Array,
+    levels: Array,
 });
 
-const availableLists = ref([
-    { name: "Subjects" },
-    { name: "Predicates" },
-    { name: "Time Phrases" },
-]);
+const filterListsByLevelAndCategory = (levelId, categoryId) => {
+    console.log("Level ID", levelId);
+    console.log("Game Lists", props.gameLists);
+    console.log("Category ID", categoryId);
+    // const filtered = props.gameLists.filter(
+    //     (list) =>
+    //         list.level_id === levelId?.id && list.category_id === categoryId.id
+    // );
+    const filtered = props.gameLists.filter(
+        (list) =>
+            list.level_id === levelId?.id &&
+            categoryId.some((category) => list.category_id === category.id)
+    );
+    console.log("Filtered", filtered);
+    return filtered;
+};
 
 const formData = useForm({
     gameType: null,
-    levels: [],
+    levels: null,
     selectedNumberOfDecks: null,
-    subjectOptions: [],
-    predicatesOptions: [],
-    timePhrasesOptions: [],
+    categories: [],
+    gameListOptions: [],
     errors: {
         name: null,
         price: null,
     },
 });
-
-const handleListEdit = (list) => {
-    switch (list) {
-        case "Subjects":
-            router.get("/subject", {});
-            break;
-        case "Predicates":
-            console.log("Predicates");
-            router.get("/predicates", {});
-            break;
-        case "Time Phrases":
-            console.log("Time Phrases");
-            router.get("/time-phrases", {});
-            break;
-    }
-};
-
-const gameTypes = ref([
-    { name: "How do they feel?", value: "1" },
-    { name: "Present tenses", value: "2" },
-    { name: "Make plurals", value: "3" },
-]);
-
-const levels = ref([
-    { name: "A1", value: "A1" },
-    { name: "A2", value: "A2" },
-    { name: "B1", value: "B1" },
-    { name: "B2", value: "B2" },
-    { name: "C1", value: "C1" },
-    { name: "C2", value: "C2" },
-]);
-
-const subjectOptions = ref([
-    { name: "Select All", value: "all" },
-    { name: "Plurals", value: "is_plural" },
-    { name: 'Beginning with article "a"', value: "begins_with_article_a" },
-    { name: 'Beginning with article "an"', value: "begins_with_article_an" },
-    { name: 'Beginning with article "the"', value: "begins_with_article_the" },
-    { name: "People", value: "is_people" },
-    { name: "Animals", value: "is_animal" },
-    { name: "Places", value: "is_place" },
-    { name: "Things", value: "is_thing" },
-]);
-
-const timePhrasesOptions = ref([
-    { name: "Select All", value: "all" },
-    { name: "Past", value: "past" },
-    { name: "Present", value: "present" },
-    { name: "Future", value: "future" },
-    { name: "Perfect", value: "perfect" },
-    { name: "Continuous", value: "continuous" },
-    { name: "Perfect Continous", value: "perfect_continuous" },
-]);
-
-const predicatesOptions = ref([
-    { name: "Select All", value: "all" },
-    { name: "Single word", value: "is_single_word" },
-    { name: "Phrase", value: "is_phrase" },
-]);
 
 const handleFormSubmit = () => {
     console.log(formData);
@@ -137,11 +91,11 @@ const handleFormSubmit = () => {
                                         >
                                         <VueMultiselect
                                             v-model="formData.gameType"
-                                            :options="gameTypes"
+                                            :options="games"
                                             :multiple="false"
                                             placeholder="Select one"
-                                            label="name"
-                                            track-by="name"
+                                            label="title"
+                                            track-by="id"
                                             :close-on-select="true"
                                         >
                                         </VueMultiselect>
@@ -159,23 +113,12 @@ const handleFormSubmit = () => {
                                         <VueMultiselect
                                             v-model="formData.levels"
                                             :options="levels"
-                                            :multiple="true"
+                                            :multiple="false"
                                             placeholder="Select one or more"
-                                            label="name"
-                                            track-by="name"
-                                            :close-on-select="false"
+                                            label="level"
+                                            track-by="id"
+                                            :close-on-select="true"
                                         >
-                                            <template
-                                                #selection="{ values, isOpen }"
-                                            >
-                                                <span
-                                                    class="multiselect__single"
-                                                    v-if="values.length"
-                                                    v-show="!isOpen"
-                                                    >{{ values.length }} options
-                                                    selected</span
-                                                >
-                                            </template>
                                         </VueMultiselect>
                                     </div>
                                     <div
@@ -241,15 +184,15 @@ const handleFormSubmit = () => {
                                     <div class="mb-2">
                                         <label
                                             class="typo__label text-sm font-semibold leading-6 text-gray-900"
-                                            >List of subjects</label
+                                            >List Category</label
                                         >
                                         <VueMultiselect
-                                            v-model="formData.subjectOptions"
-                                            :options="subjectOptions"
+                                            v-model="formData.categories"
+                                            :options="categories"
                                             :multiple="true"
                                             placeholder="Select one or more"
                                             label="name"
-                                            track-by="name"
+                                            track-by="id"
                                             :close-on-select="false"
                                         >
                                             <template
@@ -265,49 +208,23 @@ const handleFormSubmit = () => {
                                             </template>
                                         </VueMultiselect>
                                     </div>
-
                                     <div class="mb-2">
                                         <label
                                             class="typo__label text-sm font-semibold leading-6 text-gray-900"
-                                            >List of predicates</label
+                                            >List Name</label
                                         >
                                         <VueMultiselect
-                                            v-model="formData.predicatesOptions"
-                                            :options="predicatesOptions"
-                                            :multiple="true"
-                                            placeholder="Select one or more"
-                                            label="name"
-                                            track-by="name"
-                                            :close-on-select="false"
-                                        >
-                                            <template
-                                                #selection="{ values, isOpen }"
-                                            >
-                                                <span
-                                                    class="multiselect__single"
-                                                    v-if="values.length"
-                                                    v-show="!isOpen"
-                                                    >{{ values.length }} options
-                                                    selected</span
-                                                >
-                                            </template>
-                                        </VueMultiselect>
-                                    </div>
-
-                                    <div>
-                                        <label
-                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
-                                            >List of time phrases</label
-                                        >
-                                        <VueMultiselect
-                                            v-model="
-                                                formData.timePhrasesOptions
+                                            v-model="formData.gameListOptions"
+                                            :options="
+                                                filterListsByLevelAndCategory(
+                                                    formData.levels,
+                                                    formData.categories
+                                                )
                                             "
-                                            :options="timePhrasesOptions"
                                             :multiple="true"
                                             placeholder="Select one or more"
                                             label="name"
-                                            track-by="name"
+                                            track-by="id"
                                             :close-on-select="false"
                                         >
                                             <template
@@ -335,7 +252,7 @@ const handleFormSubmit = () => {
                         </form>
                     </div>
                 </div>
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
+                <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <h3
                             class="font-bold text-lg text-gray-800 leading-tight mb-4"
@@ -350,7 +267,7 @@ const handleFormSubmit = () => {
                         />
                     </div>
                     {{ subjects }}
-                </div>
+                </div> -->
             </div>
         </div>
     </AuthenticatedLayout>

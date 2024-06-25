@@ -66,6 +66,9 @@
                                 <div>{{ elapsedTime }}</div>
                                 <div>{{ timerInterval }}</div>
                             </div>
+                            <div>
+                                <Hourglass />
+                            </div>
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -108,6 +111,7 @@
 <script>
 import SingleCard from "@/Components/SingleCard.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Hourglass from "@/Components/Hourglass.vue";
 import { Head } from "@inertiajs/vue3";
 import { reactive, ref, onMounted } from "vue";
 
@@ -117,6 +121,7 @@ export default {
         SingleCard,
         AuthenticatedLayout,
         Head,
+        Hourglass,
     },
     props: {
         gameType: {

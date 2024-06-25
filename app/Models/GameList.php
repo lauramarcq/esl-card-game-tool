@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 use App\Models\Level;
-use App\Models\Item;
+use App\Models\ListItem;
 use App\Models\GameSettings;
 
 class GameList extends Model
@@ -29,9 +29,9 @@ class GameList extends Model
         return $this->hasOne(Level::class);
     }
 
-    public function item()
+    public function listItems()
     {
-        return $this->hasMany(Item::class);
+        return $this->hasMany(ListItem::class);
     }
 
     public function gameSettings()

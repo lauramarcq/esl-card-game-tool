@@ -22,9 +22,9 @@ class GameController extends Controller
         $gameSettings = GameSettings::with([
             'game',
             'level',
-            'deck1List',
-            'deck2List',
-            'deck3List',
+            'deck1List.listItems',
+            'deck2List.listItems',
+            'deck3List.listItems',
             'deck1Category',
             'deck2Category',
             'deck3Category',

@@ -88,7 +88,7 @@ class GameListSeeder extends Seeder
         // Seeding Predicates
 
         GameList::factory()->create([
-            'name' => 'No Verb',
+            'name' => 'Verb',
             'category_id' => Category::where('name', 'Predicates')->first()->id,
             'level_id' => Level::where('level', 'A1')->first()->id,
         ]);
@@ -96,9 +96,22 @@ class GameListSeeder extends Seeder
         GameList::factory()->create([
             'name' => 'No Verb',
             'category_id' => Category::where('name', 'Predicates')->first()->id,
+            'level_id' => Level::where('level', 'A1')->first()->id,
+        ]);
+
+        GameList::factory()->create([
+            'name' => 'Verb',
+            'category_id' => Category::where('name', 'Predicates')->first()->id,
             'level_id' => Level::where('level', 'A2')->first()->id,
         ]);
-        
+
+        GameList::factory()->create([
+            'name' => 'No Verb',
+            'category_id' => Category::where('name', 'Predicates')->first()->id,
+            'level_id' => Level::where('level', 'A2')->first()->id,
+        ]);
+
+
         // Seeeding Time Phrases
 
         GameList::factory()->create([
@@ -286,6 +299,5 @@ class GameListSeeder extends Seeder
             'category_id' => Category::where('name', 'Singulars and Plurals')->first()->id,
             'level_id' => Level::where('level', 'A1')->first()->id,
         ]);
-
     }
 }

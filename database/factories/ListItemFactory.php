@@ -19,7 +19,7 @@ class ListItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'list_id' => GameList::factory(),
+            'game_list_id' => GameList::factory(),
             'item_value' => $this->faker->word(),
             'plural' => $this->faker->word(),
         ];

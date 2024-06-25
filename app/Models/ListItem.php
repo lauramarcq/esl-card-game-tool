@@ -11,7 +11,7 @@ class ListItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'list_id',
+        'game_list_id',
         'item_value',
         'plural',
     ];

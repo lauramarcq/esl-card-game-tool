@@ -26,12 +26,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/game', [GameController::class, 'get'])->name('game');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
-    Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');
-    Route::patch('/subject/{subjectId}', [SubjectController::class, 'update'])->name('subject.update');
-    Route::delete('/subject/{subjectId}', [SubjectController::class, 'destroy'])->name('subject.destroy');
-});
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
+//     Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');
+//     Route::patch('/subject/{subjectId}', [SubjectController::class, 'update'])->name('subject.update');
+//     Route::delete('/subject/{subjectId}', [SubjectController::class, 'destroy'])->name('subject.destroy');
+// });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -39,4 +39,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

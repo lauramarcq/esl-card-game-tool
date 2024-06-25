@@ -1,6 +1,6 @@
 <template>
     <div class="playing-card">
-        <input :id="inputId" type="checkbox" />
+        <input :id="inputId" type="checkbox" @click="triggerClick"/>
         <label :for="labelId" class="card">
             <div class="card-front">{{ cardContent }}</div>
         </label>
@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { watch, toRefs } from "vue";
+import { watch, toRefs, ref } from "vue";
 
 export default {
     name: "SingleCard",
@@ -20,16 +20,22 @@ export default {
     },
     setup(props) {
         const { triggerClick } = toRefs(props);
+        // const triggerClick = ref(false);
 
         watch(triggerClick, (newVal, oldVal) => {
             if (oldVal !== newVal) {
+                console.log(oldVal, newVal);
                 handleClick();
             }
         });
 
         function handleClick() {
             const card = document.getElementById(props.inputId);
+            console.log('card', card);
             card.checked = !card.checked;
+            if(!card.checked) {
+                card.style.display = "none";
+            }
         }
 
         return {

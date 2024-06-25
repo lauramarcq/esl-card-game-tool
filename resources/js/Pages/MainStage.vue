@@ -64,14 +64,14 @@
                             <div class="dice-area">Dice</div>
                         </div>
                         <div class="card-area">
-                            <div class="subject-cards">
+                            <div class="deck1-cards">
                                 <SingleCard
-                                    class="subject"
-                                    v-for="(card, i) in subjectContent"
-                                    :key="i"
-                                    :cardContent="subjectContent[i]"
-                                    :inputId="`subject${i}`"
-                                    :labelId="`subject${i}`"
+                                    class="stack-1"
+                                    v-for="card in stack1Cards"
+                                    :key="card.id"
+                                    :cardContent="card.item_value"
+                                    :inputId="`stack1-${card.id}`"
+                                    :labelId="`stack1-${card.id}`"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
@@ -109,7 +109,7 @@
 import SingleCard from "@/Components/SingleCard.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 
 export default {
     name: "MainStage",
@@ -156,17 +156,26 @@ export default {
             required: true,
         },
     },
-    setup() {
-        let subjectContent = reactive(["The subject"]);
+    setup(props) {
         let verbContent = reactive(["has"]);
         let objectContent = reactive(["an object"]);
         let triggerClick = ref(false);
+        const stack1Cards = ref([]);
+
+        const handleCardClick = () => {
+            console.log("Card clicked");
+        };
+
+        onMounted(() => {
+        const deck1 = [...props.cardDeck1List.list_items];
+        stack1Cards.value = deck1.sort(() => 0.5 - Math.random()).slice(0, 6);
+    });
 
         return {
-            subjectContent,
             verbContent,
             objectContent,
             triggerClick,
+            stack1Cards,
         };
     },
 };
@@ -207,12 +216,17 @@ export default {
     min-width: 70%;
 }
 
-.subject-cards,
+.deck1-cards,
 .verb-cards,
 .object-cards {
     position: relative;
     top: 0;
     left: 0;
+}
+
+.stack-1 {
+    position:absolute;
+    top: 0;
 }
 
 .explanation-container {

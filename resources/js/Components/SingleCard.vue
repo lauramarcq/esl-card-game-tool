@@ -54,7 +54,9 @@ export default {
         });
 
         function handleClick() {
-            const card = document.getElementById(props.inputId);
+            const card = document.getElementById(
+                props.cardsSelected[currentCardIndex.value].id
+            );
             card.checked = !card.checked;
         }
 

@@ -27,9 +27,9 @@
                         <div class="button-area">
                             <button
                                 v-if="!triggerClick"
-                                @click="triggerClick = !triggerClick"
+                                @click="handleGameButtonClick"
                                 type="button"
-                                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
                             >
                                 Start!
                             </button>
@@ -37,11 +37,11 @@
                                 v-else
                                 @click="triggerClick = !triggerClick"
                                 type="button"
-                                class="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                class="flex w-1/2 justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 Stop
                             </button>
-                            <div class="stack-buttons">
+                            <!-- <div class="stack-buttons">
                                 <button
                                     type="button"
                                     class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -60,8 +60,12 @@
                                 >
                                     Flip Stack 3
                                 </button>
+                            </div> -->
+                            <div class="dice-area">
+                                <div>{{ startTime }}</div>
+                                <div>{{ elapsedTime }}</div>
+                                <div>{{ timerInterval }}</div>
                             </div>
-                            <div class="dice-area">Dice</div>
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -156,28 +160,83 @@ export default {
         const stack1Cards = ref([]);
         const stack2Cards = ref([]);
         const stack3Cards = ref([]);
+        let startTime = ref(null);
+        let elapsedTime = ref(0);
+        let timerInterval = ref(null);
         let triggerClick = ref(false);
 
         onMounted(() => {
-        const deck1 = [...props.cardDeck1List.list_items].map(item => ({ ...item, flipped: false }));
+            const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
+                ...item,
+                flipped: false,
+            }));
 
-        stack1Cards.value = deck1.sort(() => 0.5 - Math.random()).slice(0, 6);
+            stack1Cards.value = deck1
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 6);
 
-        if (props.cardDecks > 1) {
-            const deck2 = [...props.cardDeck2List.list_items].map(item => ({ ...item, flipped: false }));
-            stack2Cards.value = deck2.sort(() => 0.5 - Math.random()).slice(0, 6);
+            if (props.cardDecks > 1) {
+                const deck2 = [...props.cardDeck2List.list_items].map(
+                    (item) => ({ ...item, flipped: false })
+                );
+                stack2Cards.value = deck2
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 6);
+            }
+            if (props.cardDecks > 2) {
+                const deck3 = [...props.cardDeck3List.list_items].map(
+                    (item) => ({ ...item, flipped: false })
+                );
+                stack3Cards.value = deck3
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 6);
+            }
+        });
+
+        // function startTimer() {
+        //     startTime = Date.now() - elapsedTime;
+        //     timerInterval = setInterval(updateTimer, 10);
+        //     console.log(timerInterval, startTime);
+        // }
+
+        // function updateTimer() {
+        //     const currentTime = Date.now();
+        //     elapsedTime = currentTime - startTime;
+        // }
+
+        // function resetTimer() {
+        //     clearInterval(timerInterval);
+        //     startTime = null;
+        //     elapsedTime = 0;
+        // }
+
+        // function stopTimer() {
+        //     clearInterval(timerInterval);
+        // }
+
+        function handleGameButtonClick() {
+            triggerClick.value = !triggerClick.value;
+            // if (triggerClick.value === true) {
+            //     startTimer();
+            // }
+            // if (triggerClick.value === false) {
+            //     stopTimer();
+            // }
         }
-        if (props.cardDecks > 2) {
-            const deck3 = [...props.cardDeck3List.list_items].map(item => ({ ...item, flipped: false }));
-            stack3Cards.value = deck3.sort(() => 0.5 - Math.random()).slice(0, 6);
-        }
-    });
 
         return {
             stack1Cards,
             stack2Cards,
             stack3Cards,
-            triggerClick
+            triggerClick,
+            handleGameButtonClick,
+            // startTimer,
+            // stopTimer,
+            // resetTimer,
+            // updateTimer,
+            startTime,
+            elapsedTime,
+            timerInterval,
         };
     },
 };
@@ -201,6 +260,7 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
 }
 
 .stack-buttons {
@@ -219,15 +279,15 @@ export default {
 }
 
 .deck1-cards,
-.verb-cards,
-.object-cards {
+.deck2-cards,
+.deck3-cards {
     position: relative;
     top: 0;
     left: 0;
 }
 
 .stack-1 {
-    position:absolute;
+    position: absolute;
     top: 0;
 }
 
@@ -254,7 +314,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 4rem;
+    padding-left: 2rem;
     padding-right: 2rem;
 }
 </style>

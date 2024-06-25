@@ -67,33 +67,29 @@
                             <div class="deck1-cards">
                                 <SingleCard
                                     class="stack-1"
-                                    v-for="card in stack1Cards"
+                                    :cardsSelected="stack1Cards"
+                                    :triggerClick="triggerClick"
+                                ></SingleCard>
+                            </div>
+                            <div class="deck2-cards" v-if="cardDecks > 1">
+                                <SingleCard
+                                    class="stack-2"
+                                    v-for="card in stack2Cards"
                                     :key="card.id"
                                     :cardContent="card.item_value"
-                                    :inputId="`stack1-${card.id}`"
-                                    :labelId="`stack1-${card.id}`"
+                                    :inputId="`stack2-${card.id}`"
+                                    :labelId="`stack2-${card.id}`"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
-                            <div class="verb-cards" v-if="cardDecks > 1">
+                            <div class="deck3-cards" v-if="cardDecks > 2">
                                 <SingleCard
-                                    class="verb"
-                                    v-for="(card, i) in verbContent"
-                                    :key="i"
-                                    :cardContent="verbContent[i]"
-                                    :inputId="`verb${i}`"
-                                    :labelId="`verb${i}`"
-                                    :triggerClick="triggerClick"
-                                ></SingleCard>
-                            </div>
-                            <div class="object-cards" v-if="cardDecks > 2">
-                                <SingleCard
-                                    class="object"
-                                    v-for="(card, i) in objectContent"
-                                    :key="i"
-                                    :cardContent="objectContent[i]"
-                                    :inputId="`object${i}`"
-                                    :labelId="`object${i}`"
+                                    class="stack-3"
+                                    v-for="card in stack3Cards"
+                                    :key="card.id"
+                                    :cardContent="card.item_value"
+                                    :inputId="`stack3-${card.id}`"
+                                    :labelId="`stack3-${card.id}`"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
@@ -157,25 +153,31 @@ export default {
         },
     },
     setup(props) {
-        let verbContent = reactive(["has"]);
-        let objectContent = reactive(["an object"]);
-        let triggerClick = ref(false);
         const stack1Cards = ref([]);
-
-        const handleCardClick = () => {
-            console.log("Card clicked");
-        };
+        const stack2Cards = ref([]);
+        const stack3Cards = ref([]);
+        let triggerClick = ref(false);
 
         onMounted(() => {
-        const deck1 = [...props.cardDeck1List.list_items];
+        const deck1 = [...props.cardDeck1List.list_items].map(item => ({ ...item, flipped: false }));
+
         stack1Cards.value = deck1.sort(() => 0.5 - Math.random()).slice(0, 6);
+
+        if (props.cardDecks > 1) {
+            const deck2 = [...props.cardDeck2List.list_items].map(item => ({ ...item, flipped: false }));
+            stack2Cards.value = deck2.sort(() => 0.5 - Math.random()).slice(0, 6);
+        }
+        if (props.cardDecks > 2) {
+            const deck3 = [...props.cardDeck3List.list_items].map(item => ({ ...item, flipped: false }));
+            stack3Cards.value = deck3.sort(() => 0.5 - Math.random()).slice(0, 6);
+        }
     });
 
         return {
-            verbContent,
-            objectContent,
-            triggerClick,
             stack1Cards,
+            stack2Cards,
+            stack3Cards,
+            triggerClick
         };
     },
 };

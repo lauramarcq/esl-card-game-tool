@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\GameSettings;
 
 class Game extends Model
 {
@@ -15,4 +16,9 @@ class Game extends Model
         'description',
         'example',
     ];
+
+    public function gameList()
+    {
+        return $this->hasMany(GameSettings::class);
+    }
 }

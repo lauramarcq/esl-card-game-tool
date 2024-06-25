@@ -5,6 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\GameController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -15,20 +16,14 @@ Route::get('/', function () {
     ]);
 });
 
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard', [DashboardController::class, 'store'])->name('dashboard.create');
 });
 
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/game', function () {
-        return Inertia::render('MainStage');
-    })->name('game');
-    Route::post('/game', [GameController::class, 'store'])->name('game.create');
+    Route::get('/game', [GameController::class, 'get'])->name('game');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

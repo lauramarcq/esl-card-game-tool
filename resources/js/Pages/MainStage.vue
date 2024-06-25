@@ -3,7 +3,7 @@
         <Head title="Game" />
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Flash Card Race
+                {{ gameType.subtitle }}
             </h2>
         </template>
         <div class="py-12">
@@ -12,18 +12,15 @@
                     <div class="game-top">
                         <div class="w-7xl px-4 py-6 sm:px-6 lg:px-8">
                             <h1 class="text-3xl font-bold text-gray-900">
-                                Some kind of title
+                                {{ gameType.title }}
                             </h1>
-                            <h3>Some kind of subtitle</h3>
+                            <h3>{{ gameType.subtitle }}</h3>
                         </div>
                         <div class="explanation-container">
                             <p>
-                                Make sentences and questions by putting the
-                                verbs in the right form!
+                                {{ gameType.description }}
                             </p>
-                            <p class="example">
-                                (+) A bear <b>sleeps</b> all day in winter
-                            </p>
+                            <p class="example">(+) {{ gameType.example }}</p>
                         </div>
                     </div>
                     <div class="stage-container">
@@ -78,7 +75,7 @@
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
-                            <div class="verb-cards">
+                            <div class="verb-cards" v-if="cardDecks > 1">
                                 <SingleCard
                                     class="verb"
                                     v-for="(card, i) in verbContent"
@@ -89,7 +86,7 @@
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
-                            <div class="object-cards">
+                            <div class="object-cards" v-if="cardDecks > 2">
                                 <SingleCard
                                     class="object"
                                     v-for="(card, i) in objectContent"
@@ -120,6 +117,44 @@ export default {
         SingleCard,
         AuthenticatedLayout,
         Head,
+    },
+    props: {
+        gameType: {
+            type: Object,
+            required: true,
+        },
+        cardDeck1Category: {
+            type: Object,
+            required: true,
+        },
+        cardDeck2Category: {
+            type: Object,
+            required: false,
+        },
+        cardDeck3Category: {
+            type: Object,
+            required: false,
+        },
+        cardDeck1List: {
+            type: Object,
+            required: true,
+        },
+        cardDeck2List: {
+            type: Object,
+            required: false,
+        },
+        cardDeck3List: {
+            type: Object,
+            required: false,
+        },
+        cardDecks: {
+            type: Number,
+            required: true,
+        },
+        level: {
+            type: Object,
+            required: true,
+        },
     },
     setup() {
         let subjectContent = reactive(["The subject"]);

@@ -36,7 +36,7 @@ const formData = useForm({
 
 const handleFormSubmit = () => {
     console.log(formData);
-    formData.post(route("game.create"), {
+    formData.post(route("dashboard.create"), {
         onSuccess: () => {
             router.visit("/game");
         },

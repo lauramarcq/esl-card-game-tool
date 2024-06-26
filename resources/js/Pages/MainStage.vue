@@ -27,7 +27,7 @@
                         <div class="button-area">
                             <button
                                 v-if="!triggerClick"
-                                @click="handleGameButtonClick"
+                                @click="handleStartGameButtonClick"
                                 type="button"
                                 class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
                             >
@@ -35,12 +35,25 @@
                             </button>
                             <button
                                 v-else
-                                @click="triggerClick = !triggerClick"
+                                @click="handleButtonStop"
                                 type="button"
                                 class="flex w-1/2 justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 Stop
                             </button>
+                            <InputLabel
+                                for="set_timer"
+                                value="Set time in seconds"
+                                class="mt-4"
+                            ></InputLabel>
+                            <TextInput
+                                id="set_timer"
+                                ref="setTimerInput"
+                                v-model="animationDuration"
+                                type="text"
+                                class="w-1/3 h-10"
+                                @input="animationDuration = $event.target.value"
+                            ></TextInput>
                             <!-- <div class="stack-buttons">
                                 <button
                                     type="button"
@@ -63,7 +76,11 @@
                             </div> -->
                             <div class="dice-area"></div>
 
-                            <Hourglass />
+                            <Hourglass
+                                :animationDuration="animationDuration"
+                                v-if="showHourglass"
+                            />
+                            <Dice />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -99,6 +116,9 @@
 import SingleCard from "@/Components/SingleCard.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Hourglass from "@/Components/Hourglass.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
+import Dice from "@/Components/Dice.vue";
 import { Head } from "@inertiajs/vue3";
 import { reactive, ref, onMounted } from "vue";
 
@@ -109,6 +129,9 @@ export default {
         AuthenticatedLayout,
         Head,
         Hourglass,
+        InputLabel,
+        TextInput,
+        Dice,
     },
     props: {
         gameType: {
@@ -152,10 +175,9 @@ export default {
         const stack1Cards = ref([]);
         const stack2Cards = ref([]);
         const stack3Cards = ref([]);
-        let startTime = ref(null);
-        let elapsedTime = ref(0);
-        let timerInterval = ref(null);
         let triggerClick = ref(false);
+        let animationDuration = ref(0); // duration in seconds
+        let showHourglass = ref(false);
 
         onMounted(() => {
             const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
@@ -185,35 +207,16 @@ export default {
             }
         });
 
-        // function startTimer() {
-        //     startTime = Date.now() - elapsedTime;
-        //     timerInterval = setInterval(updateTimer, 10);
-        //     console.log(timerInterval, startTime);
-        // }
-
-        // function updateTimer() {
-        //     const currentTime = Date.now();
-        //     elapsedTime = currentTime - startTime;
-        // }
-
-        // function resetTimer() {
-        //     clearInterval(timerInterval);
-        //     startTime = null;
-        //     elapsedTime = 0;
-        // }
-
-        // function stopTimer() {
-        //     clearInterval(timerInterval);
-        // }
-
-        function handleGameButtonClick() {
+        function handleStartGameButtonClick() {
             triggerClick.value = !triggerClick.value;
-            // if (triggerClick.value === true) {
-            //     startTimer();
-            // }
-            // if (triggerClick.value === false) {
-            //     stopTimer();
-            // }
+            showHourglass.value = true;
+        }
+
+        function handleButtonStop() {
+            triggerClick.value = !triggerClick.value;
+            showHourglass.value = false;
+            const input = document.getElementById("set_timer");
+            input.value = 0;
         }
 
         return {
@@ -221,14 +224,10 @@ export default {
             stack2Cards,
             stack3Cards,
             triggerClick,
-            handleGameButtonClick,
-            // startTimer,
-            // stopTimer,
-            // resetTimer,
-            // updateTimer,
-            startTime,
-            elapsedTime,
-            timerInterval,
+            animationDuration,
+            showHourglass,
+            handleStartGameButtonClick,
+            handleButtonStop,
         };
     },
 };

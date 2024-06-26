@@ -1,6 +1,5 @@
 <template>
     <div class="hourglass-container">
-        hello
         <svg
             version="1.1"
             id="Layer_1"
@@ -76,18 +75,25 @@
 </template>
 
 <script setup>
-const animationDuration = 5; // duration in seconds
+// import { ref } from "vue";
+const props = defineProps({
+    animationDuration: {
+        type: Number,
+        default: 5,
+    },
+});
+// const animationDuration = ref(0); // duration in seconds
+
 document.documentElement.style.setProperty(
     "--animation-duration",
-    `${animationDuration}s`
+    `${props.animationDuration}s`
 );
 </script>
 
 <style lang="scss">
 :root {
-    --animation-duration: 10s;
+    --animation-duration: 0;
 }
-// $animationDuration: 10s;
 .hourglass-container {
     height: 80%;
     width: 100%;

@@ -61,14 +61,9 @@
                                     Flip Stack 3
                                 </button>
                             </div> -->
-                            <div class="dice-area">
-                                <div>{{ startTime }}</div>
-                                <div>{{ elapsedTime }}</div>
-                                <div>{{ timerInterval }}</div>
-                            </div>
-                            <div>
-                                <Hourglass />
-                            </div>
+                            <div class="dice-area"></div>
+
+                            <Hourglass />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -81,22 +76,14 @@
                             <div class="deck2-cards" v-if="cardDecks > 1">
                                 <SingleCard
                                     class="stack-2"
-                                    v-for="card in stack2Cards"
-                                    :key="card.id"
-                                    :cardContent="card.item_value"
-                                    :inputId="`stack2-${card.id}`"
-                                    :labelId="`stack2-${card.id}`"
+                                    :cardsSelected="stack2Cards"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
                             <div class="deck3-cards" v-if="cardDecks > 2">
                                 <SingleCard
                                     class="stack-3"
-                                    v-for="card in stack3Cards"
-                                    :key="card.id"
-                                    :cardContent="card.item_value"
-                                    :inputId="`stack3-${card.id}`"
-                                    :labelId="`stack3-${card.id}`"
+                                    :cardsSelected="stack3Cards"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
@@ -261,11 +248,10 @@ export default {
 .button-area {
     min-width: 30%;
     height: 100%;
-    margin-top: 20%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
     align-items: center;
+    margin-top: 50px;
 }
 
 .stack-buttons {
@@ -289,11 +275,6 @@ export default {
     position: relative;
     top: 0;
     left: 0;
-}
-
-.stack-1 {
-    position: absolute;
-    top: 0;
 }
 
 .explanation-container {

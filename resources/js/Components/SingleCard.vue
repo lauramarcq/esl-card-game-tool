@@ -68,13 +68,17 @@ export default {
             const input = document.getElementById(
                 props.cardsSelected[currentCardIndex.value].id
             );
+
             input.checked = !input.checked;
             setTimeout(() => {
                 input.checked = true;
+            }, 600);
+
+            setTimeout(() => {
+                if (currentCardIndex.value < cardsSelected.value.length - 1) {
+                    currentCardIndex.value++;
+                }
             }, 700);
-            if (currentCardIndex.value < cardsSelected.value.length - 1) {
-                currentCardIndex.value++;
-            }
         }
 
         function previousCard() {
@@ -85,12 +89,16 @@ export default {
                 props.cardsSelected[currentCardIndex.value].id
             );
             input.checked = !input.checked;
+
             setTimeout(() => {
                 input.checked = true;
-            }, 700);
-            if (currentCardIndex.value > 0) {
-                currentCardIndex.value--;
-            }
+            }, 600);
+
+            setTimeout(() => {
+                if (currentCardIndex.value > 0) {
+                    currentCardIndex.value--;
+                }
+            }, 600);
         }
 
         return {

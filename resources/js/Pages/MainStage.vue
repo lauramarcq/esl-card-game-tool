@@ -74,13 +74,12 @@
                                     Flip Stack 3
                                 </button>
                             </div> -->
-                            <div class="dice-area"></div>
 
                             <Hourglass
                                 :animationDuration="animationDuration"
                                 v-if="showHourglass"
                             />
-                            <Dice />
+                            <Dice v-if="showDice" />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -178,6 +177,7 @@ export default {
         let triggerClick = ref(false);
         let animationDuration = ref(0); // duration in seconds
         let showHourglass = ref(false);
+        let showDice = ref(false);
 
         onMounted(() => {
             const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
@@ -226,6 +226,7 @@ export default {
             triggerClick,
             animationDuration,
             showHourglass,
+            showDice,
             handleStartGameButtonClick,
             handleButtonStop,
         };

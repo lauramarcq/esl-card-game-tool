@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('levels', function (Blueprint $table) {
-            $table->id();
-            $table->string('level');
-            $table->string('description');
-            $table->timestamps();
+        Schema::table('list_items', function (Blueprint $table) {
+            $table->renameColumn('list_id', 'game_list_id');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('levels');
+        Schema::table('list_items', function (Blueprint $table) {
+            // $table->renameColumn('game_list_id', 'list_id');
+        });
     }
 };

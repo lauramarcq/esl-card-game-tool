@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Level>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Category>
  */
-class LevelFactory extends Factory
+class CategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,7 @@ class LevelFactory extends Factory
     public function definition(): array
     {
         return [
-            'level' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
+            'name' => $this->faker->word(),
         ];
     }
 }

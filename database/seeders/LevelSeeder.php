@@ -14,33 +14,33 @@ class LevelSeeder extends Seeder
     public function run(): void
     {
         Level::factory()->create([
-            'code' => 'A1',
-            'level' => 'Beginner',
+            'level' => 'A1',
+            'description' => 'Beginner',
         ]);
 
         Level::factory()->create([
-            'code' => 'A2',
-            'level' => 'Elementary',
+            'level' => 'A2',
+            'description' => 'Elementary',
         ]);
 
         Level::factory()->create([
-            'code' => 'B1',
-            'level' => 'Intermediate',
+            'level' => 'B1',
+            'description' => 'Intermediate',
         ]);
 
         Level::factory()->create([
-            'code' => 'B2',
-            'level' => 'Upper Intermediate',
+            'level' => 'B2',
+            'description' => 'Upper Intermediate',
         ]);
 
         Level::factory()->create([
-            'code' => 'C1',
-            'level' => 'Advanced',
+            'level' => 'C1',
+            'description' => 'Advanced',
         ]);
 
         Level::factory()->create([
-            'code' => 'C2',
-            'level' => 'Proficient',
+            'level' => 'C2',
+            'description' => 'Proficient',
         ]);
     }
 }

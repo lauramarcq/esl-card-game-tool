@@ -7,16 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\GameList;
 use App\Models\GameSettings;
 
-class Level extends Model
+class Category extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'level',
-        'description',
+        'name',
     ];
 
-    public function WordsList()
+    public function wordList()
     {
         return $this->hasMany(GameList::class);
     }

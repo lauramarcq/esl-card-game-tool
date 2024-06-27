@@ -3,7 +3,7 @@
         <Head title="Game" />
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Flash Card Race
+                {{ gameType.subtitle }}
             </h2>
         </template>
         <div class="py-12">
@@ -12,91 +12,74 @@
                     <div class="game-top">
                         <div class="w-7xl px-4 py-6 sm:px-6 lg:px-8">
                             <h1 class="text-3xl font-bold text-gray-900">
-                                Some kind of title
+                                {{ gameType.title }}
                             </h1>
-                            <h3>Some kind of subtitle</h3>
+                            <h3>{{ gameType.subtitle }}</h3>
                         </div>
                         <div class="explanation-container">
                             <p>
-                                Make sentences and questions by putting the
-                                verbs in the right form!
+                                {{ gameType.description }}
                             </p>
-                            <p class="example">
-                                (+) A bear <b>sleeps</b> all day in winter
-                            </p>
+                            <p class="example">(+) {{ gameType.example }}</p>
                         </div>
                     </div>
                     <div class="stage-container">
                         <div class="button-area">
                             <button
                                 v-if="!triggerClick"
-                                @click="triggerClick = !triggerClick"
+                                @click="handleStartGameButtonClick"
                                 type="button"
-                                class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                class="flex w-1/2 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
                             >
                                 Start!
                             </button>
                             <button
                                 v-else
-                                @click="triggerClick = !triggerClick"
+                                @click="handleButtonStop"
                                 type="button"
-                                class="flex w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                class="flex w-1/2 justify-center rounded-md bg-[#e86998] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 Stop
                             </button>
-                            <div class="stack-buttons">
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 1
-                                </button>
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 2
-                                </button>
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 3
-                                </button>
-                            </div>
-                            <div class="dice-area">Dice</div>
+                            <InputLabel
+                                for="set_timer"
+                                value="Set time in seconds"
+                                class="mt-4"
+                            ></InputLabel>
+                            <TextInput
+                                id="set_timer"
+                                ref="setTimerInput"
+                                v-model="animationDuration"
+                                type="text"
+                                class="w-1/3 h-10"
+                                @input="animationDuration = $event.target.value"
+                            ></TextInput>
+
+                            <Hourglass
+                                :animationDuration="animationDuration"
+                                v-if="showHourglass"
+                            />
+                            <Dice v-if="(showDice = false)" />
                         </div>
                         <div class="card-area">
-                            <div class="subject-cards">
+                            <div class="deck1-cards">
                                 <SingleCard
-                                    class="subject"
-                                    v-for="(card, i) in subjectContent"
-                                    :key="i"
-                                    :cardContent="subjectContent[i]"
-                                    :inputId="`subject${i}`"
-                                    :labelId="`subject${i}`"
+                                    class="stack-1"
+                                    :cardsSelected="stack1Cards"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
-                            <div class="verb-cards">
+                            <div class="deck2-cards" v-if="cardDecks > 1">
                                 <SingleCard
-                                    class="verb"
-                                    v-for="(card, i) in verbContent"
-                                    :key="i"
-                                    :cardContent="verbContent[i]"
-                                    :inputId="`verb${i}`"
-                                    :labelId="`verb${i}`"
+                                    class="stack-2"
+                                    :cardsSelected="stack2Cards"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
-                            <div class="object-cards">
+                            <div class="deck3-cards" v-if="cardDecks > 2">
                                 <SingleCard
-                                    class="object"
-                                    v-for="(card, i) in objectContent"
-                                    :key="i"
-                                    :cardContent="objectContent[i]"
-                                    :inputId="`object${i}`"
-                                    :labelId="`object${i}`"
+                                    class="stack-3"
+                                    :cardsSelected="stack3Cards"
                                     :triggerClick="triggerClick"
                                 ></SingleCard>
                             </div>
@@ -111,8 +94,12 @@
 <script>
 import SingleCard from "@/Components/SingleCard.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import Hourglass from "@/Components/Hourglass.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import TextInput from "@/Components/TextInput.vue";
+import Dice from "@/Components/Dice.vue";
 import { Head } from "@inertiajs/vue3";
-import { reactive, ref } from "vue";
+import { reactive, ref, onMounted } from "vue";
 
 export default {
     name: "MainStage",
@@ -120,18 +107,108 @@ export default {
         SingleCard,
         AuthenticatedLayout,
         Head,
+        Hourglass,
+        InputLabel,
+        TextInput,
+        Dice,
     },
-    setup() {
-        let subjectContent = reactive(["The subject"]);
-        let verbContent = reactive(["has"]);
-        let objectContent = reactive(["an object"]);
+    props: {
+        gameType: {
+            type: Object,
+            required: true,
+        },
+        cardDeck1Category: {
+            type: Object,
+            required: true,
+        },
+        cardDeck2Category: {
+            type: Object,
+            required: false,
+        },
+        cardDeck3Category: {
+            type: Object,
+            required: false,
+        },
+        cardDeck1List: {
+            type: Object,
+            required: true,
+        },
+        cardDeck2List: {
+            type: Object,
+            required: false,
+        },
+        cardDeck3List: {
+            type: Object,
+            required: false,
+        },
+        cardDecks: {
+            type: Number,
+            required: true,
+        },
+        level: {
+            type: Object,
+            required: true,
+        },
+    },
+    setup(props) {
+        const stack1Cards = ref([]);
+        const stack2Cards = ref([]);
+        const stack3Cards = ref([]);
         let triggerClick = ref(false);
+        let animationDuration = ref(0); // duration in seconds
+        let showHourglass = ref(false);
+        let showDice = ref(false);
+
+        onMounted(() => {
+            const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
+                ...item,
+                flipped: false,
+            }));
+
+            stack1Cards.value = deck1
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 6);
+
+            if (props.cardDecks > 1) {
+                const deck2 = [...props.cardDeck2List.list_items].map(
+                    (item) => ({ ...item, flipped: false })
+                );
+                stack2Cards.value = deck2
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 6);
+            }
+            if (props.cardDecks > 2) {
+                const deck3 = [...props.cardDeck3List.list_items].map(
+                    (item) => ({ ...item, flipped: false })
+                );
+                stack3Cards.value = deck3
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 6);
+            }
+        });
+
+        function handleStartGameButtonClick() {
+            triggerClick.value = !triggerClick.value;
+            showHourglass.value = true;
+        }
+
+        function handleButtonStop() {
+            triggerClick.value = !triggerClick.value;
+            showHourglass.value = false;
+            const input = document.getElementById("set_timer");
+            input.value = 0;
+        }
 
         return {
-            subjectContent,
-            verbContent,
-            objectContent,
+            stack1Cards,
+            stack2Cards,
+            stack3Cards,
             triggerClick,
+            animationDuration,
+            showHourglass,
+            showDice,
+            handleStartGameButtonClick,
+            handleButtonStop,
         };
     },
 };
@@ -151,10 +228,10 @@ export default {
 .button-area {
     min-width: 30%;
     height: 100%;
-    margin-top: 20%;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
+    margin-top: 50px;
 }
 
 .stack-buttons {
@@ -172,9 +249,9 @@ export default {
     min-width: 70%;
 }
 
-.subject-cards,
-.verb-cards,
-.object-cards {
+.deck1-cards,
+.deck2-cards,
+.deck3-cards {
     position: relative;
     top: 0;
     left: 0;
@@ -203,7 +280,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding-left: 4rem;
+    padding-left: 2rem;
     padding-right: 2rem;
 }
 </style>

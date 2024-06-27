@@ -1,39 +1,112 @@
 <template>
     <div class="playing-card">
-        <input :id="inputId" type="checkbox" />
-        <label :for="labelId" class="card">
-            <div class="card-front">{{ cardContent }}</div>
+        <input
+            :id="cardsSelected[currentCardIndex]?.id"
+            type="checkbox"
+            @click="triggerClick"
+        />
+        <label :for="cardsSelected[currentCardIndex]?.id" class="card">
+            <div class="card-front">
+                {{ cardsSelected[currentCardIndex]?.item_value }}
+            </div>
         </label>
+        <div class="buttons">
+            <button
+                type="button"
+                @click="previousCard"
+                :disabled="currentCardIndex.value === 0"
+                class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
+            >
+                <
+            </button>
+            <button
+                type="button"
+                @click="nextCard"
+                :disabled="
+                    currentCardIndex.value === cardsSelected.value?.length - 1
+                "
+                class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
+            >
+                >
+            </button>
+        </div>
     </div>
 </template>
 
 <script>
-import { watch, toRefs } from "vue";
+import { watch, toRefs, ref } from "vue";
 
 export default {
     name: "SingleCard",
     props: {
-        cardContent: String,
-        inputId: String,
-        labelId: String,
+        cardsSelected: Array,
         triggerClick: Boolean,
     },
     setup(props) {
-        const { triggerClick } = toRefs(props);
+        const { triggerClick, cardsSelected } = toRefs(props);
+        const currentCardIndex = ref(0);
 
         watch(triggerClick, (newVal, oldVal) => {
             if (oldVal !== newVal) {
+                console.log(oldVal, newVal);
                 handleClick();
             }
         });
 
         function handleClick() {
-            const card = document.getElementById(props.inputId);
+            const card = document.getElementById(
+                props.cardsSelected[currentCardIndex.value].id
+            );
             card.checked = !card.checked;
+        }
+
+        function nextCard() {
+            if (currentCardIndex.value === cardsSelected.value.length - 1) {
+                return; // do nothing
+            }
+
+            const input = document.getElementById(
+                props.cardsSelected[currentCardIndex.value].id
+            );
+
+            input.checked = !input.checked;
+            setTimeout(() => {
+                input.checked = true;
+            }, 600);
+
+            setTimeout(() => {
+                if (currentCardIndex.value < cardsSelected.value.length - 1) {
+                    currentCardIndex.value++;
+                }
+            }, 700);
+        }
+
+        function previousCard() {
+            if (currentCardIndex.value === 0) {
+                return; // do nothing
+            }
+            const input = document.getElementById(
+                props.cardsSelected[currentCardIndex.value].id
+            );
+            input.checked = !input.checked;
+
+            setTimeout(() => {
+                input.checked = true;
+            }, 600);
+
+            setTimeout(() => {
+                if (currentCardIndex.value > 0) {
+                    currentCardIndex.value--;
+                }
+            }, 600);
         }
 
         return {
             handleClick,
+            nextCard,
+            currentCardIndex,
+            cardsSelected,
+            previousCard,
         };
     },
 };
@@ -110,5 +183,11 @@ input:checked + label .card-front {
     bottom: 0;
     right: 0;
     transform: rotate(180deg);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 </style>

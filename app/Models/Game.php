@@ -4,24 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\GameList;
 use App\Models\GameSettings;
 
-class Level extends Model
+class Game extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'level',
+        'title',
+        'subtitle',
         'description',
+        'example',
     ];
 
-    public function WordsList()
-    {
-        return $this->hasMany(GameList::class);
-    }
-
-    public function gameSettings()
+    public function gameList()
     {
         return $this->hasMany(GameSettings::class);
     }

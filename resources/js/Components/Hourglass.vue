@@ -13,7 +13,7 @@
             <path
                 id="body"
                 d="M69.2 61.9c-5.6-6.7-14.5-10.2-14-14.6.8-3.9 8.8-7.4 13.9-13.5 5.7-6.8 4.7-15.5 4.3-17.6H26.3S24 26.6 30.5 34.3c5.6 6.7 14.5 10.2 14 14.6-.8 3.9-8.8 7.4-13.9 13.5-5.7 6.8-4.7 15.5-4.3 17.6h47.2c-.1 0 2.2-10.4-4.3-18.1z"
-                fill="#f5f5f5"
+                fill="#FFF2E6"
             />
             <path
                 id="stand-down"
@@ -108,11 +108,11 @@ svg {
     max-width: 200px;
 }
 .st2 {
-    fill: #3d9ae2;
+    fill: #e86998;
 }
 .st4 {
     fill: none;
-    stroke: #ff9811;
+    stroke: #ffc962;
     stroke-width: 1;
     // stroke-linecap: round;
     stroke-miterlimit: 5;

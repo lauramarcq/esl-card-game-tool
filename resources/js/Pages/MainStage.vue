@@ -29,7 +29,7 @@
                                 v-if="!triggerClick"
                                 @click="handleStartGameButtonClick"
                                 type="button"
-                                class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
+                                class="flex w-1/2 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
                             >
                                 Start!
                             </button>
@@ -37,7 +37,7 @@
                                 v-else
                                 @click="handleButtonStop"
                                 type="button"
-                                class="flex w-1/2 justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
+                                class="flex w-1/2 justify-center rounded-md bg-[#e86998] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600"
                             >
                                 Stop
                             </button>
@@ -54,32 +54,12 @@
                                 class="w-1/3 h-10"
                                 @input="animationDuration = $event.target.value"
                             ></TextInput>
-                            <!-- <div class="stack-buttons">
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 1
-                                </button>
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 2
-                                </button>
-                                <button
-                                    type="button"
-                                    class="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-                                >
-                                    Flip Stack 3
-                                </button>
-                            </div> -->
 
                             <Hourglass
                                 :animationDuration="animationDuration"
                                 v-if="showHourglass"
                             />
-                            <Dice v-if="showDice" />
+                            <Dice v-if="(showDice = true)" />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">

@@ -59,7 +59,7 @@
                                 :animationDuration="animationDuration"
                                 v-if="showHourglass"
                             />
-                            <Dice v-if="(showDice = true)" />
+                            <Dice v-if="(showDice = false)" />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">

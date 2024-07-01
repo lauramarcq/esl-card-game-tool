@@ -14,6 +14,7 @@ const props = defineProps({
 });
 
 const cardQuantity = ref([6, 9, 12, 15, 20]);
+let showDice = ref(false);
 
 const filterListsByLevelAndCategory = (levelId, categoryId) => {
     const filtered = props.gameLists.filter(
@@ -31,6 +32,7 @@ const formData = useForm({
     cardDeck1: { category: null, list: null },
     cardDeck2: { category: null, list: null },
     cardDeck3: { category: null, list: null },
+    showTimer: false,
     errors: {
         name: null,
         price: null,
@@ -341,6 +343,46 @@ const handleFormSubmit = () => {
                                             </VueMultiselect>
                                         </div>
                                     </div>
+                                    <div
+                                        class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                                    >
+                                        Additional options
+                                    </div>
+                                    <label
+                                        class="inline-flex items-center me-5 cursor-pointer"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value=""
+                                            class="sr-only peer"
+                                            v-model="formData.showTimer"
+                                        />
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"
+                                        ></div>
+                                        <span
+                                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >Use timer</span
+                                        >
+                                    </label>
+
+                                    <label
+                                        class="inline-flex items-center me-5 cursor-pointer"
+                                    >
+                                        <input
+                                            type="checkbox"
+                                            value=""
+                                            class="sr-only peer"
+                                            v-model="showDice"
+                                        />
+                                        <div
+                                            class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"
+                                        ></div>
+                                        <span
+                                            class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                            >Use dice</span
+                                        >
+                                    </label>
                                 </div>
                                 <div
                                     class="w-1/4 px-3 mb-6 md:mb-0 flex flex-row items-end justify-end"

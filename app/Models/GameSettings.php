@@ -18,6 +18,7 @@ class GameSettings extends Model
         'level_id',
         'card_decks',
         'card_quantity',
+        'show_timer',
         'deck_1_category_id',
         'deck_2_category_id',
         'deck_3_category_id',

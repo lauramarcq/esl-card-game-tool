@@ -41,20 +41,23 @@
                             >
                                 Stop
                             </button>
-                            <InputLabel
-                                for="set_timer"
-                                value="Set time in seconds"
-                                class="mt-4"
-                            ></InputLabel>
-                            <TextInput
-                                id="set_timer"
-                                ref="setTimerInput"
-                                v-model="animationDuration"
-                                type="text"
-                                class="w-1/3 h-10"
-                                @input="animationDuration = $event.target.value"
-                            ></TextInput>
-
+                            <div v-if="showTimer">
+                                <InputLabel
+                                    for="set_timer"
+                                    value="Set time in seconds for timer"
+                                    class="mt-4"
+                                ></InputLabel>
+                                <TextInput
+                                    id="set_timer"
+                                    ref="setTimerInput"
+                                    v-model="animationDuration"
+                                    type="text"
+                                    class="w-1/3 h-10"
+                                    @input="
+                                        animationDuration = $event.target.value
+                                    "
+                                ></TextInput>
+                            </div>
                             <Hourglass
                                 :animationDuration="animationDuration"
                                 v-if="showHourglass"
@@ -153,6 +156,10 @@ export default {
             type: Object,
             required: true,
         },
+        showTimer: {
+            type: Boolean,
+            required: true,
+        },
     },
     setup(props) {
         const stack1Cards = ref([]);
@@ -194,7 +201,9 @@ export default {
 
         function handleStartGameButtonClick() {
             triggerClick.value = !triggerClick.value;
-            showHourglass.value = true;
+            if (props.showTimer && animationDuration.value > 0) {
+                showHourglass.value = true;
+            }
         }
 
         function handleButtonStop() {

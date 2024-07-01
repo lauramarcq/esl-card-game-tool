@@ -37,11 +37,16 @@ class DashboardController extends Controller
         try {
             $gameSettings = $request->validated();
 
+            // convert to boolean
+            $gameSettingsBool = $gameSettings['showTimer'] === true ? 1 : 0;
+            // dd($gameSettingsBool);
+
             $gameSettingsInstance = GameSettings::create([
                 'game_id' => $gameSettings['gameType']['id'],
                 'level_id' => $gameSettings['level']['id'],
                 'card_decks' => $gameSettings['selectedNumberOfDecks'],
                 'card_quantity' => $gameSettings['cardQuantity'],
+                'show_timer' => $gameSettingsBool,
                 'deck_1_category_id' => $gameSettings['cardDeck1']['category']['id'],
                 'deck_1_list_id' => $gameSettings['cardDeck1']['list']['id'],
                 'deck_2_category_id' => $gameSettings['cardDeck2']['category']['id'] ?? null,
@@ -49,7 +54,7 @@ class DashboardController extends Controller
                 'deck_3_category_id' => $gameSettings['cardDeck3']['category']['id'] ?? null,
                 'deck_3_list_id' => $gameSettings['cardDeck3']['list']['id'] ?? null,
             ]);
-    
+                
             return Redirect::route('game', 
                 ['gameSettings' => $gameSettingsInstance->id]
             );

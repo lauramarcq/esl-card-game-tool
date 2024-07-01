@@ -41,6 +41,7 @@ class DashboardController extends Controller
                 'game_id' => $gameSettings['gameType']['id'],
                 'level_id' => $gameSettings['level']['id'],
                 'card_decks' => $gameSettings['selectedNumberOfDecks'],
+                'card_quantity' => $gameSettings['cardQuantity'],
                 'deck_1_category_id' => $gameSettings['cardDeck1']['category']['id'],
                 'deck_1_list_id' => $gameSettings['cardDeck1']['list']['id'],
                 'deck_2_category_id' => $gameSettings['cardDeck2']['category']['id'] ?? null,
@@ -50,17 +51,7 @@ class DashboardController extends Controller
             ]);
     
             return Redirect::route('game', 
-                // [
-                //     'gameType' => $gameSettingsInstance->game_id, 
-                //     'level' => $gameSettingsInstance->level_id, 
-                //     'cardDecks' => $gameSettingsInstance->card_decks,
-                //     'cardDeck1List' => $gameSettingsInstance->deck_1_list_id, 
-                //     'cardDeck2List' => $gameSettingsInstance->deck_2_list_id, 'cardDeck3List' => $gameSettingsInstance->deck_3_list_id,
-                //     'cardDeck1Category' => $gameSettingsInstance->deck_1_category_id,
-                //     'cardDeck2Category' => $gameSettingsInstance->deck_2_category_id,
-                //     'cardDeck3Category' => $gameSettingsInstance->deck_3_category_id
-
-                // ]
+                ['gameSettings' => $gameSettingsInstance->id]
             );
             
         } catch (\Exception $e) {

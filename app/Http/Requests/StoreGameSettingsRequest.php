@@ -28,6 +28,7 @@ class StoreGameSettingsRequest extends FormRequest
             'gameType' => ['required'],
             'level' => ['required'],
             'selectedNumberOfDecks' => ['required'],
+            'cardQuantity' => ['required'],
         ];
     }
 }

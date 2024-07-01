@@ -17,7 +17,7 @@
                 :disabled="currentCardIndex.value === 0"
                 class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
             >
-                <
+                Prev.
             </button>
             <button
                 type="button"
@@ -27,7 +27,7 @@
                 "
                 class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
             >
-                >
+                Next
             </button>
         </div>
     </div>
@@ -61,6 +61,9 @@ export default {
         }
 
         function nextCard() {
+            // console.log(cardsSelected.value);
+            // if (cardsSelected.value.game_list_id === 1 || 2) {
+            // }
             if (currentCardIndex.value === cardsSelected.value.length - 1) {
                 return; // do nothing
             }

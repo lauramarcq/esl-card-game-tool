@@ -34,6 +34,7 @@ class GameController extends Controller
             'gameType' => $gameSettings->game,
             'level' => $gameSettings->level,
             'cardDecks' => $gameSettings->card_decks,
+            'cardQuantity' => $gameSettings->card_quantity,
             'cardDeck1List' => $gameSettings->deck1List,
             'cardDeck2List' => $gameSettings->deck2List,
             'cardDeck3List' => $gameSettings->deck3List,

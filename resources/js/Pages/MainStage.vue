@@ -145,6 +145,10 @@ export default {
             type: Number,
             required: true,
         },
+        cardQuantity: {
+            type: Number,
+            required: true,
+        },
         level: {
             type: Object,
             required: true,
@@ -158,6 +162,7 @@ export default {
         let animationDuration = ref(0); // duration in seconds
         let showHourglass = ref(false);
         let showDice = ref(false);
+        const cardQuantity = props.cardQuantity;
 
         onMounted(() => {
             const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
@@ -167,7 +172,7 @@ export default {
 
             stack1Cards.value = deck1
                 .sort(() => 0.5 - Math.random())
-                .slice(0, 6);
+                .slice(0, cardQuantity);
 
             if (props.cardDecks > 1) {
                 const deck2 = [...props.cardDeck2List.list_items].map(
@@ -175,7 +180,7 @@ export default {
                 );
                 stack2Cards.value = deck2
                     .sort(() => 0.5 - Math.random())
-                    .slice(0, 6);
+                    .slice(0, cardQuantity);
             }
             if (props.cardDecks > 2) {
                 const deck3 = [...props.cardDeck3List.list_items].map(
@@ -183,7 +188,7 @@ export default {
                 );
                 stack3Cards.value = deck3
                     .sort(() => 0.5 - Math.random())
-                    .slice(0, 6);
+                    .slice(0, cardQuantity);
             }
         });
 
@@ -207,6 +212,7 @@ export default {
             animationDuration,
             showHourglass,
             showDice,
+            cardQuantity,
             handleStartGameButtonClick,
             handleButtonStop,
         };

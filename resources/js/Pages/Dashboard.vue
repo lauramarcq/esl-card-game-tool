@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
 // import ListTable from "@/Components/ListTable.vue";
-// import { ref } from "vue";
+import { ref } from "vue";
 
 const props = defineProps({
     categories: Array,
@@ -12,6 +12,8 @@ const props = defineProps({
     games: Array,
     levels: Array,
 });
+
+const cardQuantity = ref([6, 9, 12, 15, 20]);
 
 const filterListsByLevelAndCategory = (levelId, categoryId) => {
     const filtered = props.gameLists.filter(
@@ -24,6 +26,7 @@ const filterListsByLevelAndCategory = (levelId, categoryId) => {
 const formData = useForm({
     gameType: null,
     selectedNumberOfDecks: null,
+    cardQuantity: null,
     level: null,
     cardDeck1: { category: null, list: null },
     cardDeck2: { category: null, list: null },
@@ -106,7 +109,7 @@ const handleFormSubmit = () => {
                                             v-model="formData.level"
                                             :options="levels"
                                             :multiple="false"
-                                            placeholder="Select one or more"
+                                            placeholder="Select one"
                                             label="level"
                                             track-by="id"
                                             :close-on-select="true"
@@ -162,6 +165,21 @@ const handleFormSubmit = () => {
                                             />
                                             <span class="text-sm"> 3 </span>
                                         </label>
+                                    </div>
+
+                                    <div class="pt-2">
+                                        <label
+                                            class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                            >Cards per deck</label
+                                        >
+                                        <VueMultiselect
+                                            v-model="formData.cardQuantity"
+                                            :options="cardQuantity"
+                                            :multiple="false"
+                                            placeholder="Select a quantity"
+                                            :close-on-select="true"
+                                        >
+                                        </VueMultiselect>
                                     </div>
                                 </div>
 

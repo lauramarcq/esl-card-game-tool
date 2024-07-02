@@ -29,9 +29,9 @@ const formData = useForm({
     selectedNumberOfDecks: null,
     cardQuantity: null,
     level: null,
-    cardDeck1: { category: null, list: null },
-    cardDeck2: { category: null, list: null },
-    cardDeck3: { category: null, list: null },
+    cardDeck1: { category: null, list: [] },
+    cardDeck2: { category: null, list: [] },
+    cardDeck3: { category: null, list: [] },
     showTimer: false,
     errors: {
         name: null,
@@ -224,11 +224,11 @@ const handleFormSubmit = () => {
                                                     formData.cardDeck1.category
                                                 )
                                             "
-                                            :multiple="false"
+                                            :multiple="true"
                                             placeholder="Select one"
                                             label="name"
                                             track-by="id"
-                                            :close-on-select="true"
+                                            :close-on-select="false"
                                         >
                                         </VueMultiselect>
                                     </div>
@@ -277,11 +277,11 @@ const handleFormSubmit = () => {
                                                             .category
                                                     )
                                                 "
-                                                :multiple="false"
+                                                :multiple="true"
                                                 placeholder="Select one"
                                                 label="name"
                                                 track-by="id"
-                                                :close-on-select="true"
+                                                :close-on-select="false"
                                             >
                                             </VueMultiselect>
                                         </div>
@@ -334,11 +334,11 @@ const handleFormSubmit = () => {
                                                             .category
                                                     )
                                                 "
-                                                :multiple="false"
+                                                :multiple="true"
                                                 placeholder="Select one"
                                                 label="name"
                                                 track-by="id"
-                                                :close-on-select="true"
+                                                :close-on-select="false"
                                             >
                                             </VueMultiselect>
                                         </div>
@@ -419,5 +419,38 @@ const handleFormSubmit = () => {
 <style>
 .multiselect__content-wrapper {
     position: relative;
+}
+
+/* .multiselect__option--highlight.multiselect__option {
+    background: #e3a00a !important;
+} */
+
+input[type="checkbox"]:checked,
+[type="radio"]:checked,
+.dark [type="checkbox"]:checked,
+.dark [type="radio"]:checked {
+    border-color: #e3a00a;
+    background-color: #e3a00a;
+}
+
+input[type="checkbox"]:checked:hover,
+[type="checkbox"]:checked:focus,
+[type="radio"]:checked:hover,
+[type="radio"]:checked:focus {
+    border-color: #e3a00a;
+    background-color: #e3a00a;
+}
+
+input[type="checkbox"]:focus,
+[type="radio"]:focus {
+    --tw-ring-color: #e3a00a;
+}
+
+.multiselect__tag {
+    background: #e3a00a !important;
+}
+
+.multiselect__tag-icon::after {
+    color: #8a6719;
 }
 </style>

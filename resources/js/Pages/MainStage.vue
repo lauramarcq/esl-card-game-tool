@@ -172,7 +172,7 @@ export default {
         const cardQuantity = props.cardQuantity;
 
         onMounted(() => {
-            const deck1 = [...props.cardDeck1List.list_items].map((item) => ({
+            const deck1 = [...props.cardDeck1List].map((item) => ({
                 ...item,
                 flipped: false,
             }));
@@ -182,17 +182,19 @@ export default {
                 .slice(0, cardQuantity);
 
             if (props.cardDecks > 1) {
-                const deck2 = [...props.cardDeck2List.list_items].map(
-                    (item) => ({ ...item, flipped: false })
-                );
+                const deck2 = [...props.cardDeck2List].map((item) => ({
+                    ...item,
+                    flipped: false,
+                }));
                 stack2Cards.value = deck2
                     .sort(() => 0.5 - Math.random())
                     .slice(0, cardQuantity);
             }
             if (props.cardDecks > 2) {
-                const deck3 = [...props.cardDeck3List.list_items].map(
-                    (item) => ({ ...item, flipped: false })
-                );
+                const deck3 = [...props.cardDeck3List].map((item) => ({
+                    ...item,
+                    flipped: false,
+                }));
                 stack3Cards.value = deck3
                     .sort(() => 0.5 - Math.random())
                     .slice(0, cardQuantity);
@@ -229,7 +231,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .stage-container {
     display: flex;
     flex-direction: row;

@@ -26,6 +26,7 @@ class GameSettings extends Model
         'deck_2_list_id',
         'deck_3_list_id',
     ];
+    
 
     public function game()
     {
@@ -52,18 +53,8 @@ class GameSettings extends Model
         return $this->belongsTo(Category::class, 'deck_3_category_id');
     }
 
-    public function deck1List()
-    {
-        return $this->belongsTo(GameList::class, 'deck_1_list_id');
-    }
-
-    public function deck2List()
-    {
-        return $this->belongsTo(GameList::class, 'deck_2_list_id');
-    }
-
-    public function deck3List()
-    {
-        return $this->belongsTo(GameList::class, 'deck_3_list_id');
+    public function gameLists()
+    {   
+        return $this->belongsToMany(GameList::class);
     }
 }

@@ -39,7 +39,6 @@ class DashboardController extends Controller
 
             // convert to boolean
             $gameSettingsBool = $gameSettings['showTimer'] === true ? 1 : 0;
-            // dd($gameSettingsBool);
 
             $gameSettingsInstance = GameSettings::create([
                 'game_id' => $gameSettings['gameType']['id'],
@@ -48,15 +47,34 @@ class DashboardController extends Controller
                 'card_quantity' => $gameSettings['cardQuantity'],
                 'show_timer' => $gameSettingsBool,
                 'deck_1_category_id' => $gameSettings['cardDeck1']['category']['id'],
-                'deck_1_list_id' => $gameSettings['cardDeck1']['list']['id'],
+                // 'deck_1_list_id' => $gameSettings['cardDeck1']['list'],
                 'deck_2_category_id' => $gameSettings['cardDeck2']['category']['id'] ?? null,
-                'deck_2_list_id' => $gameSettings['cardDeck2']['list']['id'] ?? null,
+                // 'deck_2_list_id' => $gameSettings['cardDeck2']['list'] ?? null,
                 'deck_3_category_id' => $gameSettings['cardDeck3']['category']['id'] ?? null,
-                'deck_3_list_id' => $gameSettings['cardDeck3']['list']['id'] ?? null,
+                // 'deck_3_list_id' => $gameSettings['cardDeck3']['list'] ?? null,
             ]);
+
+            foreach ($gameSettings['cardDeck1']['list'] as $list) {
+                $gameSettingsInstance->gameLists()->attach($list['id']);
+            }
+
+            if (isset($gameSettings['cardDeck2']['category'])) {
+                foreach ($gameSettings['cardDeck2']['list'] as $list) {
+                    $gameSettingsInstance->gameLists()->attach($list['id']);
+                }
+            }
+
+            if (isset($gameSettings['cardDeck2']['category'])) {
+                foreach ($gameSettings['cardDeck3']['list'] as $list) {
+                    $gameSettingsInstance->gameLists()->attach($list['id']);
+                }
+            }
+
+            // dd($gameSettingsInstance);
                 
             return Redirect::route('game', 
-                ['gameSettings' => $gameSettingsInstance->id]
+                ['gameSettings' => $gameSettingsInstance->id, 
+                ]
             );
             
         } catch (\Exception $e) {

@@ -1,44 +1,28 @@
 <template>
-    <div class="dice-wrapper items-center">
-        <!-- <div class="container">
-            <div id="dice1" class="dice dice-one">
-                <div id="dice-one-side-one" class="side one">
-                    <div class="dot one-1"></div>
-                </div>
-                <div id="dice-one-side-two" class="side two">
-                    <div class="dot two-1"></div>
-                    <div class="dot two-2"></div>
-                </div>
-                <div id="dice-one-side-three" class="side three">
-                    <div class="dot three-1"></div>
-                    <div class="dot three-2"></div>
-                    <div class="dot three-3"></div>
-                </div>
-                <div id="dice-one-side-four" class="side four">
-                    <div class="dot four-1"></div>
-                    <div class="dot four-2"></div>
-                    <div class="dot four-3"></div>
-                    <div class="dot four-4"></div>
-                </div>
-                <div id="dice-one-side-five" class="side five">
-                    <div class="dot five-1"></div>
-                    <div class="dot five-2"></div>
-                    <div class="dot five-3"></div>
-                    <div class="dot five-4"></div>
-                    <div class="dot five-5"></div>
-                </div>
-                <div id="dice-one-side-six" class="side six">
-                    <div class="dot six-1"></div>
-                    <div class="dot six-2"></div>
-                    <div class="dot six-3"></div>
-                    <div class="dot six-4"></div>
-                    <div class="dot six-5"></div>
-                    <div class="dot six-6"></div>
-                </div>
-            </div>
-        </div> -->
+    <div class="dice-wrapper">
+        <div class="pt-2">
+            <VueMultiselect
+                v-model="formData.diceOptions"
+                :options="options"
+                :multiple="false"
+                placeholder="Select one"
+                label="option"
+                track-by="id"
+                :close-on-select="true"
+            >
+            </VueMultiselect>
+        </div>
+        <div id="roll">
+            <button
+                @click="rollDice"
+                type="button"
+                class="flex w-50 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#e86998] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
+            >
+                Roll dice!
+            </button>
+        </div>
         <div class="container">
-            <div id="dice2" class="dice dice-two">
+            <div id="dice2" :class="['dice', diceClass]">
                 <div id="dice-two-side-one" class="side one">
                     <div class="dot one-1"></div>
                 </div>
@@ -74,78 +58,117 @@
                 </div>
             </div>
         </div>
-        <div id="roll">
-            <button
-                @click="rollDice"
-                type="button"
-                class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
-            >
-                Roll dice!
-            </button>
+
+        <div>
+            <p class="dice-text">{{ diceText }}</p>
         </div>
     </div>
 </template>
 
 <script setup>
+import VueMultiselect from "vue-multiselect";
+import { computed, reactive, ref } from "vue";
+
+const formData = reactive({
+    diceOptions: null,
+});
+
+const diceClass = ref("dice-two");
+
+const options = [
+    { id: 1, option: "Options1" },
+    { id: 2, option: "Options2" },
+    { id: 3, option: "Options3" },
+];
+
+const options1 = [
+    { id: 1, option: "Make a positive sentence!" },
+    { id: 2, option: "Make a negative sentence!" },
+    { id: 3, option: "Make a question!" },
+];
+
+const diceText = computed(() => {
+    console.log(diceClass.value);
+    if (
+        diceClass.value.includes("show-1") ||
+        diceClass.value.includes("show-2")
+    ) {
+        return "Make a positive sentence!";
+    }
+    if (
+        diceClass.value.includes("show-3") ||
+        diceClass.value.includes("show-4")
+    ) {
+        console.log("3 or 4");
+        return "Make a negative sentence!";
+    }
+    if (
+        diceClass.value.includes("show-5") ||
+        diceClass.value.includes("show-6")
+    ) {
+        console.log("5 or 6");
+        return "Make a question!";
+    }
+    return "Roll the dice!";
+});
+
 const rollDice = () => {
-    // const elDiceOne = document.getElementById("dice1");
-    const elDiceTwo = document.getElementById("dice2");
-
-    // const diceOne = Math.floor(Math.random() * 6 + 1);
+    // const elDiceTwo = document.getElementById("dice2");
     const diceTwo = Math.floor(Math.random() * 6 + 1);
-
-    // console.log(diceOne + " " + diceTwo);
-
-    // for (let i = 1; i <= 6; i++) {
-    //     elDiceOne.classList.remove("show-" + i);
-    //     if (diceOne === i) {
-    //         elDiceOne.classList.add("show-" + i);
-    //     }
-    // }
+    diceClass.value = "dice-two show-" + diceTwo;
 
     for (var k = 1; k <= 6; k++) {
-        elDiceTwo.classList.remove("show-" + k);
+        if (diceClass.value.includes("show-" + k)) {
+            diceClass.value.remove("show-" + k);
+        }
+    }
+
+    for (var k = 1; k <= 6; k++) {
         if (diceTwo === k) {
-            elDiceTwo.classList.add("show-" + k);
+            diceClass.value.add("show-" + k);
             return;
         }
     }
-    setTimeout(rollDice(), 1000);
+    // setTimeout(rollDice(), 1000);
 };
 </script>
+
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 
 <style scoped>
 .dice-wrapper {
     position: relative;
     height: 100%;
     width: 100%;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    padding-left: 400px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .container {
     position: relative;
     display: inline-block;
-    top: 80px;
+    width: 50px;
 }
 
 .dice {
     position: relative;
-    width: 150px;
-    height: 100px;
+    width: 100px;
+    height: 50px;
     transform-style: preserve-3d;
     transition: transform 1s;
 }
 
 .dot {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    margin: -10px 5px 5px -10px;
+    width: 10px;
+    height: 10px;
+    margin: -5px 2.5px 2.5px -5px;
     border-radius: 20px;
-    background-color: #f25f5c;
-    box-shadow: inset 2px 2px #d90429;
+    background-color: #e86998;
+    box-shadow: inset 2px 2px #bd52a8;
 }
 
 /* .dice-one {
@@ -153,67 +176,68 @@ const rollDice = () => {
     left: 150px;
 } */
 
-.dice-two {
+/* .dice-two {
     position: absolute;
-    left: 110px;
-}
+    top: 30px;
+    left: 250px;
+} */
 
 .side {
     position: absolute;
-    background-color: #fff;
+    background-color: #e5cdb1;
     border-radius: 5px;
-    width: 100px;
-    height: 100px;
+    width: 50px;
+    height: 50px;
     border: 1px solid #e5e5e5;
     text-align: center;
     line-height: 2em;
 }
 
 .side:nth-child(1) {
-    transform: translateZ(3.1em);
+    transform: translateZ(1.5em);
 }
 
 .side:nth-child(6) {
-    transform: rotateY(90deg) translateZ(3.1em);
+    transform: rotateY(90deg) translateZ(1.5em);
 }
 
 .side:nth-child(3) {
-    transform: rotateY(-90deg) translateZ(3.1em);
+    transform: rotateY(-90deg) translateZ(1.5em);
 }
 
 .side:nth-child(4) {
-    transform: rotateX(90deg) translateZ(3.1em);
+    transform: rotateX(90deg) translateZ(1.5em);
 }
 
 .side:nth-child(5) {
-    transform: rotateX(-90deg) translateZ(3.1em);
+    transform: rotateX(-90deg) translateZ(1.5em);
 }
 
 .side:nth-child(2) {
-    transform: rotateY(-180deg) translateZ(3.1em);
+    transform: rotateY(-180deg) translateZ(1.5em);
 }
 
 .show-1 {
     transform: rotateX(720deg) rotateZ(-720deg);
 }
 
-.show-6 {
+.show-2 {
     transform: rotateX(-900deg) rotateZ(1080deg);
 }
 
-.show-3 {
+.show-6 {
     transform: rotateY(-450deg) rotateZ(-1440deg);
 }
 
-.show-4 {
+.show-3 {
     transform: rotateY(810deg) rotateZ(720deg);
 }
 
-.show-5 {
+.show-4 {
     transform: rotateX(-810deg) rotateZ(-1080deg);
 }
 
-.show-2 {
+.show-5 {
     transform: rotateX(450deg) rotateZ(-720deg);
 }
 
@@ -266,9 +290,15 @@ const rollDice = () => {
     left: 80%;
 }
 
-#roll {
+.dice-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* #roll {
     position: relative;
     display: flex;
     justify-content: center;
-}
+} */
 </style>

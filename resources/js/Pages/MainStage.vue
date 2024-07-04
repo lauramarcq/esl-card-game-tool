@@ -2,34 +2,29 @@
     <AuthenticatedLayout>
         <Head title="Game" />
         <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ gameType.subtitle }}
-            </h2>
+            <div class="flex flex-row justify-between">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ gameType.title }}
+                </h2>
+                <div class="explanation-container">
+                    <p>
+                        {{ gameType.description }}
+                    </p>
+                    <p class="example">(+) {{ gameType.example }}</p>
+                </div>
+            </div>
         </template>
         <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-sm sm:rounded-lg mb-2">
-                    <div class="game-top">
-                        <div class="w-7xl px-4 py-6 sm:px-6 lg:px-8">
-                            <h1 class="text-3xl font-bold text-gray-900">
-                                {{ gameType.title }}
-                            </h1>
-                            <h3>{{ gameType.subtitle }}</h3>
-                        </div>
-                        <div class="explanation-container">
-                            <p>
-                                {{ gameType.description }}
-                            </p>
-                            <p class="example">(+) {{ gameType.example }}</p>
-                        </div>
-                    </div>
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-40">
+                <div class="bg-white shadow-sm sm:rounded-lg mb-2 min-h-40">
+                    <div class="game-top"><Dice v-if="showDice" /></div>
                     <div class="stage-container">
                         <div class="button-area">
                             <button
                                 v-if="!triggerClick"
                                 @click="handleStartGameButtonClick"
                                 type="button"
-                                class="flex w-1/2 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
+                                class="flex w-1/2 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#e86998] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
                             >
                                 Start!
                             </button>
@@ -41,10 +36,13 @@
                             >
                                 Stop
                             </button>
-                            <div v-if="showTimer">
+                            <div
+                                v-if="showTimer"
+                                class="flex flex-col items-center justify-center w-1/2"
+                            >
                                 <InputLabel
                                     for="set_timer"
-                                    value="Set time in seconds for timer"
+                                    value="Set time in seconds and press start"
                                     class="mt-4"
                                 ></InputLabel>
                                 <TextInput
@@ -52,7 +50,7 @@
                                     ref="setTimerInput"
                                     v-model="animationDuration"
                                     type="text"
-                                    class="w-1/3 h-10"
+                                    class="w-1/2 h-10"
                                     @input="
                                         animationDuration = $event.target.value
                                     "
@@ -62,7 +60,6 @@
                                 :animationDuration="animationDuration"
                                 v-if="showHourglass"
                             />
-                            <Dice v-if="(showDice = false)" />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -160,6 +157,10 @@ export default {
             type: Boolean,
             required: true,
         },
+        showDice: {
+            type: Boolean,
+            required: true,
+        },
     },
     setup(props) {
         const stack1Cards = ref([]);
@@ -168,7 +169,7 @@ export default {
         let triggerClick = ref(false);
         let animationDuration = ref(0); // duration in seconds
         let showHourglass = ref(false);
-        let showDice = ref(false);
+        let showDice = props.showDice;
         const cardQuantity = props.cardQuantity;
 
         onMounted(() => {
@@ -251,13 +252,6 @@ export default {
     margin-top: 50px;
 }
 
-.stack-buttons {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 10px;
-}
-
 .card-area {
     display: flex;
     flex-direction: row;
@@ -283,6 +277,7 @@ export default {
     justify-content: center;
     height: fit-content;
     align-self: center;
+    max-width: 50%;
 }
 
 .explanation-container p {
@@ -299,5 +294,6 @@ export default {
     justify-content: space-between;
     padding-left: 2rem;
     padding-right: 2rem;
+    height: 15vh;
 }
 </style>

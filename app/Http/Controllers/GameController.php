@@ -5,11 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use App\Models\GameSettings;
-use App\Models\Game;
-use App\Models\Level;
-use App\Models\Category;
-use App\Models\GameList;
-use App\Models\ListItem;
 
 class GameController extends Controller
 {
@@ -18,9 +13,6 @@ class GameController extends Controller
      */
     public function get(Request $request)
     {
-        // dd($request->all());
-
-
         $gameSettings = GameSettings::with([
             'game',
             'level',
@@ -63,6 +55,7 @@ class GameController extends Controller
             'cardDecks' => $gameSettings->card_decks,
             'cardQuantity' => $gameSettings->card_quantity,
             'showTimer' => $gameSettings->show_timer === 1 ? true : false,
+            'showDice' => $gameSettings->show_dice === 1 ? true : false,
             'cardDeck1List' => $listItems1,
             'cardDeck2List' => $listItems2 ?? null,
             'cardDeck3List' => $listItems3 ?? null,

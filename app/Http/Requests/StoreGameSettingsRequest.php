@@ -29,7 +29,8 @@ class StoreGameSettingsRequest extends FormRequest
             'level' => ['required'],
             'selectedNumberOfDecks' => ['required'],
             'cardQuantity' => ['required'],
-            'showTimer' => ['required', 'boolean'],
+            'showTimer' => ['boolean'],
+            'showDice' => ['boolean'],
         ];
     }
 }

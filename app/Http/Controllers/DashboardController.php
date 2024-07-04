@@ -38,20 +38,20 @@ class DashboardController extends Controller
             $gameSettings = $request->validated();
 
             // convert to boolean
-            $gameSettingsBool = $gameSettings['showTimer'] === true ? 1 : 0;
+            $gameSettingsBoolTimer = $gameSettings['showTimer'] === true ? 1 : 0;
+
+            $gameSettingsBoolDice = $gameSettings['showDice'] === true ? 1 : 0;
 
             $gameSettingsInstance = GameSettings::create([
                 'game_id' => $gameSettings['gameType']['id'],
                 'level_id' => $gameSettings['level']['id'],
                 'card_decks' => $gameSettings['selectedNumberOfDecks'],
                 'card_quantity' => $gameSettings['cardQuantity'],
-                'show_timer' => $gameSettingsBool,
+                'show_timer' => $gameSettingsBoolTimer,
+                'show_dice' => $gameSettingsBoolDice,
                 'deck_1_category_id' => $gameSettings['cardDeck1']['category']['id'],
-                // 'deck_1_list_id' => $gameSettings['cardDeck1']['list'],
                 'deck_2_category_id' => $gameSettings['cardDeck2']['category']['id'] ?? null,
-                // 'deck_2_list_id' => $gameSettings['cardDeck2']['list'] ?? null,
                 'deck_3_category_id' => $gameSettings['cardDeck3']['category']['id'] ?? null,
-                // 'deck_3_list_id' => $gameSettings['cardDeck3']['list'] ?? null,
             ]);
 
             foreach ($gameSettings['cardDeck1']['list'] as $list) {
@@ -70,13 +70,12 @@ class DashboardController extends Controller
                 }
             }
 
-            // dd($gameSettingsInstance);
-                
-            return Redirect::route('game', 
-                ['gameSettings' => $gameSettingsInstance->id, 
+            return Redirect::route(
+                'game',
+                [
+                    'gameSettings' => $gameSettingsInstance->id,
                 ]
             );
-            
         } catch (\Exception $e) {
             Log::error('Error in DashboardController@store: ' . $e->getMessage());
             throw $e;

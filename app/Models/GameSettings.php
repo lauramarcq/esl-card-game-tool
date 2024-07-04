@@ -19,6 +19,7 @@ class GameSettings extends Model
         'card_decks',
         'card_quantity',
         'show_timer',
+        'show_dice',
         'deck_1_category_id',
         'deck_2_category_id',
         'deck_3_category_id',
@@ -26,7 +27,7 @@ class GameSettings extends Model
         'deck_2_list_id',
         'deck_3_list_id',
     ];
-    
+
 
     public function game()
     {
@@ -54,7 +55,7 @@ class GameSettings extends Model
     }
 
     public function gameLists()
-    {   
+    {
         return $this->belongsToMany(GameList::class);
     }
 }

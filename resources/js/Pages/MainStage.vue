@@ -327,6 +327,7 @@ export default {
 .buttons {
     display: flex;
     justify-content: center;
+    padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 390px;
 }

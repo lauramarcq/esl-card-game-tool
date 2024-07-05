@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        //         // Drop the existing foreignId columns
-        // Schema::table('game_settings', function (Blueprint $table) {
-        //     $table->dropForeign(['deck_1_list_id']);
-        //     $table->dropColumn('deck_1_list_id');
+        // Drop the existing foreignId columns
+        Schema::table('game_settings', function (Blueprint $table) {
+            $table->dropForeign(['deck_1_list_id']);
+            $table->dropColumn('deck_1_list_id');
 
-        //     $table->dropForeign(['deck_2_list_id']);
-        //     $table->dropColumn('deck_2_list_id');
+            $table->dropForeign(['deck_2_list_id']);
+            $table->dropColumn('deck_2_list_id');
 
-        //     $table->dropForeign(['deck_3_list_id']);
-        //     $table->dropColumn('deck_3_list_id');
-        // });
+            $table->dropForeign(['deck_3_list_id']);
+            $table->dropColumn('deck_3_list_id');
+        });
 
         Schema::create('game_list_game_settings', function (Blueprint $table) {
             $table->id();

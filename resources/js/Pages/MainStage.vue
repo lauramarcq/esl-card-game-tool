@@ -3,7 +3,7 @@
         <Head title="Game" />
         <template #header>
             <div class="flex flex-row justify-between">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                <h2 class="font-bold text-2xl text-gray-800 leading-tight">
                     {{ gameType.title }}
                 </h2>
                 <div class="explanation-container">
@@ -277,7 +277,7 @@ export default {
     justify-content: center;
     height: fit-content;
     align-self: center;
-    max-width: 50%;
+    max-width: 60%;
 }
 
 .explanation-container p {

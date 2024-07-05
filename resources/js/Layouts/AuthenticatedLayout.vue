@@ -187,7 +187,8 @@ const showingNavigationDropdown = ref(false);
 
 <style>
 .header-style {
-    background-color: #f9e4b3;
+    background-color: white;
+    height: 80px;
 }
 
 .nav-style {

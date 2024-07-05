@@ -2,8 +2,8 @@
     <AuthenticatedLayout>
         <Head title="Game" />
         <template #header>
-            <div class="flex flex-row justify-between">
-                <h2 class="font-bold text-2xl text-gray-800 leading-tight">
+            <div class="flex flex-row justify-between content-center">
+                <h2 class="font-bold text-xl text-gray-800 leading-tight">
                     {{ gameType.title }}
                 </h2>
                 <div class="explanation-container">
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </template>
-        <div class="py-12">
+        <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-40">
                 <div class="bg-white shadow-sm sm:rounded-lg mb-2 min-h-40">
                     <div class="game-top"><Dice v-if="showDice" /></div>
@@ -310,6 +310,7 @@ export default {
 .explanation-container p {
     text-align: right;
     padding: 0 10px;
+    font-size: small;
 }
 .explanation-container .example {
     color: grey;
@@ -328,7 +329,7 @@ export default {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 50px;
     padding-left: 390px;
 }
 

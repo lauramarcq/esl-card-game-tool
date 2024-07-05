@@ -10,26 +10,6 @@
                 {{ cardsSelected[currentCardIndex]?.item_value }}
             </div>
         </label>
-        <div class="buttons">
-            <button
-                type="button"
-                @click="previousCard"
-                :disabled="currentCardIndex.value === 0"
-                class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
-            >
-                Prev.
-            </button>
-            <button
-                type="button"
-                @click="nextCard"
-                :disabled="
-                    currentCardIndex.value === cardsSelected.value?.length - 1
-                "
-                class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
-            >
-                Next
-            </button>
-        </div>
     </div>
 </template>
 
@@ -41,15 +21,33 @@ export default {
     props: {
         cardsSelected: Array,
         triggerClick: Boolean,
+        nextCardClick: Event,
+        previousCardClick: Event,
     },
     setup(props) {
-        const { triggerClick, cardsSelected } = toRefs(props);
+        const {
+            triggerClick,
+            cardsSelected,
+            nextCardClick,
+            previousCardClick,
+        } = toRefs(props);
         const currentCardIndex = ref(0);
 
         watch(triggerClick, (newVal, oldVal) => {
             if (oldVal !== newVal) {
-                console.log(oldVal, newVal);
                 handleClick();
+            }
+        });
+
+        watch(nextCardClick, (newVal, oldVal) => {
+            if (oldVal !== newVal) {
+                nextCard();
+            }
+        });
+
+        watch(previousCardClick, (newVal, oldVal) => {
+            if (oldVal !== newVal) {
+                previousCard();
             }
         });
 

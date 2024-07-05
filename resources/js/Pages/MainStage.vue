@@ -67,6 +67,8 @@
                                     class="stack-1"
                                     :cardsSelected="stack1Cards"
                                     :triggerClick="triggerClick"
+                                    :nextCardClick="nextCard"
+                                    :previousCardClick="previousCard"
                                 ></SingleCard>
                             </div>
                             <div class="deck2-cards" v-if="cardDecks > 1">
@@ -74,6 +76,8 @@
                                     class="stack-2"
                                     :cardsSelected="stack2Cards"
                                     :triggerClick="triggerClick"
+                                    :nextCardClick="nextCard"
+                                    :previousCardClick="previousCard"
                                 ></SingleCard>
                             </div>
                             <div class="deck3-cards" v-if="cardDecks > 2">
@@ -81,9 +85,28 @@
                                     class="stack-3"
                                     :cardsSelected="stack3Cards"
                                     :triggerClick="triggerClick"
+                                    :nextCardClick="nextCard"
+                                    :previousCardClick="previousCard"
                                 ></SingleCard>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="buttons">
+                        <button
+                            @click="previousCard = $event"
+                            type="button"
+                            class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
+                        >
+                            Prev.
+                        </button>
+                        <button
+                            @click="nextCard = $event"
+                            type="button"
+                            class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
+                        >
+                            Next
+                        </button>
                     </div>
                 </div>
             </div>
@@ -171,6 +194,8 @@ export default {
         let showHourglass = ref(false);
         let showDice = props.showDice;
         const cardQuantity = props.cardQuantity;
+        const nextCard = ref();
+        const previousCard = ref();
 
         onMounted(() => {
             const deck1 = [...props.cardDeck1List].map((item) => ({
@@ -225,6 +250,8 @@ export default {
             showHourglass,
             showDice,
             cardQuantity,
+            nextCard,
+            previousCard,
             handleStartGameButtonClick,
             handleButtonStop,
         };
@@ -238,9 +265,9 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    height: 50vh;
+    height: 42vh;
     max-width: inherit;
-    margin: 20px;
+    margin: 20px 20px 0 20px;
 }
 
 .button-area {
@@ -295,5 +322,16 @@ export default {
     padding-left: 2rem;
     padding-right: 2rem;
     height: 15vh;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+    padding-left: 390px;
+}
+
+.buttons button {
+    margin: 0 10px;
 }
 </style>

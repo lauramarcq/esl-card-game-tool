@@ -88,7 +88,6 @@ const options1 = [
 ];
 
 const diceText = computed(() => {
-    console.log(diceClass.value);
     if (
         diceClass.value.includes("show-1") ||
         diceClass.value.includes("show-2")
@@ -99,37 +98,33 @@ const diceText = computed(() => {
         diceClass.value.includes("show-3") ||
         diceClass.value.includes("show-4")
     ) {
-        console.log("3 or 4");
         return "Make a negative sentence!";
     }
     if (
         diceClass.value.includes("show-5") ||
         diceClass.value.includes("show-6")
     ) {
-        console.log("5 or 6");
         return "Make a question!";
     }
     return "Roll the dice!";
 });
 
 const rollDice = () => {
-    // const elDiceTwo = document.getElementById("dice2");
     const diceTwo = Math.floor(Math.random() * 6 + 1);
     diceClass.value = "dice-two show-" + diceTwo;
 
-    for (var k = 1; k <= 6; k++) {
+    for (let k = 1; k <= 6; k++) {
         if (diceClass.value.includes("show-" + k)) {
-            diceClass.value.remove("show-" + k);
+            diceClass.value.replace("show-" + k, "");
         }
     }
 
-    for (var k = 1; k <= 6; k++) {
+    for (let k = 1; k <= 6; k++) {
         if (diceTwo === k) {
-            diceClass.value.add("show-" + k);
+            diceClass.value = "show-" + k;
             return;
         }
     }
-    // setTimeout(rollDice(), 1000);
 };
 </script>
 

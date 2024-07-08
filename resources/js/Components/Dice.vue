@@ -1,17 +1,5 @@
 <template>
     <div class="dice-wrapper">
-        <div class="pt-2">
-            <VueMultiselect
-                v-model="formData.diceOptions"
-                :options="options"
-                :multiple="false"
-                placeholder="Select one"
-                label="option"
-                track-by="id"
-                :close-on-select="true"
-            >
-            </VueMultiselect>
-        </div>
         <div id="roll">
             <button
                 @click="rollDice"
@@ -66,12 +54,7 @@
 </template>
 
 <script setup>
-import VueMultiselect from "vue-multiselect";
-import { computed, reactive, ref } from "vue";
-
-const formData = reactive({
-    diceOptions: null,
-});
+import { computed, ref } from "vue";
 
 const diceClass = ref("dice-two");
 
@@ -179,7 +162,7 @@ const rollDice = () => {
 
 .side {
     position: absolute;
-    background-color: #e5cdb1;
+    background-color: #f9e4b3;
     border-radius: 5px;
     width: 50px;
     height: 50px;
@@ -289,6 +272,7 @@ const rollDice = () => {
     font-size: 1.3rem;
     font-weight: 600;
     text-align: center;
+    padding-right: 10px;
 }
 
 /* #roll {

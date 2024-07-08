@@ -24,8 +24,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/game', [GameController::class, 'get'])->name('game');
+    Route::get('/game-lists', [GameController::class, 'index'])->name('game-lists');
+    Route::get('/game-lists/{gameListId}', [GameController::class, 'show'])->name('game-lists.show');
 });
 
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/builder', function () {
+        return Inertia::render('Builder', []);
+    })->name('builder');
+});
 // Route::middleware(['auth', 'verified'])->group(function () {
 //     Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
 //     Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');

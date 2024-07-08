@@ -34,6 +34,24 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Dashboard
                                 </NavLink>
+                                <NavLink
+                                    :href="route('builder')"
+                                    :active="route().current('builder')"
+                                >
+                                    Builder
+                                </NavLink>
+                                <NavLink
+                                    :href="route('game')"
+                                    :active="route().current('game')"
+                                >
+                                    Latest Game
+                                </NavLink>
+                                <NavLink
+                                    :href="route('game-lists')"
+                                    :active="route().current('game-lists')"
+                                >
+                                    All Previous Games
+                                </NavLink>
                             </div>
                         </div>
 

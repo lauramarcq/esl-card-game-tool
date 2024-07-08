@@ -95,8 +95,8 @@ document.documentElement.style.setProperty(
     --animation-duration: 0;
 }
 .hourglass-container {
-    height: 80%;
-    width: 100%;
+    height: 150px;
+    width: 150px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -105,7 +105,7 @@ document.documentElement.style.setProperty(
 }
 
 svg {
-    max-width: 200px;
+    max-width: 150px;
 }
 .st2 {
     fill: #e86998;
@@ -118,7 +118,7 @@ svg {
     stroke-miterlimit: 5;
 }
 #stream-line {
-    animation: disappear 5s 0.5s linear forwards;
+    animation: disappear var(--animation-duration) 0.5s linear forwards;
     transform: translateY(-1px);
 }
 #stream {

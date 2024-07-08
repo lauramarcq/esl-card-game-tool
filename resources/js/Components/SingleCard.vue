@@ -59,9 +59,6 @@ export default {
         }
 
         function nextCard() {
-            // console.log(cardsSelected.value);
-            // if (cardsSelected.value.game_list_id === 1 || 2) {
-            // }
             if (currentCardIndex.value === cardsSelected.value.length - 1) {
                 return; // do nothing
             }
@@ -160,7 +157,7 @@ input {
     text-align: center;
     padding: 20px;
     box-sizing: border-box;
-    transform: rotatey(-180deg);
+    transform: rotatey(-160deg);
     color: #444;
     display: flex;
     align-items: center;

@@ -36,19 +36,31 @@
                             >
                                 Stop
                             </button>
+                            <div class="buttons">
+                                <button
+                                    @click="previousCard = $event"
+                                    type="button"
+                                    class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
+                                >
+                                    Prev.
+                                </button>
+                                <button
+                                    @click="nextCard = $event"
+                                    type="button"
+                                    class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
+                                >
+                                    Next
+                                </button>
+                            </div>
                             <div
                                 v-if="showTimer"
                                 class="flex flex-col items-center justify-center w-1/2"
                             >
-                                <InputLabel
-                                    for="set_timer"
-                                    value="Set time in seconds and press start"
-                                    class="mt-4"
-                                ></InputLabel>
                                 <TextInput
                                     id="set_timer"
                                     ref="setTimerInput"
                                     v-model="animationDuration"
+                                    placeholder="30"
                                     type="text"
                                     class="w-1/2 h-10"
                                     @input="
@@ -90,23 +102,6 @@
                                 ></SingleCard>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="buttons">
-                        <button
-                            @click="previousCard = $event"
-                            type="button"
-                            class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
-                        >
-                            Prev.
-                        </button>
-                        <button
-                            @click="nextCard = $event"
-                            type="button"
-                            class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
-                        >
-                            Next
-                        </button>
                     </div>
                 </div>
             </div>
@@ -190,7 +185,7 @@ export default {
         const stack2Cards = ref([]);
         const stack3Cards = ref([]);
         let triggerClick = ref(false);
-        let animationDuration = ref(0); // duration in seconds
+        let animationDuration = ref(null); // duration in seconds
         let showHourglass = ref(false);
         let showDice = props.showDice;
         const cardQuantity = props.cardQuantity;
@@ -265,7 +260,7 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    height: 42vh;
+    height: 52vh;
     max-width: inherit;
     margin: 20px 20px 0 20px;
 }
@@ -329,8 +324,7 @@ export default {
     display: flex;
     justify-content: center;
     padding-top: 20px;
-    padding-bottom: 50px;
-    padding-left: 390px;
+    padding-bottom: 20px;
 }
 
 .buttons button {

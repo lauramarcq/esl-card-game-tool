@@ -19,9 +19,9 @@ return new class extends Migration
             $table->foreignId('deck_1_category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreignId('deck_2_category_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
             $table->foreignId('deck_3_category_id')->nullable()->references('id')->on('categories')->onDelete('cascade');
-            $table->foreignId('deck_1_list_id')->references('id')->on('game_lists')->onDelete('cascade');
-            $table->foreignId('deck_2_list_id')->nullable()->references('id')->on('game_lists')->onDelete('cascade');
-            $table->foreignId('deck_3_list_id')->nullable()->references('id')->on('game_lists')->onDelete('cascade');
+            // $table->foreignId('deck_1_list_id')->references('id')->on('game_lists')->onDelete('cascade');
+            // $table->foreignId('deck_2_list_id')->nullable()->references('id')->on('game_lists')->onDelete('cascade');
+            // $table->foreignId('deck_3_list_id')->nullable()->references('id')->on('game_lists')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -35,13 +35,10 @@ return new class extends Migration
             $table->dropForeign(['deck_1_category_id']);
             $table->dropForeign(['deck_2_category_id']);
             $table->dropForeign(['deck_3_category_id']);
-            $table->dropForeign(['deck_1_list_id']);
-            $table->dropForeign(['deck_2_list_id']);
-            $table->dropForeign(['deck_3_list_id']);
             $table->dropForeign(['game_id']);
             $table->dropForeign(['level_id']);
         });
-            
+
         Schema::dropIfExists('game_settings');
     }
 };

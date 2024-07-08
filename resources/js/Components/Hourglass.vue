@@ -75,14 +75,25 @@
 </template>
 
 <script setup>
-// import { ref } from "vue";
+import { onMounted } from "vue";
 const props = defineProps({
     animationDuration: {
         type: Number,
         default: 5,
     },
 });
-// const animationDuration = ref(0); // duration in seconds
+
+onMounted(() => {
+    setTimeout(() => {
+        const hourglassContainer = document.querySelector(
+            ".hourglass-container"
+        );
+        hourglassContainer.classList.add("blink");
+        setTimeout(() => {
+            hourglassContainer.classList.remove("blink");
+        }, 8000);
+    }, props.animationDuration * 1000);
+});
 
 document.documentElement.style.setProperty(
     "--animation-duration",
@@ -91,9 +102,9 @@ document.documentElement.style.setProperty(
 </script>
 
 <style lang="scss">
-:root {
-    --animation-duration: 0;
-}
+// :root {
+//     --animation-duration: 0;
+// }
 .hourglass-container {
     height: 150px;
     width: 150px;
@@ -112,13 +123,13 @@ svg {
 }
 .st4 {
     fill: none;
-    stroke: #ffc962;
+    stroke: #ff9811;
     stroke-width: 1;
     // stroke-linecap: round;
     stroke-miterlimit: 5;
 }
 #stream-line {
-    animation: disappear var(--animation-duration) 0.5s linear forwards;
+    animation: disappear var(--animation-duration) linear forwards;
     transform: translateY(-1px);
 }
 #stream {
@@ -165,6 +176,19 @@ svg {
 @keyframes drainSand {
     to {
         transform: translateY(23px);
+    }
+}
+
+.blink {
+    animation: blink 2s linear infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
     }
 }
 </style>

@@ -60,16 +60,16 @@
                                     id="set_timer"
                                     ref="setTimerInput"
                                     v-model="animationDuration"
-                                    placeholder="30"
+                                    placeholder="seconds"
                                     type="text"
-                                    class="w-1/2 h-10"
+                                    class="w-2/3 h-10"
                                     @input="
                                         animationDuration = $event.target.value
                                     "
                                 ></TextInput>
                             </div>
                             <Hourglass
-                                :animationDuration="animationDuration"
+                                :animationDuration="Number(animationDuration)"
                                 v-if="showHourglass"
                             />
                         </div>
@@ -233,7 +233,7 @@ export default {
             triggerClick.value = !triggerClick.value;
             showHourglass.value = false;
             const input = document.getElementById("set_timer");
-            input.value = 0;
+            input.value = null;
         }
 
         return {

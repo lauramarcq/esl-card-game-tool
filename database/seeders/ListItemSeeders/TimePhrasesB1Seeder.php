@@ -41,7 +41,7 @@ class TimePhrasesB1Seeder extends Seeder
         $futureList = GameList::where('name', 'Future')->where('level_id', $levelB1->id)->first();
 
 
-        foreach ($pastSimpleValues as $value) {
+        foreach ($presentSimpleValues as $value) {
             ListItem::factory()->create([
                 'game_list_id' => $presentSimpleList->id,
                 'item_value' => $value,

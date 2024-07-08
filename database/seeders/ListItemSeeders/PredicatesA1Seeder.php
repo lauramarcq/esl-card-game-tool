@@ -19,7 +19,7 @@ class PredicatesA1Seeder extends Seeder
             'on the table', 'next to the child', 'in the box', 'under the tree', 'near the house', 'around the city', 'at the beach', 'in the chair', 'beside the window', 'above the shelf', 'on the street', 'in the room', 'red', 'green', 'blue', 'yellow', 'brown', 'white', 'black', 'purple', 'pink', 'orange', 'happy', 'sad', 'big', 'small', 'tall', 'short', 'old', 'new', 'fast', 'slow', 'heavy', 'light', 'hot', 'cold', 'loud', 'quiet', 'clean', 'dirty', 'soft', 'hard'
         ];
 
-        $verbValues = [];
+        $verbValues = ['ask', 'stop', 'dance', 'cook', 'see', 'send', 'visit', 'run', 'need', 'practise', 'open', 'meet', 'kick', 'get', 'help', 'get', 'play', 'look', 'watch', 'phone', 'answer', 'tell', 'listen', 'walk', 'pay', 'speak', 'start', 'leave', 'come', 'visit', 'paint', 'see', 'smoke', 'know', 'come', 'invite', 'love', 'talk', 'like', 'have', 'enjoy', 'play', 'watch', 'walk', 'pay', 'visit', 'paint', 'start', 'leave', 'meet'];
 
         $levelA1 = Level::where('level', 'A1')->first();
 

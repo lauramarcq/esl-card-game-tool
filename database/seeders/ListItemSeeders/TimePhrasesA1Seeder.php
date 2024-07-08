@@ -20,7 +20,7 @@ class TimePhrasesA1Seeder extends Seeder
         ];
 
         $presentContinuousValues = [
-            'at the moment', 'now', 'tonight', 'today', 'this week', 'this month', 'this year'
+            'at the moment', 'now', 'tonight', 'today', 'this week', 'this month', 'this year', 'right now', 'at present', 'this morning', 'this afternoon', 'this evening', 'this month', 'this year', 'these days', 'these weeks', 'these months', 'these years'
         ];
 
         $pastSimpleValues = [
@@ -37,7 +37,7 @@ class TimePhrasesA1Seeder extends Seeder
         $pastSimpleList = GameList::where('name', 'Past Simple')->where('level_id', $levelA1->id)->first();
 
 
-        foreach ($pastSimpleValues as $value) {
+        foreach ($presentSimpleValues as $value) {
             ListItem::factory()->create([
                 'game_list_id' => $presentSimpleList->id,
                 'item_value' => $value,

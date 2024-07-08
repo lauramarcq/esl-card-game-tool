@@ -19,13 +19,13 @@ class PluralsA2Seeder extends Seeder
 
         $irregularNounsValues = ['a child', 'a foot', 'a goose', 'a man', 'a tooth', 'a woman', 'a mouse', 'a person', 'a deer', 'a fish', 'a sheep'];
 
-        $endingWithY = ['a toy', 'a key', 'a boy', 'a baby', 'a city', 'a lady', 'a country', 'a party'];
+        $endingWithY = ['a toy', 'a key', 'a boy', 'a baby', 'a city', 'a lady', 'a country', 'a party', 'a story', 'a family', 'a journey', 'a monkey', 'a valley', 'a library', 'a factory'];
 
-        $endingWithSSHCH = ['a box', 'a bush', 'a dish', 'a fox', 'a beach', 'a dish', 'a bus'];
+        $endingWithSSHCH = ['a box', 'a bush', 'a dish', 'a fox', 'a beach', 'a dish', 'a bus', 'a brush', 'a church', 'a bench', 'a branch', 'a match', 'a watch', 'a witch', 'a peach', 'a coach'];
 
-        $endingWithF = ['a leaf', 'a life', 'a wolf', 'a half', 'a shelf', 'a knife', 'a wife'];
+        $endingWithF = ['a leaf', 'a life', 'a wolf', 'a half', 'a shelf', 'a knife', 'a wife', 'a loaf', 'a thief', 'a calf', 'a dwarf', 'a scarf', 'a chief', 'a roof', 'a belief', 'a proof'];
 
-        $endingWithO = ['a hero', 'a potato', 'a tomato'];
+        $endingWithO = ['a hero', 'a potato', 'a tomato', 'a volcano', 'a kangaroo', 'a zoo', 'a photo', 'a radio'];
 
         $levelA2 = Level::where('level', 'A2')->first();
 

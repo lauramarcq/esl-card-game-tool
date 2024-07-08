@@ -20,7 +20,7 @@ class TimePhrasesA2Seeder extends Seeder
         ];
 
         $presentContinuousValues = [
-            'at the moment', 'now', 'tonight', 'today', 'this week', 'this month', 'this year'
+            'at the moment', 'now', 'tonight', 'today', 'this week', 'this month', 'this year', 'right now', 'at present', 'this morning', 'this afternoon', 'this evening', 'this month', 'this year', 'these days', 'these weeks', 'these months', 'these years'
         ];
 
         $pastSimpleValues = [

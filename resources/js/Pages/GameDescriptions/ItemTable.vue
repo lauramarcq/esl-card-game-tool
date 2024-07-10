@@ -5,11 +5,11 @@ const selectedItems = ref([]);
 
 const props = defineProps({
     tableHeaders: Array,
-    items: Array,
+    items: Object,
 });
 
 const formatItemDate = () => {
-    const items = props.items.map((item) => {
+    const items = props.items.data.map((item) => {
         return {
             id: item.id,
             title: item.title,
@@ -17,7 +17,7 @@ const formatItemDate = () => {
             description: item.description,
             example: item.example,
             created_at: new Date(item.created_at).toLocaleString(),
-            updated_at: new Date(item.updated_at).toLocaleString(),
+            // updated_at: new Date(item.updated_at).toLocaleString(),
         };
     });
     return items;
@@ -26,6 +26,23 @@ const formatItemDate = () => {
 const formattedItems = computed(() => {
     return formatItemDate(props.items);
 });
+
+const colWidths = (header) => {
+    if (header === "ID") {
+        return "w-1/12";
+    }
+    if (header === "Title" || header === "Subtitle") {
+        return "w-1/6";
+    }
+    if (header === "Description") {
+        return "w-1/2";
+    }
+    if (header === "Example") {
+        return "w-1/3";
+    } else {
+        return "w-1/4";
+    }
+};
 </script>
 
 <template>
@@ -38,7 +55,7 @@ const formattedItems = computed(() => {
                     v-for="(header, i) in tableHeaders"
                     :key="i"
                     class="p-4 text-left"
-                    :class="header === 'ID' ? 'w-1/12' : 'w-1/4'"
+                    :class="colWidths(header)"
                 >
                     {{ header }}
                 </th>
@@ -73,7 +90,7 @@ const formattedItems = computed(() => {
                     <button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                         id="delete-button"
-                        @click="$emit('editItem', item.id)"
+                        @click="$emit('editItem', item)"
                     >
                         Edit
                     </button>

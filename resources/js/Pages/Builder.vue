@@ -11,7 +11,7 @@
         <div class="py-6">
             <div class="py-12">
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <GameDescriptionSection />
+                    <GameDescriptionSection :data="gameOptions" />
                     <div
                         class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2"
                     >
@@ -44,7 +44,13 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head } from "@inertiajs/vue3";
 import GameDescriptionSection from "@/Pages/GameDescriptions/GameDescriptionSection.vue";
-import { ref } from "vue";
+import { defineProps } from "vue";
+
+const props = defineProps({
+    gameOptions: {
+        type: Object,
+    },
+});
 </script>
 
 <style></style>

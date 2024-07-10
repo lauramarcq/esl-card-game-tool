@@ -16,12 +16,18 @@
             </div>
             <ItemTable
                 :tableHeaders="gameDescriptionHeaders"
-                :items="items"
-                @editItem="showEdit = true"
+                :items="data"
+                @editItem="handleEditGameOption"
                 @deleteItem="handleDeleteGameOption"
             />
+            <Pagination :links="data.links" v-if="data.links.length > 5" />
             <CreateModal :showDialog="showCreate" @close="showCreate = false" />
-            <EditModal :showDialog="showEdit" @close="showEdit = false" />
+            <EditModal
+                v-if="showEdit"
+                :showDialog="showEdit"
+                :item="selectedItem"
+                @close="showEdit = false"
+            />
             <DeleteModal
                 :showDialog="showDeleteModal"
                 :id="itemId"
@@ -33,15 +39,23 @@
 </template>
 <script setup>
 import ItemTable from "./ItemTable.vue";
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import CreateModal from "./CreateModal.vue";
 import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
+import Pagination from "@/Components/Pagination.vue";
+
+const props = defineProps({
+    data: {
+        type: Object,
+    },
+});
 
 const showCreate = ref(false);
 const showEdit = ref(false);
 const showDeleteModal = ref(false);
 let itemId = ref(null);
+let selectedItem = ref({});
 
 const gameDescriptionHeaders = ref([
     "ID",
@@ -50,20 +64,7 @@ const gameDescriptionHeaders = ref([
     "Description",
     "Example",
     "Created At",
-    "Updated At",
     "Actions",
-]);
-
-const items = ref([
-    {
-        id: 1,
-        title: "Game 1",
-        subtitle: "Subtitle 1",
-        description: "Description 1",
-        example: "Example 1",
-        created_at: "2021-09-01",
-        updated_at: "2021-09-01",
-    },
 ]);
 
 const handleAddGameOption = () => {
@@ -79,6 +80,11 @@ const handleDeleteConfirm = (id) => {
     console.log("DeleteConfirm", id);
     showDeleteModal.value = false;
     // items.value = items.value.filter((item) => item.id !== id);
+};
+
+const handleEditGameOption = (item) => {
+    showEdit.value = true;
+    selectedItem.value = item;
 };
 </script>
 <style scoped></style>

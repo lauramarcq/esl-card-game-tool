@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameOptionsController;
+use App\Http\Controllers\BuilderController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -29,16 +31,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/builder', function () {
-        return Inertia::render('Builder', []);
-    })->name('builder');
+    Route::get('/builder', [BuilderController::class, 'index'])->name('builder');
 });
-// Route::middleware(['auth', 'verified'])->group(function () {
-//     Route::get('/subject', [SubjectController::class, 'index'])->name('subject.index');
-//     Route::post('/subject', [SubjectController::class, 'store'])->name('subject.create');
-//     Route::patch('/subject/{subjectId}', [SubjectController::class, 'update'])->name('subject.update');
-//     Route::delete('/subject/{subjectId}', [SubjectController::class, 'destroy'])->name('subject.destroy');
-// });
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/builder/game-options', [GameOptionsController::class, 'store'])->name('builder.game-options.create');
+    Route::patch('/builder/game-options/{gametId}', [GameOptionsController::class, 'update'])->name('builder.game-options.update');
+    Route::delete('/builder/game-options/{gametId}', [GameOptionsController::class, 'destroy'])->name('builder.game-options.destroy');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

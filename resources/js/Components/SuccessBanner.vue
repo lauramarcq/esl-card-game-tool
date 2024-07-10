@@ -5,9 +5,7 @@
         v-if="show"
     >
         <strong class="font-bold">Success! </strong>
-        <span class="block sm:inline"
-            >Your item has been successfully added.</span
-        >
+        <span class="block sm:inline">{{ message }}</span>
         <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
             <svg
                 class="fill-current h-6 w-6 text-green-500"
@@ -34,6 +32,10 @@ const props = defineProps({
     show: {
         type: Boolean,
         default: false,
+    },
+    message: {
+        type: String,
+        default: "Success!",
     },
 });
 </script>

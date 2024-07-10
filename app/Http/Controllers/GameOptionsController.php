@@ -38,8 +38,11 @@ class GameOptionsController extends Controller
 
     public function destroy($gameId)
     {
-        Game::find($gameId)->delete();
-
-        return redirect()->route('builder');
+        try {
+            Game::find($gameId)->delete();
+        } catch (\Exception $e) {
+            Log::error('Error in GameOptionsController@destroy: ' . $e->getMessage());
+            throw $e;
+        }
     }
 }

@@ -43,6 +43,7 @@
             <div class="mt-2 flex justify-center">
                 <SuccessBanner
                     :show="showSuccessBanner"
+                    :message="bannerMessage"
                     @close="showSuccessBanner = false"
                 />
             </div>
@@ -57,6 +58,7 @@ import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessBanner from "@/Components/SuccessBanner.vue";
+import { Inertia } from "@inertiajs/inertia";
 
 const props = defineProps({
     data: {
@@ -70,6 +72,7 @@ const showEdit = ref(false);
 const showDeleteModal = ref(false);
 let itemId = ref(null);
 let selectedItem = ref({});
+let bannerMessage = ref("");
 
 const gameDescriptionHeaders = ref([
     "ID",
@@ -83,6 +86,7 @@ const gameDescriptionHeaders = ref([
 
 const handleAddGameOption = () => {
     showCreate.value = true;
+    bannerMessage.value = "Your item has been successfully added.";
 };
 
 const handleDeleteGameOption = (id) => {
@@ -91,9 +95,14 @@ const handleDeleteGameOption = (id) => {
 };
 
 const handleDeleteConfirm = (id) => {
-    console.log("DeleteConfirm", id);
-    showDeleteModal.value = false;
-    // items.value = items.value.filter((item) => item.id !== id);
+    try {
+        showDeleteModal.value = false;
+        Inertia.delete(`/builder/game-options/${id}`);
+    } catch (error) {
+        console.log(error);
+    }
+    showSuccessBanner.value = true;
+    bannerMessage.value = "Your item has been successfully deleted.";
 };
 
 const handleEditGameOption = (item) => {

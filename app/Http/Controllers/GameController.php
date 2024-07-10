@@ -8,6 +8,9 @@ use App\Models\GameSettings;
 
 class GameController extends Controller
 {
+    /**
+     * Get all records of previously set up games.
+     */
     public function index()
     {
         $allGames = GameSettings::with([
@@ -80,7 +83,7 @@ class GameController extends Controller
     }
 
     /**
-     * Get all data for game setup from latest created record.
+     * Get all data for game setup bt id.
      */
 
     public function show($id)

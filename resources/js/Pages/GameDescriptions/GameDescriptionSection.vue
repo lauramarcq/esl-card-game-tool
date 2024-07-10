@@ -20,8 +20,14 @@
                 @editItem="handleEditGameOption"
                 @deleteItem="handleDeleteGameOption"
             />
-            <Pagination :links="data.links" v-if="data.links.length > 5" />
-            <CreateModal :showDialog="showCreate" @close="showCreate = false" />
+            <div class="mt-4 flex justify-center">
+                <Pagination :links="data.links" />
+            </div>
+            <CreateModal
+                :showDialog="showCreate"
+                @close="showCreate = false"
+                @showSuccess="showSuccessBanner = true"
+            />
             <EditModal
                 v-if="showEdit"
                 :showDialog="showEdit"
@@ -34,6 +40,12 @@
                 @close="showDeleteModal = false"
                 @confirm="handleDeleteConfirm"
             />
+            <div class="mt-2 flex justify-center">
+                <SuccessBanner
+                    :show="showSuccessBanner"
+                    @close="showSuccessBanner = false"
+                />
+            </div>
         </div>
     </div>
 </template>
@@ -44,6 +56,7 @@ import CreateModal from "./CreateModal.vue";
 import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
 import Pagination from "@/Components/Pagination.vue";
+import SuccessBanner from "@/Components/SuccessBanner.vue";
 
 const props = defineProps({
     data: {
@@ -51,6 +64,7 @@ const props = defineProps({
     },
 });
 
+const showSuccessBanner = ref(false);
 const showCreate = ref(false);
 const showEdit = ref(false);
 const showDeleteModal = ref(false);

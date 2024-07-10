@@ -18,9 +18,9 @@
                             >
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="name"
+                                        for="title"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Item name</label
+                                        >Title</label
                                     >
                                     <div class="mt-2">
                                         <div
@@ -28,30 +28,29 @@
                                         >
                                             <input
                                                 type="text"
-                                                name="name"
-                                                id="name"
-                                                ref="nameInput"
-                                                v-model="formData.name"
+                                                name="title"
+                                                id="title"
+                                                ref="titleInput"
+                                                v-model="formData.title"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                placeholder="Apples"
                                                 @input="
-                                                    formData.errors.name = ''
+                                                    formData.errors.title = ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="formData.errors.name"
+                                            :message="formData.errors.title"
                                             class="mt-2"
-                                            id="name-error"
+                                            id="title-error"
                                         />
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="price"
+                                        for="subtitle"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >price</label
+                                        >Subtitle</label
                                     >
                                     <div class="mt-2">
                                         <div
@@ -59,21 +58,82 @@
                                         >
                                             <input
                                                 type="text"
-                                                name="price"
-                                                id="price"
-                                                ref="priceInput"
-                                                v-model="formData.price"
+                                                name="subtitle"
+                                                id="subtitle"
+                                                ref="subtitleInput"
+                                                v-model="formData.subtitle"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                placeholder="£ 2.96"
                                                 @input="
-                                                    formData.errors.price = ''
+                                                    formData.errors.subtitle =
+                                                        ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="formData.errors.price"
+                                            :message="formData.errors.subtitle"
                                             class="mt-2"
-                                            id="price-error"
+                                            id="subtitle-error"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="sm:col-span-12">
+                                    <label
+                                        for="description"
+                                        class="block text-sm font-medium leading-6 text-gray-900"
+                                        >Description</label
+                                    >
+                                    <div class="mt-2">
+                                        <div
+                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+                                        >
+                                            <input
+                                                name="description"
+                                                id="description"
+                                                ref="descriptionInput"
+                                                v-model="formData.description"
+                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                @input="
+                                                    formData.errors.description =
+                                                        ''
+                                                "
+                                            />
+                                        </div>
+                                        <InputError
+                                            :message="
+                                                formData.errors.description
+                                            "
+                                            class="mt-2"
+                                            id="description-error"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div class="sm:col-span-12">
+                                    <label
+                                        for="example"
+                                        class="block text-sm font-medium leading-6 text-gray-900"
+                                        >Example</label
+                                    >
+                                    <div class="mt-2">
+                                        <div
+                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+                                        >
+                                            <input
+                                                name="example"
+                                                id="example"
+                                                ref="exampleInput"
+                                                v-model="formData.example"
+                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                @input="
+                                                    formData.errors.example = ''
+                                                "
+                                            />
+                                        </div>
+                                        <InputError
+                                            :message="formData.errors.example"
+                                            class="mt-2"
+                                            id="example-error"
                                         />
                                     </div>
                                 </div>
@@ -114,18 +174,18 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(["close"]);
-
-const handleSubmit = () => {
-    console.log("Submit");
-};
+const emit = defineEmits(["close", "showSuccess"]);
 
 const formData = useForm({
-    name: "",
-    price: "",
+    title: "",
+    subtitle: "",
+    description: "",
+    example: "",
     errors: {
-        name: null,
-        price: null,
+        title: null,
+        subtitle: null,
+        description: null,
+        example: null,
     },
 });
 
@@ -133,6 +193,21 @@ const handleCancel = () => {
     formData.reset();
     formData.clearErrors();
     emit("close");
+};
+
+const handleSubmit = () => {
+    console.log("Submit");
+    formData.post("/builder/game-options", {
+        preserveScroll: true,
+        onSuccess: () => {
+            formData.reset();
+            emit("close");
+            emit("showSuccess");
+        },
+        onError: (e) => {
+            console.log("Error", e);
+        },
+    });
 };
 </script>
 <style></style>

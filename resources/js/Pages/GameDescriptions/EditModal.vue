@@ -201,9 +201,5 @@ const handleCancel = () => {
     formData.clearErrors();
     emit("close");
 };
-
-onMounted(() => {
-    console.log(props.item);
-});
 </script>
 <style></style>

@@ -196,7 +196,6 @@ const handleCancel = () => {
 };
 
 const handleSubmit = () => {
-    console.log("Submit");
     formData.post("/builder/game-options", {
         preserveScroll: true,
         onSuccess: () => {

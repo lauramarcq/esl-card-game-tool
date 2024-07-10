@@ -15,7 +15,7 @@ class GameOptionsController extends Controller
     {
         try {
             $gameOptions = $request->validated();
-            $gameOptionsInstance = Game::create($gameOptions);
+            Game::create($gameOptions);
 
             return Redirect::route('builder')->with('success', 'Game options created successfully');
         } catch (\Exception $e) {
@@ -24,16 +24,19 @@ class GameOptionsController extends Controller
         }
     }
 
-    public function update(Request $request, $gameId)
+    public function update(StoreGameOptionsRequest $request, $gameId)
     {
-        $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-        ]);
-
-        Game::find($gameId)->update($request->all());
-
-        return redirect()->route('builder');
+        try {
+            $game = Game::find($gameId);
+            if (!$game) {
+                return Redirect::route('builder')->with('error', 'Game not found');
+            }
+            $game->update($request->all());
+            return redirect()->route('builder');
+        } catch (\Exception $e) {
+            Log::error('Error in GameOptionsController@update: ' . $e->getMessage());
+            throw $e;
+        }
     }
 
     public function destroy($gameId)

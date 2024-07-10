@@ -33,6 +33,7 @@
                 :showDialog="showEdit"
                 :item="selectedItem"
                 @close="showEdit = false"
+                @showSuccess="showSuccessBanner = true"
             />
             <DeleteModal
                 :showDialog="showDeleteModal"
@@ -108,6 +109,7 @@ const handleDeleteConfirm = (id) => {
 const handleEditGameOption = (item) => {
     showEdit.value = true;
     selectedItem.value = item;
+    bannerMessage.value = "Your item has been successfully updated.";
 };
 </script>
 <style scoped></style>

@@ -163,7 +163,7 @@
     </Modal>
 </template>
 <script setup>
-import { reactive, ref, defineProps, onMounted } from "vue";
+import { defineProps } from "vue";
 import Modal from "@/Components/Modal.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
@@ -181,6 +181,18 @@ const emit = defineEmits(["close"]);
 
 const handleSubmit = () => {
     console.log("Submit");
+    const gameId = props.item.id;
+    formData.patch(`/builder/game-options/${gameId}`, {
+        preserveScroll: true,
+        onSuccess: () => {
+            formData.reset();
+            emit("close");
+            emit("showSuccess");
+        },
+        onError: (e) => {
+            console.log("Error", e);
+        },
+    });
 };
 
 const formData = useForm({

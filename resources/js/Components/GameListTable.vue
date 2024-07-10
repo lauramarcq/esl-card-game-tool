@@ -82,12 +82,7 @@ const formattedItems = computed(() => {
             <tr
                 v-for="item in formattedItems"
                 :key="item.id"
-                :class="{
-                    'bg-green-100 border-b border-green-200 hover:bg-green-200 min-w-10 text-green-800':
-                        selectedItems.includes(item.id),
-                    'bg-gray-100 border-b border-gray-200 hover:bg-gray-200 min-w-10':
-                        !selectedItems.includes(item.id),
-                }"
+                class="bg-gray-100 border-b border-gray-200 hover:bg-gray-200 min-w-10"
             >
                 <td v-for="(value, key) in item" :key="key" class="p-2">
                     {{ value }}
@@ -98,11 +93,7 @@ const formattedItems = computed(() => {
                         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
                         @click="$emit('selectedItem', item.id)"
                     >
-                        {{
-                            selectedItems.includes(item.id)
-                                ? "Deselect"
-                                : "Select"
-                        }}
+                        Go
                     </button>
 
                     <!-- <button

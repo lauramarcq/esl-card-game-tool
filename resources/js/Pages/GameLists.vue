@@ -69,7 +69,7 @@ const headers = [
     "Deck 2",
     "Deck 3",
     "Created At",
-    "Actions",
+    "Go to game",
 ];
 
 const classes = computed(() =>
@@ -79,7 +79,6 @@ const classes = computed(() =>
 );
 
 const handleItemSelection = (id) => {
-    console.log(id);
     Inertia.visit(`/game-lists/${id}`);
 };
 </script>

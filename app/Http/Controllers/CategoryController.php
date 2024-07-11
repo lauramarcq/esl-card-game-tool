@@ -7,9 +7,17 @@ use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class CategoryController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Builder', [
+            'categoryOptions' => Category::paginate(5),
+        ]);
+    }
+
     public function store(StoreCategoryRequest $request)
     {
         try {

@@ -8,6 +8,7 @@ use App\Models\Game;
 use App\Models\Category;
 use App\Models\GameList;
 use App\Models\ListItem;
+use App\Models\Level;
 
 class BuilderController extends Controller
 {
@@ -17,7 +18,8 @@ class BuilderController extends Controller
             'gameOptions' => Game::paginate(5),
             'categoryOptions' => Category::paginate(5),
             'listOptions'  => GameList::paginate(5),
-            'listItems' => ListItem::paginate(5)
+            'listItems' => ListItem::paginate(5),
+            'levels' => Level::all()
         ]);
     }
 }

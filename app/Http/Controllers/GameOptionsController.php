@@ -7,9 +7,16 @@ use App\Models\Game;
 use App\Http\Requests\StoreGameOptionsRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
+use Inertia\Inertia;
 
 class GameOptionsController extends Controller
 {
+    public function index()
+    {
+        return Inertia::render('Builder', [
+            'gameOptions' => Game::paginate(5),
+        ]);
+    }
 
     public function store(StoreGameOptionsRequest $request)
     {

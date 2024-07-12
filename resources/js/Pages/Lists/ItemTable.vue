@@ -41,16 +41,10 @@ const colWidths = (header) => {
     if (header === "ID") {
         return "w-1/12";
     }
-    if (header === "Title" || header === "Subtitle") {
-        return "w-1/6";
-    }
-    if (header === "Description") {
-        return "w-1/2";
-    }
-    if (header === "Example") {
-        return "w-1/3";
-    } else {
+    if (header === "Actions") {
         return "w-1/4";
+    } else {
+        return "w-1/6";
     }
 };
 </script>
@@ -86,24 +80,20 @@ const colWidths = (header) => {
                     {{ value }}
                 </td>
 
-                <td class="p-4 flex space-x-2 justify-center">
-                    <!-- <button
+                <td class="p-4 flex space-x-2">
+                    <button
                         class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
                         @click="$emit('selectedItem', item.id)"
                     >
-                        {{
-                            selectedItems.includes(item.id)
-                                ? "Deselect"
-                                : "Select"
-                        }}
-                    </button> -->
-                    <button
+                        View
+                    </button>
+                    <!-- <button
                         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                         id="delete-button"
                         @click="$emit('editItem', item)"
                     >
                         Edit
-                    </button>
+                    </button> -->
                     <button
                         class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                         id="delete-button"

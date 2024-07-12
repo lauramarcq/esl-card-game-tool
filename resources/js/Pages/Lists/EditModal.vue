@@ -18,9 +18,9 @@
                             >
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="title"
+                                        for="name"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Title</label
+                                        >Name</label
                                     >
                                     <div class="mt-2">
                                         <div
@@ -28,29 +28,29 @@
                                         >
                                             <input
                                                 type="text"
-                                                name="title"
-                                                id="title"
-                                                ref="titleInput"
-                                                v-model="formData.title"
+                                                name="name"
+                                                id="name"
+                                                ref="nameInput"
+                                                v-model="formData.name"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 @input="
-                                                    formData.errors.title = ''
+                                                    formData.errors.name = ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="formData.errors.title"
+                                            :message="formData.errors.name"
                                             class="mt-2"
-                                            id="title-error"
+                                            id="name-error"
                                         />
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="subtitle"
+                                        for="category"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Subtitle</label
+                                        >Category</label
                                     >
                                     <div class="mt-2">
                                         <div
@@ -58,82 +58,50 @@
                                         >
                                             <input
                                                 type="text"
-                                                name="subtitle"
-                                                id="subtitle"
-                                                ref="subtitleInput"
-                                                v-model="formData.subtitle"
+                                                name="category"
+                                                id="category"
+                                                ref="categoryInput"
+                                                v-model="formData.category"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 @input="
-                                                    formData.errors.subtitle =
+                                                    formData.errors.category =
                                                         ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="formData.errors.subtitle"
+                                            :message="formData.errors.category"
                                             class="mt-2"
-                                            id="subtitle-error"
+                                            id="category-error"
                                         />
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-12">
                                     <label
-                                        for="description"
+                                        for="level"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Description</label
+                                        >Level</label
                                     >
                                     <div class="mt-2">
                                         <div
                                             class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
                                         >
                                             <input
-                                                name="description"
-                                                id="description"
-                                                ref="descriptionInput"
-                                                v-model="formData.description"
+                                                name="level"
+                                                id="level"
+                                                ref="levelInput"
+                                                v-model="formData.level"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 @input="
-                                                    formData.errors.description =
-                                                        ''
+                                                    formData.errors.level = ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="
-                                                formData.errors.description
-                                            "
+                                            :message="formData.errors.level"
                                             class="mt-2"
-                                            id="description-error"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div class="sm:col-span-12">
-                                    <label
-                                        for="example"
-                                        class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Example</label
-                                    >
-                                    <div class="mt-2">
-                                        <div
-                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
-                                        >
-                                            <input
-                                                name="example"
-                                                id="example"
-                                                ref="exampleInput"
-                                                v-model="formData.example"
-                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                @input="
-                                                    formData.errors.example = ''
-                                                "
-                                            />
-                                        </div>
-                                        <InputError
-                                            :message="formData.errors.example"
-                                            class="mt-2"
-                                            id="example-error"
+                                            id="level-error"
                                         />
                                     </div>
                                 </div>
@@ -177,12 +145,12 @@ const props = defineProps({
     },
 });
 
-const emit = defineEmits(["close"]);
+const emit = defineEmits(["close", "showSuccess"]);
 
 const handleSubmit = () => {
     console.log("Submit");
-    const gameId = props.item.id;
-    formData.patch(`/builder/game-options/${gameId}`, {
+    const id = props.item.id;
+    formData.patch(`/builder/list/${id}`, {
         preserveScroll: true,
         onSuccess: () => {
             formData.reset();
@@ -196,15 +164,13 @@ const handleSubmit = () => {
 };
 
 const formData = useForm({
-    title: props.item.title,
-    subtitle: props.item.subtitle,
-    description: props.item.description,
-    example: props.item.example,
+    name: props.item.name,
+    category: props.item.category,
+    level: props.item.level,
     errors: {
-        title: null,
-        subtitle: null,
-        description: null,
-        example: null,
+        name: null,
+        category: null,
+        level: null,
     },
 });
 

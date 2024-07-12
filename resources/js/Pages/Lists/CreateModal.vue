@@ -7,7 +7,7 @@
                 class="text-base font-semibold leading-6 text-gray-900"
                 id="modal-title"
             >
-                Add a new game
+                Add a new list
             </h3>
             <div class="mt-2">
                 <form class="w-full" @submit.prevent="handleSubmit">
@@ -18,9 +18,9 @@
                             >
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="title"
+                                        for="name"
                                         class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Title</label
+                                        >Name</label
                                     >
                                     <div class="mt-2">
                                         <div
@@ -28,112 +28,68 @@
                                         >
                                             <input
                                                 type="text"
-                                                name="title"
-                                                id="title"
-                                                ref="titleInput"
-                                                v-model="formData.title"
+                                                name="name"
+                                                id="name"
+                                                ref="nameInput"
+                                                v-model="formData.name"
                                                 class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
                                                 @input="
-                                                    formData.errors.title = ''
+                                                    formData.errors.name = ''
                                                 "
                                             />
                                         </div>
                                         <InputError
-                                            :message="formData.errors.title"
+                                            :message="formData.errors.name"
                                             class="mt-2"
-                                            id="title-error"
+                                            id="name-error"
                                         />
                                     </div>
                                 </div>
 
                                 <div class="sm:col-span-6">
                                     <label
-                                        for="subtitle"
-                                        class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Subtitle</label
+                                        class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                        >Category</label
                                     >
                                     <div class="mt-2">
-                                        <div
-                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                        <VueMultiselect
+                                            v-model="formData.category"
+                                            :options="props.categories"
+                                            :multiple="false"
+                                            placeholder="Select one"
+                                            label="name"
+                                            track-by="id"
+                                            :close-on-select="true"
                                         >
-                                            <input
-                                                type="text"
-                                                name="subtitle"
-                                                id="subtitle"
-                                                ref="subtitleInput"
-                                                v-model="formData.subtitle"
-                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                @input="
-                                                    formData.errors.subtitle =
-                                                        ''
-                                                "
-                                            />
-                                        </div>
+                                        </VueMultiselect>
                                         <InputError
-                                            :message="formData.errors.subtitle"
+                                            :message="formData.errors.category"
                                             class="mt-2"
-                                            id="subtitle-error"
+                                            id="category-error"
                                         />
                                     </div>
                                 </div>
 
-                                <div class="sm:col-span-12">
+                                <div class="sm:col-span-6">
                                     <label
-                                        for="description"
-                                        class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Description</label
+                                        class="typo__label text-sm font-semibold leading-6 text-gray-900"
+                                        >Level</label
                                     >
                                     <div class="mt-2">
-                                        <div
-                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
+                                        <VueMultiselect
+                                            v-model="formData.level"
+                                            :options="props.levels"
+                                            :multiple="false"
+                                            placeholder="Select one"
+                                            label="level"
+                                            track-by="id"
+                                            :close-on-select="true"
                                         >
-                                            <input
-                                                name="description"
-                                                id="description"
-                                                ref="descriptionInput"
-                                                v-model="formData.description"
-                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                @input="
-                                                    formData.errors.description =
-                                                        ''
-                                                "
-                                            />
-                                        </div>
+                                        </VueMultiselect>
                                         <InputError
-                                            :message="
-                                                formData.errors.description
-                                            "
+                                            :message="formData.errors.level"
                                             class="mt-2"
-                                            id="description-error"
-                                        />
-                                    </div>
-                                </div>
-
-                                <div class="sm:col-span-12">
-                                    <label
-                                        for="example"
-                                        class="block text-sm font-medium leading-6 text-gray-900"
-                                        >Example</label
-                                    >
-                                    <div class="mt-2">
-                                        <div
-                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600"
-                                        >
-                                            <input
-                                                name="example"
-                                                id="example"
-                                                ref="exampleInput"
-                                                v-model="formData.example"
-                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                                                @input="
-                                                    formData.errors.example = ''
-                                                "
-                                            />
-                                        </div>
-                                        <InputError
-                                            :message="formData.errors.example"
-                                            class="mt-2"
-                                            id="example-error"
+                                            id="level-error"
                                         />
                                     </div>
                                 </div>
@@ -167,25 +123,29 @@ import { reactive, ref, defineProps } from "vue";
 import Modal from "@/Components/Modal.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
-
+import VueMultiselect from "vue-multiselect";
 const props = defineProps({
     showDialog: {
         type: Boolean,
+    },
+    levels: {
+        type: Object,
+    },
+    categories: {
+        type: Object,
     },
 });
 
 const emit = defineEmits(["close", "showSuccess"]);
 
 const formData = useForm({
-    title: "",
-    subtitle: "",
-    description: "",
-    example: "",
+    name: "",
+    category: "",
+    level: "",
     errors: {
-        title: null,
-        subtitle: null,
-        description: null,
-        example: null,
+        name: null,
+        category: null,
+        level: null,
     },
 });
 
@@ -196,7 +156,7 @@ const handleCancel = () => {
 };
 
 const handleSubmit = () => {
-    formData.post("/builder/game-options", {
+    formData.post("/builder/list", {
         preserveScroll: true,
         onSuccess: () => {
             formData.reset();
@@ -209,4 +169,10 @@ const handleSubmit = () => {
     });
 };
 </script>
-<style></style>
+<style>
+.multiselect__content-wrapper {
+    max-height: 100px !important;
+    overflow-y: auto;
+}
+</style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

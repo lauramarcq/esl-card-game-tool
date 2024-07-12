@@ -21,12 +21,15 @@
                 :categories="categories"
                 @editItem="handleEdit"
                 @deleteItem="handleDelete"
+                @selectedItem="handleSelect"
             />
             <div class="mt-4 flex justify-center">
                 <Pagination :links="data.links" />
             </div>
             <CreateModal
                 :showDialog="showCreate"
+                :levels="levels"
+                :categories="categories"
                 @close="showCreate = false"
                 @showSuccess="showSuccessBanner = true"
             />
@@ -117,6 +120,11 @@ const handleEdit = (item) => {
     showEdit.value = true;
     selectedItem.value = item;
     bannerMessage.value = "Your item has been successfully updated.";
+};
+
+const handleSelect = (id) => {
+    // console.log(id);
+    Inertia.visit(`/builder/list/item/${id}`);
 };
 </script>
 <style scoped></style>

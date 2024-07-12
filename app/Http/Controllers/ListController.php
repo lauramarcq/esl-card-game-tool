@@ -7,10 +7,11 @@ use App\Models\Category;
 use App\Models\GameList;
 use App\Models\ListItem;
 use App\Models\Level;
-use App\Http\Requests\StoreCategoryRequest;
+use App\Http\Requests\StoreListRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Termwind\Components\Li;
 
 class ListController extends Controller
 {
@@ -19,46 +20,39 @@ class ListController extends Controller
         return Inertia::render('Builder', [
             'categoryOptions' => Category::all(),
             'listOptions'  => GameList::paginate(5),
-            // 'listItems' => ListItem::paginate(5),
             'levels' => Level::all()
         ]);
     }
 
-    // public function store(StoreCategoryRequest $request)
-    // {
-    //     try {
-    //         $gameOptions = $request->validated();
-    //         Category::create($gameOptions);
+    public function get($id)
+    {
+        return Inertia::render('Builder', [
+            'listItems' => ListItem::where('game_list_id', $id)->paginate(5),
+            'listOptions'  => GameList::all(),
+        ]);
+    }
 
-    //         return Redirect::route('builder')->with('success', 'Game options created successfully');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error in SubjectController@create: ' . $e->getMessage());
-    //         throw $e;
-    //     }
-    // }
+    public function store(StoreListRequest $request)
+    {
+        try {
+            $options = $request->validated();
+            GameList::create($options);
 
-    // public function update(StoreCategoryRequest $request, $gameId)
-    // {
-    //     try {
-    //         $game = Category::find($gameId);
-    //         if (!$game) {
-    //             return Redirect::route('builder')->with('error', 'Game not found');
-    //         }
-    //         $game->update($request->all());
-    //         return redirect()->route('builder');
-    //     } catch (\Exception $e) {
-    //         Log::error('Error in GameOptionsController@update: ' . $e->getMessage());
-    //         throw $e;
-    //     }
-    // }
+            return Redirect::route('builder/list')->with('success', 'Game options created successfully');
+        } catch (\Exception $e) {
+            Log::error('Error in ListController@create: ' . $e->getMessage());
+            throw $e;
+        }
+    }
 
-    // public function destroy($gameId)
-    // {
-    //     try {
-    //         Category::find($gameId)->delete();
-    //     } catch (\Exception $e) {
-    //         Log::error('Error in GameOptionsController@destroy: ' . $e->getMessage());
-    //         throw $e;
-    //     }
-    // }
+    public function destroy($id)
+    {
+        try {
+            GameList::find($id)->delete();
+            ListItem::where('game_list_id', $id)->delete();
+        } catch (\Exception $e) {
+            Log::error('Error in GameOptionsController@destroy: ' . $e->getMessage());
+            throw $e;
+        }
+    }
 }

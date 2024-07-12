@@ -10,6 +10,7 @@ use App\Http\Controllers\GameOptionsController;
 use App\Http\Controllers\BuilderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ListController;
+use App\Http\Controllers\ListItemController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -53,8 +54,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/builder/list', [ListController::class, 'index'])->name('builder.list.index');
     Route::post('/builder/list', [ListController::class, 'store'])->name('builder.list.create');
-    Route::patch('/builder/list/{id}', [ListController::class, 'update'])->name('builder.list.update');
     Route::delete('/builder/list/{id}', [ListController::class, 'destroy'])->name('builder.list.destroy');
+    Route::get('/builder/list/item/{id}', [ListController::class, 'get'])->name('builder.list.get');
+});
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::post('/builder/list/item', [ListItemController::class, 'store'])->name('builder.list.item.create');
+    Route::delete('/builder/list/item/{id}', [ListItemController::class, 'destroy'])->name('builder.list.item.destroy');
+    Route::get('/builder/list/item/{id}', [ListItemController::class, 'get'])->name('builder.list.item.get');
+    Route::patch('/builder/list/item/{id}', [ListItemController::class, 'update'])->name('builder.list.item.update');
 });
 
 Route::middleware('auth')->group(function () {

@@ -7,10 +7,19 @@
                     Build your own lists
                 </h2>
                 <Link
-                    v-if="currentPath !== '/builder'"
+                    v-if="
+                        currentPath !== '/builder' &&
+                        !currentPath.startsWith('/builder/list/item')
+                    "
                     href="/builder"
                     class="hover:bg-gray-700 hover:text-white font-bold py-2 rounded-full inline-block p-2"
                     >Back to all options</Link
+                >
+                <Link
+                    v-if="currentPath.startsWith('/builder/list/item')"
+                    href="/builder/list"
+                    class="hover:bg-gray-700 hover:text-white font-bold py-2 rounded-full inline-block p-2"
+                    >Back to all lists</Link
                 >
             </div>
         </template>
@@ -84,6 +93,12 @@
                         :categories="categoryOptions"
                         :levels="levels"
                     />
+                    <ListItemsSection
+                        v-if="currentPath.startsWith('/builder/list/item')"
+                        :data="listItems"
+                        :lists="listOptions"
+                        :levels="levels"
+                    />
                 </div>
             </div>
         </div>
@@ -98,6 +113,7 @@ import { Link } from "@inertiajs/vue3";
 import GameDescriptionSection from "@/Pages/GameDescriptions/GameDescriptionSection.vue";
 import CategoriesSection from "@/Pages/Categories/CategoriesSection.vue";
 import ListsSection from "@/Pages/Lists/ListsSection.vue";
+import ListItemsSection from "@/Pages/ListItems/ListItemsSection.vue";
 import { defineProps, ref, onMounted } from "vue";
 
 const props = defineProps({
@@ -110,8 +126,10 @@ const props = defineProps({
     listOptions: {
         type: Object,
     },
-
     levels: {
+        type: Object,
+    },
+    listItems: {
         type: Object,
     },
 });

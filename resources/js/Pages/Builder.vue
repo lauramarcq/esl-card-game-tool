@@ -137,6 +137,7 @@ const props = defineProps({
 let currentPath = ref("");
 
 onMounted(() => {
+    console.log(props.listItems);
     currentPath.value = window.location.pathname;
 });
 </script>

@@ -88,7 +88,6 @@ const props = defineProps({
 const emit = defineEmits(["close"]);
 
 const handleSubmit = () => {
-    console.log("Submit");
     const id = props.item.id;
     formData.patch(`/builder/category/${id}`, {
         preserveScroll: true,

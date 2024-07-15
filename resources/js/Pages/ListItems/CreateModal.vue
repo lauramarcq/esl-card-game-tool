@@ -48,6 +48,39 @@
                                         />
                                     </div>
                                 </div>
+
+                                <div
+                                    v-if="currentList === 6"
+                                    class="sm:col-span-12"
+                                >
+                                    <label
+                                        for="item_value"
+                                        class="block text-sm font-medium leading-6 text-gray-900"
+                                        >Plural</label
+                                    >
+                                    <div class="mt-2">
+                                        <div
+                                            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md"
+                                        >
+                                            <input
+                                                type="text"
+                                                name="plural"
+                                                id="plural"
+                                                ref="pluralInput"
+                                                v-model="formData.plural"
+                                                class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+                                                @input="
+                                                    formData.errors.plural = ''
+                                                "
+                                            />
+                                        </div>
+                                        <InputError
+                                            :message="formData.errors.plural"
+                                            class="mt-2"
+                                            id="name-error"
+                                        />
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -74,13 +107,17 @@
     </Modal>
 </template>
 <script setup>
-import { reactive, ref, defineProps } from "vue";
+import { reactive, ref, defineProps, computed } from "vue";
 import Modal from "@/Components/Modal.vue";
 import { useForm } from "@inertiajs/vue3";
 import InputError from "@/Components/InputError.vue";
+
 const props = defineProps({
     showDialog: {
         type: Boolean,
+    },
+    lists: {
+        type: Object,
     },
 });
 
@@ -90,8 +127,14 @@ const pathListId = Number(pathArray[pathArray.length - 1]);
 
 const emit = defineEmits(["close", "showSuccess"]);
 
+const currentList = computed(() => {
+    const list = props.lists.find((list) => list.id === pathListId);
+    return list.category_id;
+});
+
 const formData = useForm({
     item_value: "",
+    plural: "",
     game_list_id: pathListId,
     errors: {
         name: null,

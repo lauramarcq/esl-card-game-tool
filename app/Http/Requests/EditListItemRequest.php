@@ -4,8 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
-class StoreListItemRequest extends FormRequest
+
+class EditListItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +25,7 @@ class StoreListItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'item_value' => ['required', 'string', 'min:2', Rule::unique('list_items')->where(function ($query) {
-                return $query->where('game_list_id', $this->input('game_list_id'));
-            }),],
+            'item_value' => ['required', 'string', 'min:2'],
             'game_list_id' => ['required', 'integer', 'exists:game_lists,id'],
             'plural' => ['string', 'nullable', 'min:2', 'max:255',],
         ];

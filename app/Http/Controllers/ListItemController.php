@@ -8,6 +8,7 @@ use App\Models\GameList;
 use App\Models\ListItem;
 use App\Models\Level;
 use App\Http\Requests\StoreListItemRequest;
+use App\Http\Requests\EditListItemRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -36,7 +37,7 @@ class ListItemController extends Controller
         }
     }
 
-    public function update(StoreListItemRequest $request, $id)
+    public function update(EditListItemRequest $request, $id)
     {
         try {
             $item = ListItem::find($id);
@@ -44,6 +45,9 @@ class ListItemController extends Controller
                 return Redirect::route('builder.list.item.get', ['id' => $request['game_list_id']])->with('error', 'Item not found');
             }
             $item->item_value = $request->input('item_value');
+            if ($request->input('plural')) {
+                $item->plural = $request->input('plural');
+            }
             $item->save();
             return redirect()->route('builder.list.item.get', ['id' => $request['game_list_id']])->with('success', 'Item updated successfully');
         } catch (\Exception $e) {

@@ -14,11 +14,16 @@ const getListName = (id) => {
     return list.name;
 };
 
-const formatItemDate = () => {
+const getCurrentList = (id) => {
+    return props.lists.find((l) => l.id === id);
+};
+
+const formatItem = () => {
     const items = props.items.data.map((item) => {
         return {
             id: item.id,
             name: item.item_value,
+            ...(item.plural ? { plural: item.plural } : {}),
             listId: item.game_list_id,
             created_at: new Date(item.created_at).toLocaleString(),
         };
@@ -27,7 +32,7 @@ const formatItemDate = () => {
 };
 
 const formattedItems = computed(() => {
-    return formatItemDate(props.items);
+    return formatItem(props.items);
 });
 
 const colWidths = (header) => {

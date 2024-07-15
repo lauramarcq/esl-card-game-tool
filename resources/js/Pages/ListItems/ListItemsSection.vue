@@ -31,6 +31,7 @@
             </div>
             <CreateModal
                 :showDialog="showCreate"
+                :lists="lists"
                 @close="showCreate = false"
                 @showSuccess="showSuccessBanner = true"
             />
@@ -38,6 +39,7 @@
                 v-if="showEdit"
                 :showDialog="showEdit"
                 :item="selectedItem"
+                :lists="lists"
                 @close="showEdit = false"
                 @showSuccess="showSuccessBanner = true"
             />
@@ -103,13 +105,21 @@ const getCurrentList = (id) => {
 
 const levelTitleContent = computed(() => {
     const currentList = getCurrentList(props.data.data[0].game_list_id);
-    console.log(currentList);
     const level = getLevelName(currentList.level_id);
-    console.log(level);
     return level;
 });
 
-const headers = ref(["ID", "Item", "List ID", "Created At", "Actions"]);
+const baseHeaders = ref(["ID", "Item", "List ID", "Created At", "Actions"]);
+
+const headers = computed(() => {
+    const currentList = getCurrentList(props.data.data[0].game_list_id);
+    if (currentList.category_id === 6) {
+        let h = [...baseHeaders.value];
+        h.splice(2, 0, "Plural");
+        return h;
+    }
+    return baseHeaders.value;
+});
 
 const handleAdd = () => {
     showCreate.value = true;

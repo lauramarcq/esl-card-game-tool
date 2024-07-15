@@ -81,16 +81,17 @@ class SingularsAndPluralsA1Seeder extends Seeder
         ];
 
         $levelA1 = Level::where('level', 'A1')->first();
+        $singularsAndPluralsCategory = 6;
 
-        $regularNounsList = GameList::where('name', 'Regular Nouns')->where('level_id', $levelA1->id)->first();
+        $regularNounsList = GameList::where('name', 'Regular Nouns')->where('level_id', $levelA1->id)->where('category_id', $singularsAndPluralsCategory)->first();
 
-        $irregularNounsList = GameList::where('name', 'Irregular Nouns')->where('level_id', $levelA1->id)->first();
+        $irregularNounsList = GameList::where('name', 'Irregular Nouns')->where('level_id', $levelA1->id)->where('category_id', $singularsAndPluralsCategory)->first();
 
-        $endingWithYList = GameList::where('name', 'Ending with -y')->where('level_id', $levelA1->id)->first();
+        $endingWithYList = GameList::where('name', 'Ending with -y')->where('level_id', $levelA1->id)->where('category_id', $singularsAndPluralsCategory)->first();
 
-        $endingWithSSHCHList = GameList::where('name', 'Ending with -s, -ss, -sh, -ch, -x')->where('level_id', $levelA1->id)->first();
+        $endingWithSSHCHList = GameList::where('name', 'Ending with -s, -ss, -sh, -ch, -x')->where('level_id', $levelA1->id)->where('category_id', $singularsAndPluralsCategory)->first();
 
-        $endingWithFList = GameList::where('name', 'Ending with -f')->where('level_id', $levelA1->id)->first();
+        $endingWithFList = GameList::where('name', 'Ending with -f')->where('level_id', $levelA1->id)->where('category_id', $singularsAndPluralsCategory)->first();
 
         foreach ($regularNounsValues as $value) {
             ListItem::factory()->create([

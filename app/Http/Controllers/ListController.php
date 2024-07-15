@@ -11,16 +11,31 @@ use App\Http\Requests\StoreListRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
-use Termwind\Components\Li;
+
 
 class ListController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $categories = $request->query('category') ? explode(',', $request->query('category')) : [];
+        $levels = $request->query('level') ? explode(',', $request->query('level')) : [];
+
+        $gameListQuery = GameList::query();
+
+        if (!empty($categories)) {
+            $gameListQuery->whereIn('category_id', $categories);
+        }
+        if (!empty($levels)) {
+            $gameListQuery->whereIn('level_id', $levels);
+        }
+
+        $listOptions = $gameListQuery->paginate(5)->appends($request->all());
+
         return Inertia::render('Builder', [
             'categoryOptions' => Category::all(),
-            'listOptions'  => GameList::paginate(5),
-            'levels' => Level::all()
+            'listOptions'  => $listOptions,
+            'levels' => Level::all(),
+            'filters' => $request->all()
         ]);
     }
 

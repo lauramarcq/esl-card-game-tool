@@ -35,10 +35,7 @@
                         >
                             Click to navigate to the section you want to edit
                         </h3>
-                        <p class="m-6">
-                            This is a chance for you to build your own word
-                            lists to display in the card games.
-                        </p>
+
                         <div>
                             <Link
                                 href="/builder/game-options"
@@ -47,9 +44,10 @@
                                 <h4 class="font-bold">Game Descriptions</h4>
                                 <p>
                                     This is a chance to explain the rules of the
-                                    game. Here you can and and edit the title,
-                                    subtitle, description and example you would
-                                    see in the game stage.
+                                    game. Here you can add and edit the title,
+                                    subtitle, description, and example you would
+                                    see in the game stage. Click to create,
+                                    change or delete a game description.
                                 </p>
                             </Link>
                             <Link
@@ -61,7 +59,8 @@
                                     A category is a way to easily access and
                                     organise your word lists. It could be a
                                     grammatical category or a semmantical
-                                    category, for example.
+                                    category, for example. Click to create,
+                                    change or delete a category.
                                 </p>
                             </Link>
 
@@ -74,7 +73,8 @@
                                     All the lists available with their
                                     corresponding words. Lists must have a
                                     language level associated to them and must
-                                    belong to a category.
+                                    belong to a category. Click to create,
+                                    change or delete a list and its items.
                                 </p>
                             </Link>
                         </div>

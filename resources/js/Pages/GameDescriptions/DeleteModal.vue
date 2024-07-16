@@ -7,7 +7,7 @@
                 class="text-base font-semibold leading-6 text-gray-900"
                 id="modal-title"
             >
-                Are you sure you want to delete this item?
+                Are you sure you want to delete this game description record?
             </h3>
             <p class="text-sm text-gray-500 mt-2">
                 This action cannot be undone!

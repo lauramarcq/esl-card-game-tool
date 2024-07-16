@@ -107,10 +107,18 @@ const handleRemoveAll = (options, deck) => {
                 >
                     <div class="p-6 text-gray-900">
                         <h3
-                            class="font-semibold text-lg text-gray-800 leading-tight m-6 mb-10"
+                            class="font-semibold text-xl text-gray-800 leading-tight m-6 mb-10"
                         >
-                            Select options to set up a card game
+                            Before you can start a game, you must follow the
+                            steps below.
                         </h3>
+                        <p
+                            class="text-gray-800 leading-tight m-6 mb-10 text-xs"
+                        >
+                            Alternatively, you can click on 'Latest Game' to
+                            play the most recent game, or 'All Games' to see a
+                            list of all previous games, in the top menu.
+                        </p>
                         <form @submit.prevent="handleFormSubmit">
                             <div class="form-inputs m-6 flex flex-col">
                                 <div class="flex flex-col">

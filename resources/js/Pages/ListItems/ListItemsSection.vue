@@ -1,6 +1,6 @@
 <template>
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2">
-        <div class="p-6 text-gray-900">
+        <div v-if="data.data.length" class="p-6 text-gray-900">
             <div class="basis-3/4 flex flex-row justify-between">
                 <h3
                     class="font-semibold text-lg text-gray-800 leading-tight py-2 px-4 m-4"
@@ -57,6 +57,34 @@
                 />
             </div>
         </div>
+        <div v-else class="mt-6 flex items-center justify-center">
+            <img src="../../../assets/not-found.png" alt="" />
+            <h3>
+                No lists found or yet created. Go back to all lists
+                <a
+                    class="font-bold hover:text-green-800 underline decoration-solid"
+                    href="/builder/list"
+                    >here</a
+                >
+                or click on the button to add items to the
+                <span class="font-bold">{{
+                    getListName(getCurrentListIdFromPath)
+                }}</span>
+                list.
+                <button
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block m-4"
+                    @click="handleAdd"
+                >
+                    Add a new item
+                </button>
+            </h3>
+            <CreateModal
+                :showDialog="showCreate"
+                :lists="lists"
+                @close="showCreate = false"
+                @showSuccess="showSuccessBanner = true"
+            />
+        </div>
     </div>
 </template>
 <script setup>
@@ -88,6 +116,12 @@ const showDeleteModal = ref(false);
 let itemId = ref(null);
 let selectedItem = ref({});
 let bannerMessage = ref("");
+
+const getCurrentListIdFromPath = computed(() => {
+    const path = window.location.pathname;
+    const listId = path.split("/").pop();
+    return parseInt(listId);
+});
 
 const getLevelName = (id) => {
     const level = props.levels.find((l) => l.id === id);

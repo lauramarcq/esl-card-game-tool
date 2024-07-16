@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
+use App\Models\Game;
+use App\Models\GameList;
+use App\Models\ListItem;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
@@ -46,10 +49,13 @@ class CategoryController extends Controller
         }
     }
 
-    public function destroy($gameId)
+    public function destroy($id)
     {
         try {
-            Category::find($gameId)->delete();
+            $gameListId = GameList::where('category_id', $id)->pluck('id');
+            ListItem::whereIn('game_list_id', $gameListId)->delete();
+            GameList::where('category_id', $id)->delete();
+            Category::find($id)->delete();
         } catch (\Exception $e) {
             Log::error('Error in GameOptionsController@destroy: ' . $e->getMessage());
             throw $e;

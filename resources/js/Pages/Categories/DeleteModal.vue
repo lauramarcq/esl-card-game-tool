@@ -7,8 +7,13 @@
                 class="text-base font-semibold leading-6 text-gray-900"
                 id="modal-title"
             >
-                Are you sure you want to delete this item?
+                Are you sure you want to delete this category?
             </h3>
+            <p class="font-bold text-yellow-600 mt-2">Warning!</p>
+            <p class="text-sm text-gray-500 mt-2">
+                By deleting a category, you will also delete all the lists and
+                items associated with it.
+            </p>
             <p class="text-sm text-gray-500 mt-2">
                 This action cannot be undone!
             </p>

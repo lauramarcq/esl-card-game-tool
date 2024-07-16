@@ -11,6 +11,7 @@ use App\Http\Requests\StoreListRequest;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
+use Illuminate\Support\Arr;
 
 
 class ListController extends Controller
@@ -51,9 +52,12 @@ class ListController extends Controller
     {
         try {
             $options = $request->validated();
-            GameList::create($options);
 
-            return Redirect::route('builder/list')->with('success', 'Game options created successfully');
+            $extracted = ['name' => $options['name'], 'level_id' => $options['level']['id'], 'category_id' => $options['category']['id']];
+
+            GameList::create($extracted);
+
+            return Redirect::route('builder.list.index')->with('success', 'Game options created successfully');
         } catch (\Exception $e) {
             Log::error('Error in ListController@create: ' . $e->getMessage());
             throw $e;

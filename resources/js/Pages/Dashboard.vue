@@ -4,7 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
 // import ListTable from "@/Components/ListTable.vue";
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
     categories: Array,
@@ -20,6 +20,8 @@ const filterListsByLevelAndCategory = (levelId, categoryId) => {
         (list) =>
             list.level_id === levelId?.id && list.category_id === categoryId?.id
     );
+    const selectAll = { name: "Select All", id: 0 };
+    filtered.unshift(selectAll);
     return filtered;
 };
 
@@ -39,7 +41,27 @@ const formData = useForm({
     },
 });
 
+const removeSelectAll = () => {
+    if (formData.cardDeck1.list[0]?.id === 0) {
+        formData.cardDeck1.list.shift();
+    }
+    if (
+        formData.cardDeck2.category !== null &&
+        formData.cardDeck2.list[0]?.id === 0
+    ) {
+        formData.cardDeck2.list.shift();
+    }
+    if (
+        formData.cardDeck3.category !== null &&
+        formData.cardDeck3.list[0]?.id === 0
+    ) {
+        formData.cardDeck3.list.shift();
+    }
+    return formData;
+};
+
 const handleFormSubmit = () => {
+    removeSelectAll();
     formData.post(route("dashboard.create"), {
         onSuccess: () => {
             router.visit("/game");
@@ -48,6 +70,23 @@ const handleFormSubmit = () => {
             console.log("Error", error);
         },
     });
+};
+
+const handleSelectAll = (options, deck) => {
+    console.log(options);
+    if (options.id === 0) {
+        const allOptions = filterListsByLevelAndCategory(
+            formData.level,
+            formData[deck].category
+        );
+        formData[deck].list = allOptions;
+    }
+};
+
+const handleRemoveAll = (options, deck) => {
+    if (options.id === 0) {
+        formData[deck].list = [];
+    }
 };
 </script>
 
@@ -224,10 +263,22 @@ const handleFormSubmit = () => {
                                                 )
                                             "
                                             :multiple="true"
-                                            placeholder="Select one"
+                                            placeholder="Select one or more"
                                             label="name"
                                             track-by="id"
                                             :close-on-select="false"
+                                            @select="
+                                                handleSelectAll(
+                                                    $event,
+                                                    'cardDeck1'
+                                                )
+                                            "
+                                            @remove="
+                                                handleRemoveAll(
+                                                    $event,
+                                                    'cardDeck1'
+                                                )
+                                            "
                                         >
                                         </VueMultiselect>
                                     </div>
@@ -277,10 +328,22 @@ const handleFormSubmit = () => {
                                                     )
                                                 "
                                                 :multiple="true"
-                                                placeholder="Select one"
+                                                placeholder="Select one or more"
                                                 label="name"
                                                 track-by="id"
                                                 :close-on-select="false"
+                                                @select="
+                                                    handleSelectAll(
+                                                        $event,
+                                                        'cardDeck2'
+                                                    )
+                                                "
+                                                @remove="
+                                                    handleRemoveAll(
+                                                        $event,
+                                                        'cardDeck2'
+                                                    )
+                                                "
                                             >
                                             </VueMultiselect>
                                         </div>
@@ -334,10 +397,22 @@ const handleFormSubmit = () => {
                                                     )
                                                 "
                                                 :multiple="true"
-                                                placeholder="Select one"
+                                                placeholder="Select one or more"
                                                 label="name"
                                                 track-by="id"
                                                 :close-on-select="false"
+                                                @select="
+                                                    handleSelectAll(
+                                                        $event,
+                                                        'cardDeck3'
+                                                    )
+                                                "
+                                                @remove="
+                                                    handleRemoveAll(
+                                                        $event,
+                                                        'cardDeck3'
+                                                    )
+                                                "
                                             >
                                             </VueMultiselect>
                                         </div>
@@ -394,22 +469,6 @@ const handleFormSubmit = () => {
                         </form>
                     </div>
                 </div>
-                <!-- <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">
-                        <h3
-                            class="font-bold text-lg text-gray-800 leading-tight mb-4"
-                        >
-                            All Lists
-                        </h3>
-                        <ListTable
-                            v-for="(list, index) in availableLists"
-                            :key="index"
-                            :name="list.name"
-                            @editList="handleListEdit(list.name)"
-                        />
-                    </div>
-                    {{ subjects }}
-                </div> -->
             </div>
         </div>
     </AuthenticatedLayout>

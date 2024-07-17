@@ -1,8 +1,4 @@
 <template>
-    <!-- <link
-        href="https://unpkg.com/@primer/css@^20.2.4/dist/primer.css"
-        rel="stylesheet"
-    /> -->
     <div class="container">
         <section class="time-container">
             <p class="time">

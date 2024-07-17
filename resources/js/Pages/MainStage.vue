@@ -136,6 +136,7 @@ const props = defineProps({
     level: Object,
     showTimer: Boolean,
     showDice: Boolean,
+    showStopwatch: Boolean,
 });
 
 let stack1Cards = ref([]);
@@ -144,7 +145,7 @@ let stack3Cards = ref([]);
 let triggerClick = ref(false);
 let animationDuration = ref(null);
 let showHourglass = ref(false);
-let showStopwatch = ref(true);
+let showStopwatch = ref(props.showStopwatch);
 let showDice = ref(props.showDice);
 let cardQuantity = ref(props.cardQuantity);
 let nextCard = ref(null);

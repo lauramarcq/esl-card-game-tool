@@ -20,6 +20,7 @@ class GameSettings extends Model
         'card_quantity',
         'show_timer',
         'show_dice',
+        'show_stopwatch',
         'deck_1_category_id',
         'deck_2_category_id',
         'deck_3_category_id',

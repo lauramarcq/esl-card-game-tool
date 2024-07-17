@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import InputError from "@/Components/InputError.vue";
 
 const props = defineProps({
@@ -35,6 +35,7 @@ const formData = useForm({
     cardDeck3: { category: null, list: [] },
     showTimer: false,
     showDice: false,
+    showStopwatch: false,
     errors: {
         gameType: null,
         selectedNumberOfDecks: null,
@@ -81,7 +82,6 @@ const handleFormSubmit = () => {
 };
 
 const handleSelectAll = (options, deck) => {
-    console.log(options);
     if (options.id === 0) {
         const allOptions = filterListsByLevelAndCategory(
             formData.level,
@@ -600,6 +600,23 @@ const numberOfDecks = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
                                             <span
                                                 class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
                                                 >Use dice</span
+                                            >
+                                        </label>
+                                        <label
+                                            class="inline-flex items-center me-5 cursor-pointer"
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                value=""
+                                                class="sr-only peer"
+                                                v-model="formData.showStopwatch"
+                                            />
+                                            <div
+                                                class="relative w-11 h-6 bg-gray-200 rounded-full peer dark:bg-gray-700 peer-focus:ring-4 peer-focus:ring-yellow-300 dark:peer-focus:ring-yellow-800 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-yellow-400"
+                                            ></div>
+                                            <span
+                                                class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300"
+                                                >Use stopwatch</span
                                             >
                                         </label>
                                     </div>

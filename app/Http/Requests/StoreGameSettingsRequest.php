@@ -37,6 +37,7 @@ class StoreGameSettingsRequest extends FormRequest
             'cardQuantity' => ['required'],
             'showTimer' => ['boolean'],
             'showDice' => ['boolean'],
+            'showStopwatch' => ['boolean'],
         ];
     }
 

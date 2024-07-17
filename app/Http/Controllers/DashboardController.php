@@ -43,6 +43,8 @@ class DashboardController extends Controller
 
             $gameSettingsBoolDice = $gameSettings['showDice'] === true ? 1 : 0;
 
+            $gameSettingsBoolStopwatch = $gameSettings['showStopwatch'] === true ? 1 : 0;
+
             $gameSettingsInstance = GameSettings::create([
                 'game_id' => $gameSettings['gameType']['id'],
                 'level_id' => $gameSettings['level']['id'],
@@ -50,6 +52,7 @@ class DashboardController extends Controller
                 'card_quantity' => $gameSettings['cardQuantity'],
                 'show_timer' => $gameSettingsBoolTimer,
                 'show_dice' => $gameSettingsBoolDice,
+                'show_stopwatch' => $gameSettingsBoolStopwatch,
                 'deck_1_category_id' => $gameSettings['cardDeck1']['category']['id'],
                 'deck_2_category_id' => $gameSettings['cardDeck2']['category']['id'] ?? null,
                 'deck_3_category_id' => $gameSettings['cardDeck3']['category']['id'] ?? null,

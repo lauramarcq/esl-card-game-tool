@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/game', [GameController::class, 'get'])->name('game');
     Route::get('/game-lists', [GameController::class, 'index'])->name('game-lists');
     Route::get('/game-lists/{gameListId}', [GameController::class, 'show'])->name('game-lists.show');
+    Route::delete('/game-lists/{gameListId}', [GameController::class, 'destroy'])->name('game-lists.destroy');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

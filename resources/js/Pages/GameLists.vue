@@ -22,8 +22,20 @@
                                             :items="gameList"
                                             :tableHeaders="headers"
                                             @selectedItem="handleItemSelection"
+                                            @deleteItem="handleDelete"
                                         >
                                         </GameListTable>
+                                        <!-- <div
+                                            v-if="gameList.data.length > 0"
+                                            class="mt-4 flex justify-center"
+                                        >
+                                            <Pagination
+                                                :links="gameList.links"
+                                                @changePage="
+                                                    doSomething($event)
+                                                "
+                                            />
+                                        </div> -->
                                     </div>
                                 </div>
                             </div>
@@ -46,12 +58,18 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import GameListTable from "@/Components/GameListTable.vue";
 import { Link } from "@inertiajs/vue3";
-import { defineProps, computed } from "vue";
+import { defineProps, computed, onMounted } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+// import Pagination from "@/Components/Pagination.vue";
+
 const props = defineProps({
     gameList: {
-        // type: Array,
+        type: Object,
         required: true,
+    },
+    filters: {
+        type: Object,
+        required: false,
     },
 });
 
@@ -80,6 +98,10 @@ const classes = computed(() =>
 
 const handleItemSelection = (id) => {
     Inertia.visit(`/game-lists/${id}`);
+};
+
+const handleDelete = (id) => {
+    Inertia.delete(`/game-lists/${id}`);
 };
 </script>
 

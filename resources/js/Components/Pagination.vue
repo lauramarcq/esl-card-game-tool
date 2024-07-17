@@ -4,7 +4,7 @@
         :key="i"
         :href="link.url || 'null'"
         v-html="link.label"
-        class="px-1 py-1 pt-1"
+        class="px-1 py-1 pt-1 hover:font-bold"
         :class="{
             'text-gray-500 pointer-events-none': !link.url,
             'font-bold text-blue-500': link.active,
@@ -16,6 +16,7 @@
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import { defineProps } from "vue";
 
 defineProps({
     links: {

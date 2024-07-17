@@ -11,7 +11,7 @@ class GameController extends Controller
     /**
      * Get all records of previously set up games.
      */
-    public function index()
+    public function index(Request $request)
     {
         $allGames = GameSettings::with([
             'game',
@@ -22,6 +22,7 @@ class GameController extends Controller
         ])->get();
         return Inertia::render('GameLists', [
             'gameList' => $allGames,
+            'filters' => $request->all(),
         ]);
     }
 
@@ -138,5 +139,14 @@ class GameController extends Controller
             'cardDeck2Category' => $gameSettings->deck2Category,
             'cardDeck3Category' => $gameSettings->deck3Category,
         ]);
+    }
+
+    /**
+     * Delete game setup by id.
+     */
+    public function destroy($id)
+    {
+        GameSettings::destroy($id);
+        // return redirect()->route('game-lists');
     }
 }

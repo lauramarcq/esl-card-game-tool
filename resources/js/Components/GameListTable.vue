@@ -16,7 +16,7 @@ const gameName = computed(() => {
 
 const levelName = computed(() => {
     return props.items.map((item) => {
-        return item.level.level + "-" + item.level.description;
+        return item.level.level;
     });
 });
 
@@ -88,21 +88,21 @@ const formattedItems = computed(() => {
                     {{ value }}
                 </td>
 
-                <td class="p-4 flex space-x-2 justify-center">
+                <td class="p-4 flex flex-col space-x-2 justify-center">
                     <button
-                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+                        class="text-green-500 hover:text-green-700 font-bold py-2 px-2"
                         @click="$emit('selectedItem', item.id)"
                     >
                         Go
                     </button>
 
-                    <!-- <button
-                        class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    <button
+                        class="text-red-500 hover:text-red-700 font-bold py-2 px-2"
                         id="delete-button"
                         @click="$emit('deleteItem', item.id)"
                     >
                         Delete
-                    </button> -->
+                    </button>
                 </td>
             </tr>
         </tbody>

@@ -6,7 +6,7 @@
                 type="button"
                 class="flex w-50 justify-center rounded-md bg-[#BD52A8] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#e86998] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 ml-6 mr-6"
             >
-                Roll dice!
+                Roll!
             </button>
         </div>
         <div class="container">
@@ -46,10 +46,10 @@
                 </div>
             </div>
         </div>
-
-        <div>
+        <!-- Commenting out until I know which game needs this functionality -->
+        <!-- <div>
             <p class="dice-text">{{ diceText }}</p>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -58,39 +58,29 @@ import { computed, ref } from "vue";
 
 const diceClass = ref("dice-two");
 
-const options = [
-    { id: 1, option: "Options1" },
-    { id: 2, option: "Options2" },
-    { id: 3, option: "Options3" },
-];
+//commenting out as most games won't use this. Need to programme for a specific game
 
-const options1 = [
-    { id: 1, option: "Make a positive sentence!" },
-    { id: 2, option: "Make a negative sentence!" },
-    { id: 3, option: "Make a question!" },
-];
-
-const diceText = computed(() => {
-    if (
-        diceClass.value.includes("show-1") ||
-        diceClass.value.includes("show-2")
-    ) {
-        return "Make a positive sentence!";
-    }
-    if (
-        diceClass.value.includes("show-3") ||
-        diceClass.value.includes("show-4")
-    ) {
-        return "Make a negative sentence!";
-    }
-    if (
-        diceClass.value.includes("show-5") ||
-        diceClass.value.includes("show-6")
-    ) {
-        return "Make a question!";
-    }
-    return "Roll the dice!";
-});
+// const diceText = computed(() => {
+//     if (
+//         diceClass.value.includes("show-1") ||
+//         diceClass.value.includes("show-2")
+//     ) {
+//         return "Make a positive sentence!";
+//     }
+//     if (
+//         diceClass.value.includes("show-3") ||
+//         diceClass.value.includes("show-4")
+//     ) {
+//         return "Make a negative sentence!";
+//     }
+//     if (
+//         diceClass.value.includes("show-5") ||
+//         diceClass.value.includes("show-6")
+//     ) {
+//         return "Make a question!";
+//     }
+//     return "Roll the dice!";
+// });
 
 const rollDice = () => {
     const diceTwo = Math.floor(Math.random() * 6 + 1);
@@ -111,8 +101,6 @@ const rollDice = () => {
 };
 </script>
 
-<style src="vue-multiselect/dist/vue-multiselect.css"></style>
-
 <style scoped>
 .dice-wrapper {
     position: relative;
@@ -121,7 +109,7 @@ const rollDice = () => {
     padding-left: 400px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 

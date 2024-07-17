@@ -105,8 +105,6 @@ const rollDice = () => {
 .dice-wrapper {
     position: relative;
     height: 100%;
-    width: 100%;
-    padding-left: 400px;
     display: flex;
     flex-direction: row;
     justify-content: center;

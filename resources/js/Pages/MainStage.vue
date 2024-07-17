@@ -17,7 +17,10 @@
         <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 min-h-40">
                 <div class="bg-white shadow-sm sm:rounded-lg mb-2 min-h-40">
-                    <div class="game-top"><Dice v-if="showDice" /></div>
+                    <div class="game-top">
+                        <div></div>
+                        <Dice v-if="showDice" />
+                    </div>
                     <div class="stage-container">
                         <div class="button-area">
                             <button
@@ -72,6 +75,7 @@
                                 :animationDuration="Number(animationDuration)"
                                 v-if="showHourglass"
                             />
+                            <Stopwatch ref="stopwatch" v-if="showStopwatch" />
                         </div>
                         <div class="card-area">
                             <div class="deck1-cards">
@@ -109,148 +113,92 @@
     </AuthenticatedLayout>
 </template>
 
-<script>
+<script setup>
 import SingleCard from "@/Components/SingleCard.vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import Hourglass from "@/Components/Hourglass.vue";
-import InputLabel from "@/Components/InputLabel.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Dice from "@/Components/Dice.vue";
 import { Head } from "@inertiajs/vue3";
-import { reactive, ref, onMounted } from "vue";
+import { ref, onMounted } from "vue";
+import Stopwatch from "@/Components/Stopwatch.vue";
 
-export default {
-    name: "MainStage",
-    components: {
-        SingleCard,
-        AuthenticatedLayout,
-        Head,
-        Hourglass,
-        InputLabel,
-        TextInput,
-        Dice,
-    },
-    props: {
-        gameType: {
-            type: Object,
-            required: true,
-        },
-        cardDeck1Category: {
-            type: Object,
-            required: true,
-        },
-        cardDeck2Category: {
-            type: Object,
-            required: false,
-        },
-        cardDeck3Category: {
-            type: Object,
-            required: false,
-        },
-        cardDeck1List: {
-            type: Object,
-            required: true,
-        },
-        cardDeck2List: {
-            type: Object,
-            required: false,
-        },
-        cardDeck3List: {
-            type: Object,
-            required: false,
-        },
-        cardDecks: {
-            type: Number,
-            required: true,
-        },
-        cardQuantity: {
-            type: Number,
-            required: true,
-        },
-        level: {
-            type: Object,
-            required: true,
-        },
-        showTimer: {
-            type: Boolean,
-            required: true,
-        },
-        showDice: {
-            type: Boolean,
-            required: true,
-        },
-    },
-    setup(props) {
-        const stack1Cards = ref([]);
-        const stack2Cards = ref([]);
-        const stack3Cards = ref([]);
-        let triggerClick = ref(false);
-        let animationDuration = ref(null); // duration in seconds
-        let showHourglass = ref(false);
-        let showDice = props.showDice;
-        const cardQuantity = props.cardQuantity;
-        const nextCard = ref();
-        const previousCard = ref();
+const props = defineProps({
+    gameType: Object,
+    cardDeck1Category: Object,
+    cardDeck2Category: Object,
+    cardDeck3Category: Object,
+    cardDeck1List: Object,
+    cardDeck2List: Object,
+    cardDeck3List: Object,
+    cardDecks: Number,
+    cardQuantity: Number,
+    level: Object,
+    showTimer: Boolean,
+    showDice: Boolean,
+});
 
-        onMounted(() => {
-            const deck1 = [...props.cardDeck1List].map((item) => ({
-                ...item,
-                flipped: false,
-            }));
+let stack1Cards = ref([]);
+let stack2Cards = ref([]);
+let stack3Cards = ref([]);
+let triggerClick = ref(false);
+let animationDuration = ref(null);
+let showHourglass = ref(false);
+let showStopwatch = ref(true);
+let showDice = ref(props.showDice);
+let cardQuantity = ref(props.cardQuantity);
+let nextCard = ref(null);
+let previousCard = ref(null);
+let stopwatch = ref(null);
 
-            stack1Cards.value = deck1
-                .sort(() => 0.5 - Math.random())
-                .slice(0, cardQuantity);
+onMounted(() => {
+    const deck1 = [...props.cardDeck1List].map((item) => ({
+        ...item,
+        flipped: false,
+    }));
 
-            if (props.cardDecks > 1) {
-                const deck2 = [...props.cardDeck2List].map((item) => ({
-                    ...item,
-                    flipped: false,
-                }));
-                stack2Cards.value = deck2
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, cardQuantity);
-            }
-            if (props.cardDecks > 2) {
-                const deck3 = [...props.cardDeck3List].map((item) => ({
-                    ...item,
-                    flipped: false,
-                }));
-                stack3Cards.value = deck3
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, cardQuantity);
-            }
-        });
+    stack1Cards.value = deck1
+        .sort(() => 0.5 - Math.random())
+        .slice(0, cardQuantity.value);
 
-        function handleStartGameButtonClick() {
-            triggerClick.value = !triggerClick.value;
-            if (props.showTimer && animationDuration.value > 0) {
-                showHourglass.value = true;
-            }
-        }
+    if (props.cardDecks > 1) {
+        const deck2 = [...props.cardDeck2List].map((item) => ({
+            ...item,
+            flipped: false,
+        }));
+        stack2Cards.value = deck2
+            .sort(() => 0.5 - Math.random())
+            .slice(0, cardQuantity.value);
+    }
+    if (props.cardDecks > 2) {
+        const deck3 = [...props.cardDeck3List].map((item) => ({
+            ...item,
+            flipped: false,
+        }));
+        stack3Cards.value = deck3
+            .sort(() => 0.5 - Math.random())
+            .slice(0, cardQuantity.value);
+    }
+});
 
-        function handleButtonStop() {
-            triggerClick.value = !triggerClick.value;
-            showHourglass.value = false;
-            const input = document.getElementById("set_timer");
-            input.value = null;
-        }
+const handleStartGameButtonClick = () => {
+    triggerClick.value = !triggerClick.value;
+    if (props.showTimer && animationDuration.value > 0) {
+        showHourglass.value = true;
+    }
+    if (stopwatch.value) {
+        stopwatch.value.startStop();
+    }
+};
 
-        return {
-            stack1Cards,
-            stack2Cards,
-            stack3Cards,
-            triggerClick,
-            animationDuration,
-            showHourglass,
-            showDice,
-            cardQuantity,
-            nextCard,
-            previousCard,
-            handleStartGameButtonClick,
-            handleButtonStop,
-        };
-    },
+const handleButtonStop = () => {
+    if (stopwatch.value) {
+        stopwatch.value.pauseTimer();
+    }
+    triggerClick.value = !triggerClick.value;
+    showHourglass.value = false;
+    const input = document.getElementById("set_timer");
+    input.value = null;
 };
 </script>
 
@@ -272,6 +220,7 @@ export default {
     flex-direction: column;
     align-items: center;
     margin-top: 50px;
+    gap: 10px;
 }
 
 .card-area {
@@ -312,12 +261,13 @@ export default {
 }
 
 .game-top {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    height: 15vh;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding-top: 20px;
+}
+
+.game-top .sw {
+    place-self: center;
 }
 
 .buttons {

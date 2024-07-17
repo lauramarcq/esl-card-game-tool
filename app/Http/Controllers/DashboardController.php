@@ -35,6 +35,7 @@ class DashboardController extends Controller
     public function store(StoreGameSettingsRequest $request): RedirectResponse
     {
         try {
+
             $gameSettings = $request->validated();
 
             // convert to boolean
@@ -64,7 +65,7 @@ class DashboardController extends Controller
                 }
             }
 
-            if (isset($gameSettings['cardDeck2']['category'])) {
+            if (isset($gameSettings['cardDeck3']['category'])) {
                 foreach ($gameSettings['cardDeck3']['list'] as $list) {
                     $gameSettingsInstance->gameLists()->attach($list['id']);
                 }

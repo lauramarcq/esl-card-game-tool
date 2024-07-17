@@ -3,8 +3,8 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
-// import ListTable from "@/Components/ListTable.vue";
 import { ref, computed } from "vue";
+import InputError from "@/Components/InputError.vue";
 
 const props = defineProps({
     categories: Array,
@@ -36,8 +36,16 @@ const formData = useForm({
     showTimer: false,
     showDice: false,
     errors: {
-        name: null,
-        price: null,
+        gameType: null,
+        selectedNumberOfDecks: null,
+        cardQuantity: null,
+        level: null,
+        "cardDeck1.category": null,
+        "cardDeck2.category": null,
+        "cardDeck3.category": null,
+        "cardDeck1.list": null,
+        "cardDeck2.list": null,
+        "cardDeck3.list": null,
     },
 });
 
@@ -81,6 +89,7 @@ const handleSelectAll = (options, deck) => {
         );
         formData[deck].list = allOptions;
     }
+    formData.errors[`${deck}.list`] = "";
 };
 
 const handleRemoveAll = (options, deck) => {
@@ -88,6 +97,8 @@ const handleRemoveAll = (options, deck) => {
         formData[deck].list = [];
     }
 };
+
+const numberOfDecks = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
 </script>
 
 <template>
@@ -142,8 +153,19 @@ const handleRemoveAll = (options, deck) => {
                                                 label="title"
                                                 track-by="id"
                                                 :close-on-select="true"
+                                                @select="
+                                                    formData.errors.gameType =
+                                                        ''
+                                                "
                                             >
                                             </VueMultiselect>
+                                            <InputError
+                                                :message="
+                                                    formData.errors.gameType
+                                                "
+                                                class="mt-2"
+                                                id="level-error"
+                                            />
                                         </div>
 
                                         <div class="pt-2 pb-4 w-1/3">
@@ -159,8 +181,16 @@ const handleRemoveAll = (options, deck) => {
                                                 label="level"
                                                 track-by="id"
                                                 :close-on-select="true"
+                                                @select="
+                                                    formData.errors.level = ''
+                                                "
                                             >
                                             </VueMultiselect>
+                                            <InputError
+                                                :message="formData.errors.level"
+                                                class="mt-2"
+                                                id="level-error"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -184,54 +214,37 @@ const handleRemoveAll = (options, deck) => {
                                             <div class="flex flex-row mt-2">
                                                 <label
                                                     class="block text-gray-500 font-bold w-20"
+                                                    v-for="(
+                                                        deck, i
+                                                    ) in numberOfDecks"
+                                                    :key="i"
                                                 >
                                                     <input
                                                         class="mr-2 leading-tight"
                                                         type="radio"
                                                         name="card-deck"
-                                                        value="1"
+                                                        :value="deck.id"
                                                         v-model="
                                                             formData.selectedNumberOfDecks
                                                         "
-                                                    />
-                                                    <span class="text-sm">
-                                                        1
-                                                    </span>
-                                                </label>
-                                                <label
-                                                    class="block text-gray-500 font-bold w-20"
-                                                >
-                                                    <input
-                                                        class="mr-2 leading-tight"
-                                                        type="radio"
-                                                        name="card-deck"
-                                                        value="2"
-                                                        v-model="
-                                                            formData.selectedNumberOfDecks
+                                                        @input="
+                                                            formData.errors.selectedNumberOfDecks =
+                                                                ''
                                                         "
                                                     />
                                                     <span class="text-sm">
-                                                        2
-                                                    </span>
-                                                </label>
-
-                                                <label
-                                                    class="block text-gray-500 font-bold w-20"
-                                                >
-                                                    <input
-                                                        class="mr-2 text-grey-200 leading-tight"
-                                                        type="radio"
-                                                        name="card-deck"
-                                                        value="3"
-                                                        v-model="
-                                                            formData.selectedNumberOfDecks
-                                                        "
-                                                    />
-                                                    <span class="text-sm">
-                                                        3
+                                                        {{ deck.id }}
                                                     </span>
                                                 </label>
                                             </div>
+                                            <InputError
+                                                :message="
+                                                    formData.errors
+                                                        .selectedNumberOfDecks
+                                                "
+                                                class="md:mt-5 mr-4"
+                                                id="level-error"
+                                            />
                                         </div>
 
                                         <div class="pt-2 pb-4 w-1/3">
@@ -245,8 +258,19 @@ const handleRemoveAll = (options, deck) => {
                                                 :multiple="false"
                                                 placeholder="Select a quantity"
                                                 :close-on-select="true"
+                                                @select="
+                                                    formData.errors.cardQuantity =
+                                                        ''
+                                                "
                                             >
                                             </VueMultiselect>
+                                            <InputError
+                                                :message="
+                                                    formData.errors.cardQuantity
+                                                "
+                                                class="mt-2"
+                                                id="level-error"
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -285,8 +309,22 @@ const handleRemoveAll = (options, deck) => {
                                                     label="name"
                                                     track-by="id"
                                                     :close-on-select="true"
+                                                    @select="
+                                                        formData.errors[
+                                                            'cardDeck1.category'
+                                                        ] = ''
+                                                    "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck1.category'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                             <div class="mb-2">
                                                 <label
@@ -323,6 +361,15 @@ const handleRemoveAll = (options, deck) => {
                                                     "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck1.list'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                         </div>
 
@@ -354,8 +401,22 @@ const handleRemoveAll = (options, deck) => {
                                                     label="name"
                                                     track-by="id"
                                                     :close-on-select="true"
+                                                    @select="
+                                                        formData.errors[
+                                                            'cardDeck2.category'
+                                                        ] = ''
+                                                    "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck2.category'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                             <div class="mb-2">
                                                 <label
@@ -392,6 +453,15 @@ const handleRemoveAll = (options, deck) => {
                                                     "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck2.list'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                         </div>
 
@@ -423,8 +493,22 @@ const handleRemoveAll = (options, deck) => {
                                                     label="name"
                                                     track-by="id"
                                                     :close-on-select="true"
+                                                    @select="
+                                                        formData.errors[
+                                                            'cardDeck3.category'
+                                                        ] = ''
+                                                    "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck3.category'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                             <div class="mb-2">
                                                 <label
@@ -461,6 +545,15 @@ const handleRemoveAll = (options, deck) => {
                                                     "
                                                 >
                                                 </VueMultiselect>
+                                                <InputError
+                                                    :message="
+                                                        formData.errors[
+                                                            'cardDeck3.list'
+                                                        ]
+                                                    "
+                                                    class="mt-2"
+                                                    id="level-error"
+                                                />
                                             </div>
                                         </div>
                                     </div>

@@ -3,7 +3,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import VueMultiselect from "vue-multiselect";
 import { Head, router, useForm } from "@inertiajs/vue3";
-import { ref } from "vue";
+import { ref, watchEffect } from "vue";
 import InputError from "@/Components/InputError.vue";
 
 const props = defineProps({
@@ -99,6 +99,10 @@ const handleRemoveAll = (options, deck) => {
 };
 
 const numberOfDecks = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
+
+watchEffect(() => {
+    console.log(formData.showTimer, formData.showStopwatch);
+});
 </script>
 
 <template>
@@ -569,6 +573,11 @@ const numberOfDecks = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
                                     <div class="flex flex-row gap-4 px-12">
                                         <label
                                             class="inline-flex items-center me-5 cursor-pointer"
+                                            :class="
+                                                formData.showStopwatch
+                                                    ? 'opacity-50 pointer-events-none'
+                                                    : ''
+                                            "
                                         >
                                             <input
                                                 type="checkbox"
@@ -604,6 +613,11 @@ const numberOfDecks = ref([{ id: 1 }, { id: 2 }, { id: 3 }]);
                                         </label>
                                         <label
                                             class="inline-flex items-center me-5 cursor-pointer"
+                                            :class="
+                                                formData.showTimer
+                                                    ? 'opacity-50 pointer-events-none'
+                                                    : ''
+                                            "
                                         >
                                             <input
                                                 type="checkbox"

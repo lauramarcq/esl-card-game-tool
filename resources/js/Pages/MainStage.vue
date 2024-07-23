@@ -1,5 +1,5 @@
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <Head title="Game" />
         <template #header>
             <div class="flex flex-row justify-between content-center">
@@ -137,6 +137,7 @@ const props = defineProps({
     showTimer: Boolean,
     showDice: Boolean,
     showStopwatch: Boolean,
+    auth: Object,
 });
 
 let stack1Cards = ref([]);

@@ -1,5 +1,5 @@
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <Head title="Builder" />
         <template #header>
             <div class="flex flex-row justify-between content-center">
@@ -130,6 +130,9 @@ const props = defineProps({
         type: Object,
     },
     listItems: {
+        type: Object,
+    },
+    auth: {
         type: Object,
     },
 });

@@ -11,6 +11,7 @@ const props = defineProps({
     gameLists: Array,
     games: Array,
     levels: Array,
+    auth: Object,
 });
 
 const cardQuantity = ref([6, 9, 12, 15, 20]);
@@ -108,7 +109,7 @@ watchEffect(() => {
 <template>
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Dashboard

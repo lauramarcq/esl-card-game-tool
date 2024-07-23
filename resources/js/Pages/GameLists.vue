@@ -1,5 +1,5 @@
 <template>
-    <AuthenticatedLayout>
+    <AuthenticatedLayout :auth="auth">
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 List of Previous Games
@@ -70,6 +70,10 @@ const props = defineProps({
     filters: {
         type: Object,
         required: false,
+    },
+    auth: {
+        type: Object,
+        required: true,
     },
 });
 

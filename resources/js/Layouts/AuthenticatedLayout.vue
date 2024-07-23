@@ -6,6 +6,10 @@ import NavLink from "@/Components/NavLink.vue";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink.vue";
 
 const showingNavigationDropdown = ref(false);
+
+const props = defineProps({
+    auth: Object,
+});
 </script>
 
 <template>
@@ -37,6 +41,7 @@ const showingNavigationDropdown = ref(false);
                                 <NavLink
                                     :href="route('builder')"
                                     :active="route().current('builder')"
+                                    v-if="auth.user.is_admin === 1"
                                 >
                                     Builder
                                 </NavLink>

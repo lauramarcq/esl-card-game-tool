@@ -58,7 +58,7 @@ const colWidths = (header) => {
                 <th
                     v-for="(header, i) in tableHeaders"
                     :key="i"
-                    class="p-4 text-left"
+                    class="p-2 text-left"
                     :class="colWidths(header)"
                 >
                     {{ header }}
@@ -76,26 +76,26 @@ const colWidths = (header) => {
                         !selectedItems.includes(item.id),
                 }"
             >
-                <td v-for="(value, key) in item" :key="key" class="p-4">
+                <td v-for="(value, key) in item" :key="key" class="p-2">
                     {{ value }}
                 </td>
 
                 <td class="p-4 flex space-x-2">
                     <button
-                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full"
+                        class="hover:font-bold text-green-500"
                         @click="$emit('selectedItem', item.id)"
                     >
                         View
                     </button>
-                    <!-- <button
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                    <button
+                        class="hover:font-bold"
                         id="delete-button"
                         @click="$emit('editItem', item)"
                     >
                         Edit
-                    </button> -->
+                    </button>
                     <button
-                        class="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                        class="hover:font-bold text-red-500"
                         id="delete-button"
                         @click="$emit('deleteItem', item.id)"
                     >

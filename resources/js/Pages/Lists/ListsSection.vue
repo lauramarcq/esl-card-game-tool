@@ -3,18 +3,18 @@
         <div class="p-6 text-gray-900">
             <div class="basis-3/4 flex flex-row justify-between">
                 <h3
-                    class="font-semibold text-lg text-gray-800 leading-tight py-2 px-4 m-4"
+                    class="font-semibold text-lg text-gray-800 leading-tight py-2 px-4"
                 >
                     Lists
                 </h3>
                 <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block m-4"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block"
                     @click="handleAdd"
                 >
                     Add a new list
                 </button>
             </div>
-            <div class="flex flex-row justify-start py-2 px-4 m-4 gap-10">
+            <div class="flex flex-row justify-start py-2 px-4 gap-10">
                 <p class="text-gray-800 leading-tight">Filters</p>
                 <form
                     class="w-full flex flex-row justify-start gap-10"

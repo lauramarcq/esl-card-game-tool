@@ -1,14 +1,14 @@
 <template>
     <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2">
-        <div class="p-6 text-gray-900">
+        <div class="p-4 text-gray-900">
             <div class="basis-3/4 flex flex-row justify-between">
                 <h3
-                    class="font-semibold text-lg text-gray-800 leading-tight py-2 px-4 m-4"
+                    class="font-semibold text-lg text-gray-800 leading-tight py-2 px-4 m-2"
                 >
                     Game Options
                 </h3>
                 <button
-                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block m-4"
+                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full inline-block m-2"
                     @click="handleAddGameOption"
                 >
                     Add a new game option

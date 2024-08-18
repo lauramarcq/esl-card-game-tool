@@ -187,7 +187,7 @@ const handleDelete = (id) => {
 const handleDeleteConfirm = (id) => {
     try {
         showDeleteModal.value = false;
-        Inertia.delete(`/builder/game-options/${id}`);
+        Inertia.delete(`/builder/list/${id}`);
     } catch (error) {
         console.log(error);
     }

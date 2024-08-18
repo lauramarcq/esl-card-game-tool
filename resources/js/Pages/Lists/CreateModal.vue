@@ -171,7 +171,6 @@ const handleSubmit = () => {
 </script>
 <style>
 .multiselect__content-wrapper {
-    max-height: 100px !important;
     overflow-y: auto;
 }
 </style>

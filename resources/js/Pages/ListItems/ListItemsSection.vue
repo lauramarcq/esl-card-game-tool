@@ -95,7 +95,7 @@ import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessBanner from "@/Components/SuccessBanner.vue";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     data: {
@@ -168,7 +168,7 @@ const handleDelete = (id) => {
 const handleDeleteConfirm = (id) => {
     try {
         showDeleteModal.value = false;
-        Inertia.delete(`/builder/list/item/${id}`);
+        router.delete(`/builder/list/item/${id}`);
     } catch (error) {
         console.log(error);
     }

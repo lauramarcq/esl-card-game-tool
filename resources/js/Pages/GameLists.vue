@@ -57,9 +57,8 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import GameListTable from "@/Components/GameListTable.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import { defineProps, computed, onMounted } from "vue";
-import { Inertia } from "@inertiajs/inertia";
 // import Pagination from "@/Components/Pagination.vue";
 
 const props = defineProps({
@@ -101,11 +100,11 @@ const classes = computed(() =>
 );
 
 const handleItemSelection = (id) => {
-    Inertia.visit(`/game-lists/${id}`);
+    router.visit(`/game-lists/${id}`);
 };
 
 const handleDelete = (id) => {
-    Inertia.delete(`/game-lists/${id}`);
+    router.delete(`/game-lists/${id}`);
 };
 </script>
 

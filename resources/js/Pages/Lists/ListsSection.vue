@@ -133,7 +133,6 @@ import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessBanner from "@/Components/SuccessBanner.vue";
-import { Inertia } from "@inertiajs/inertia";
 import VueMultiselect from "vue-multiselect";
 import { useRemember, router } from "@inertiajs/vue3";
 
@@ -187,7 +186,7 @@ const handleDelete = (id) => {
 const handleDeleteConfirm = (id) => {
     try {
         showDeleteModal.value = false;
-        Inertia.delete(`/builder/list/${id}`);
+        router.delete(`/builder/list/${id}`);
     } catch (error) {
         console.log(error);
     }
@@ -202,21 +201,21 @@ const handleEdit = (item) => {
 };
 
 const handleSelect = (id) => {
-    Inertia.visit(`/builder/list/item/${id}`);
+    router.visit(`/builder/list/item/${id}`);
 };
 
 const handleFilterApply = () => {
     const category = formData.value.category.map((item) => item.id).join(",");
     const level = formData.value.level.map((item) => item.id).join(",");
     const url = `/builder/list?category=${category}&level=${level}`;
-    Inertia.get(url);
+    router.get(url);
 };
 
 const handleClear = () => {
     formData.value.category = [];
     formData.value.level = [];
     const url = `/builder/list?category=&level=`;
-    Inertia.get(url);
+    router.get(url);
 };
 
 const getParameters = (parameterName, propsData) => {

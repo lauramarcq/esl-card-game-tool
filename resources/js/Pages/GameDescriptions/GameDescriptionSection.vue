@@ -59,7 +59,7 @@ import EditModal from "./EditModal.vue";
 import DeleteModal from "./DeleteModal.vue";
 import Pagination from "@/Components/Pagination.vue";
 import SuccessBanner from "@/Components/SuccessBanner.vue";
-import { Inertia } from "@inertiajs/inertia";
+import { router } from "@inertiajs/vue3";
 
 const props = defineProps({
     data: {
@@ -98,7 +98,7 @@ const handleDeleteGameOption = (id) => {
 const handleDeleteConfirm = (id) => {
     try {
         showDeleteModal.value = false;
-        Inertia.delete(`/builder/game-options/${id}`);
+        router.delete(`/builder/game-options/${id}`);
     } catch (error) {
         console.log(error);
     }

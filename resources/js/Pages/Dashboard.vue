@@ -116,21 +116,19 @@ watchEffect(() => {
             </h2>
         </template>
 
-        <div class="py-12">
+        <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2 min-h-96"
                 >
                     <div class="p-6 text-gray-900">
                         <h3
-                            class="font-semibold text-xl text-gray-800 leading-tight m-6 mb-10"
+                            class="font-semibold text-xl text-gray-800 leading-tight m-6"
                         >
                             Before you can start a game, you must follow the
                             steps below.
                         </h3>
-                        <p
-                            class="text-gray-800 leading-tight m-6 mb-10 text-xs"
-                        >
+                        <p class="text-gray-800 leading-tight m-6 text-xs">
                             Alternatively, you can click on 'Latest Game' to
                             play the most recent game, or 'All Games' to see a
                             list of all previous games, in the top menu.

@@ -6,26 +6,25 @@
             </h2>
         </template>
 
-        <div class="py-12">
+        <div class="py-6">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div
                     class="bg-white overflow-hidden shadow-sm sm:rounded-lg mb-2 min-h-96"
                 >
                     <div class="p-6 text-gray-900">
                         <div v-if="gameList">
-                            <div class="py-12">
-                                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                                    <div
-                                        class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                                <div
+                                    class="bg-white overflow-hidden shadow-sm sm:rounded-lg"
+                                >
+                                    <GameListTable
+                                        :items="gameList"
+                                        :tableHeaders="headers"
+                                        @selectedItem="handleItemSelection"
+                                        @deleteItem="handleDelete"
                                     >
-                                        <GameListTable
-                                            :items="gameList"
-                                            :tableHeaders="headers"
-                                            @selectedItem="handleItemSelection"
-                                            @deleteItem="handleDelete"
-                                        >
-                                        </GameListTable>
-                                        <!-- <div
+                                    </GameListTable>
+                                    <!-- <div
                                             v-if="gameList.data.length > 0"
                                             class="mt-4 flex justify-center"
                                         >
@@ -36,7 +35,6 @@
                                                 "
                                             />
                                         </div> -->
-                                    </div>
                                 </div>
                             </div>
                         </div>

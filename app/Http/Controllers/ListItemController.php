@@ -18,7 +18,7 @@ class ListItemController extends Controller
     public function get($id)
     {
         return Inertia::render('Builder', [
-            'listItems' => ListItem::where('game_list_id', $id)->paginate(5),
+            'listItems' => ListItem::where('game_list_id', $id)->paginate(20),
             'listOptions'  => GameList::all(),
             'levels' => Level::all(),
         ]);

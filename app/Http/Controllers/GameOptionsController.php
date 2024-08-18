@@ -14,7 +14,7 @@ class GameOptionsController extends Controller
     public function index()
     {
         return Inertia::render('Builder', [
-            'gameOptions' => Game::paginate(5),
+            'gameOptions' => Game::paginate(20),
         ]);
     }
 

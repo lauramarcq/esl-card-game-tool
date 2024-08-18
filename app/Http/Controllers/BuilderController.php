@@ -15,10 +15,10 @@ class BuilderController extends Controller
     public function index()
     {
         return Inertia::render('Builder', [
-            'gameOptions' => Game::paginate(5),
-            'categoryOptions' => Category::paginate(5),
-            'listOptions'  => GameList::paginate(5),
-            'listItems' => ListItem::paginate(5),
+            'gameOptions' => Game::paginate(20),
+            'categoryOptions' => Category::paginate(20),
+            'listOptions'  => GameList::paginate(20),
+            'listItems' => ListItem::paginate(20),
             'levels' => Level::all()
         ]);
     }

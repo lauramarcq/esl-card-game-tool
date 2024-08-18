@@ -30,7 +30,7 @@ class ListController extends Controller
             $gameListQuery->whereIn('level_id', $levels);
         }
 
-        $listOptions = $gameListQuery->paginate(5)->appends($request->all());
+        $listOptions = $gameListQuery->paginate(20)->appends($request->all());
 
         return Inertia::render('Builder', [
             'categoryOptions' => Category::all(),
@@ -43,7 +43,7 @@ class ListController extends Controller
     public function get($id)
     {
         return Inertia::render('Builder', [
-            'listItems' => ListItem::where('game_list_id', $id)->paginate(5),
+            'listItems' => ListItem::where('game_list_id', $id)->paginate(20),
             'listOptions'  => GameList::all(),
         ]);
     }

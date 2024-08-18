@@ -17,7 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
         return Inertia::render('Builder', [
-            'categoryOptions' => Category::paginate(5),
+            'categoryOptions' => Category::paginate(20),
         ]);
     }
 

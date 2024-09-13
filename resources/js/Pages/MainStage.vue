@@ -39,18 +39,24 @@
                             >
                                 Stop
                             </button>
+                            <div>
+                                Card {{ cardNumberDisplay }} of
+                                {{ cardQuantity }}
+                            </div>
                             <div class="buttons">
                                 <button
-                                    @click="previousCard = $event"
+                                    @click="handleButtonPrevious"
                                     type="button"
                                     class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] ml-10 disabled:bg-white"
+                                    :disabled="currentCardIndex === 0"
                                 >
                                     Prev.
                                 </button>
                                 <button
-                                    @click="nextCard = $event"
+                                    @click="handleButtonNext"
                                     type="button"
                                     class="inline-flex items-center rounded-md bg-[#f9e4b3] px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-[#f5c863] disabled:opacity-50"
+                                    :disabled="isDisabled"
                                 >
                                     Next
                                 </button>
@@ -120,7 +126,7 @@ import Hourglass from "@/Components/Hourglass.vue";
 import TextInput from "@/Components/TextInput.vue";
 import Dice from "@/Components/Dice.vue";
 import { Head } from "@inertiajs/vue3";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Stopwatch from "@/Components/Stopwatch.vue";
 
 const props = defineProps({
@@ -152,6 +158,7 @@ let cardQuantity = ref(props.cardQuantity);
 let nextCard = ref(null);
 let previousCard = ref(null);
 let stopwatch = ref(null);
+let currentCardIndex = ref(0);
 
 onMounted(() => {
     const deck1 = [...props.cardDeck1List].map((item) => ({
@@ -202,6 +209,30 @@ const handleButtonStop = () => {
     const input = document.getElementById("set_timer");
     input.value = null;
 };
+
+const handleButtonNext = () => {
+    nextCard.value = !nextCard.value;
+    currentCardIndex.value++;
+    if (currentCardIndex.value === cardQuantity.value) {
+        currentCardIndex.value = 0;
+    }
+};
+
+const handleButtonPrevious = () => {
+    previousCard.value = !previousCard.value;
+    currentCardIndex.value--;
+    if (currentCardIndex.value < 0) {
+        currentCardIndex.value = cardQuantity.value - 1;
+    }
+};
+
+const cardNumberDisplay = computed(() => {
+    return currentCardIndex.value + 1;
+});
+
+const isDisabled = computed(() => {
+    return currentCardIndex.value === cardQuantity.value - 1;
+});
 </script>
 
 <style>

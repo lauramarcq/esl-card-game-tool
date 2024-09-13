@@ -89,7 +89,7 @@ const colWidths = (header) => {
                     </button>
                     <button
                         class="hover:font-bold"
-                        id="delete-button"
+                        id="edit-button"
                         @click="$emit('editItem', item)"
                     >
                         Edit

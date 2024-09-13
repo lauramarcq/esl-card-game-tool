@@ -43,7 +43,7 @@ const startStop = () => {
         running.value = true;
         interval = setInterval(startTimer, 10);
     } else {
-        pause();
+        pauseTimer();
     }
 };
 

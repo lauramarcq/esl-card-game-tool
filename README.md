@@ -20,8 +20,11 @@ To serve it locally, you'll need to run
 composer install
 npm install
 ```
+To seed the database, run
 
+```sh
 php artisan migrate:fresh --seed
+```
 
 Start the server
 

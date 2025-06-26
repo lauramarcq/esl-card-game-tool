@@ -1,5 +1,12 @@
 ## About the project
 
+The card game is a ESL teaching aid designed to make the online teaching and learning of vocabulary, word associations, and sentence building more interactive and fun. 
+It consists of a set of cards with different words in them. To setup the game, these cards can be organised into stacks and the user can select what words go in these cards from a set of lists of words categorised into parts of speech (nouns, verbs, adjectives, pronouns, etc).
+Different variations of the game exist. eg. 'Complete the sentence', 'Make it plural', 'Construct a sentence in the future/past tense', etc.
+The game setup includes a dice that can be used to randomise some prompts, and a timer to give the users some control on how long some tasks should take.
+
+-----
+About the repo:
 This is a Laravel application that uses Inertia.js and Vue.js. I set it up with the Laravel Breeze Starter Kit.
 It uses MySql database, tailwind and sass.
 
